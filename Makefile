@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -Wall -pedantic
+CFLAGS = 
 SRC_DIR = src
 OBJ_DIR = obj
 
