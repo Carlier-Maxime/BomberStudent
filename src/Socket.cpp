@@ -54,18 +54,18 @@ Socket::~Socket() {
 }
 
 void Socket::send(const std::string& msg, const SocketAddress& dest_addr) const {
-    struct sockaddr_storage address = getSockAddrStorage(dest_addr);
-    if (sendto(socket_fd, msg.c_str(), msg.length(), 0, (struct sockaddr*)&address, sizeof(address)) < 0) {
+    struct sockaddr_storage addr = getSockAddrStorage(dest_addr);
+    if (sendto(socket_fd, msg.c_str(), msg.length(), 0, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
         Log::system_error("Socket can't send");
         throw std::exception();
     }
 }
 
 std::string Socket::receive(const SocketAddress& src_addr) const {
-    struct sockaddr_storage address = getSockAddrStorage(src_addr);
-    socklen_t src_socket_size = sizeof(address);
+    struct sockaddr_storage addr = getSockAddrStorage(src_addr);
+    socklen_t src_socket_size = sizeof(addr);
     char buffer[BUFFER_SIZE];
-    if (recvfrom(socket_fd, buffer, BUFFER_SIZE, 0, (struct sockaddr*)&address, &src_socket_size) < 0) {
+    if (recvfrom(socket_fd, buffer, BUFFER_SIZE, 0, (struct sockaddr*)&addr, &src_socket_size) < 0) {
         Log::system_error("Couldn't receive");
         throw std::exception();
     }
