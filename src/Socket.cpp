@@ -65,9 +65,10 @@ std::string Socket::receive(const SocketAddress& src_addr) const {
     struct sockaddr_storage addr = getSockAddrStorage(src_addr);
     socklen_t src_socket_size = sizeof(addr);
     char buffer[BUFFER_SIZE];
-    if (recvfrom(socket_fd, buffer, BUFFER_SIZE, 0, (struct sockaddr*)&addr, &src_socket_size) < 0) {
+    ssize_t bytesReceived = recvfrom(socket_fd, buffer, BUFFER_SIZE, 0, (struct sockaddr*)&addr, &src_socket_size);
+    if (bytesReceived < 0) {
         Log::system_error("Couldn't receive");
         throw std::exception();
     }
-    return buffer;
+    return {buffer, static_cast<size_t>(bytesReceived)};
 }
