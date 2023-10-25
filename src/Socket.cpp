@@ -7,9 +7,21 @@
 #define BUFFER_SIZE 1024
 
 struct sockaddr_in getSockAddrIn(const SocketAddress& addr) {
+    sa_family_t protocol;
+    switch (addr.getProtocol()) {
+        case Protocol::IPV4:
+            protocol=AF_INET;
+            break;
+        case Protocol::IPV6:
+            protocol=AF_INET6;
+            break;
+        default:
+            protocol=AF_INET;
+            Log::warning("Protocol defined is not supported !");
+    }
     return {
-        AF_INET,
-        htons(addr.getPort()),
+        protocol,
+        addr.getPort(),
         {inet_addr(addr.getIp().c_str())},
         {0,0,0,0,0,0,0,0}
     };
