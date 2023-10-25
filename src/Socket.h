@@ -6,10 +6,10 @@
 
 class Socket {
 private:
-    SocketAddress addr;
+    SocketAddress address;
     int socket_fd;
 public:
-    explicit Socket(const SocketAddress& addr);
+    explicit Socket(const SocketAddress& address);
     void send(const std::string& msg, const SocketAddress& dest_addr) const;
     [[nodiscard]] std::string receive(const SocketAddress& src_addr) const;
     ~Socket();

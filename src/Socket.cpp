@@ -6,34 +6,43 @@
 
 #define BUFFER_SIZE 1024
 
-struct sockaddr_in getSockAddrIn(const SocketAddress& addr) {
-    sa_family_t protocol;
-    switch (addr.getProtocol()) {
+struct sockaddr_storage getSockAddrStorage(const SocketAddress& address) {
+    struct sockaddr_storage addr{};
+    auto *ipv4 = (struct sockaddr_in *)&addr;
+    auto *ipv6 = (struct sockaddr_in6 *)&addr;
+    switch (address.getProtocol()) {
         case Protocol::IPV4:
-            protocol=AF_INET;
+            label_ipv4:
+            addr.ss_family = AF_INET;
+            ipv4->sin_family = AF_INET;
+            ipv4->sin_port = htons(address.getPort());
+            if (inet_pton(AF_INET, address.getIp().c_str(), &(ipv4->sin_addr)) <= 0) {
+                Log::system_error("Conversion IPV4 address failed");
+                throw std::exception();
+            }
             break;
         case Protocol::IPV6:
-            protocol=AF_INET6;
+            ipv6->sin6_family = addr.ss_family = AF_INET6;
+            ipv6->sin6_port = htons(address.getPort());
+            if (inet_pton(AF_INET6, address.getIp().c_str(), &(ipv6->sin6_addr)) < 0) {
+                Log::system_error("Conversion IPV6 address failed");
+                throw std::exception();
+            }
             break;
         default:
-            protocol=AF_INET;
-            Log::warning("Protocol defined is not supported !");
+            Log::warning("Protocol not supported. Switching to IPv4 protocol");
+            goto label_ipv4;
     }
-    return {
-        protocol,
-        addr.getPort(),
-        {inet_addr(addr.getIp().c_str())},
-        {0,0,0,0,0,0,0,0}
-    };
+    return addr;
 }
 
-Socket::Socket(const SocketAddress& addr) : addr(addr) {
-    struct sockaddr_in addr_in = getSockAddrIn(addr);
-    if ((socket_fd = socket(addr_in.sin_family, SOCK_DGRAM, 0)) < 0) { 
+Socket::Socket(const SocketAddress& address) : address(address) {
+    struct sockaddr_storage addr = getSockAddrStorage(address);
+    if ((socket_fd = socket(addr.ss_family, SOCK_DGRAM, 0)) < 0) {
         Log::system_error("create socket failed");
         throw std::exception();
     }
-    if(bind(socket_fd, (struct sockaddr*)&addr_in, sizeof(addr_in)) < 0){
+    if(bind(socket_fd, (struct sockaddr*)&addr, sizeof(address)) < 0){
         Log::system_error("Socket couldn't bind to the port");
         close(socket_fd);
         throw std::exception();
@@ -45,18 +54,18 @@ Socket::~Socket() {
 }
 
 void Socket::send(const std::string& msg, const SocketAddress& dest_addr) const {
-    struct sockaddr_in addr_in = getSockAddrIn(dest_addr);
-    if (sendto(socket_fd, msg.c_str(), msg.length(), 0, (struct sockaddr*)&addr_in, sizeof(addr_in)) < 0) {
+    struct sockaddr_storage address = getSockAddrStorage(dest_addr);
+    if (sendto(socket_fd, msg.c_str(), msg.length(), 0, (struct sockaddr*)&address, sizeof(address)) < 0) {
         Log::system_error("Socket can't send");
         throw std::exception();
     }
 }
 
 std::string Socket::receive(const SocketAddress& src_addr) const {
-    struct sockaddr_in addr_in = getSockAddrIn(src_addr);
-    socklen_t src_socket_size = sizeof(addr_in);
+    struct sockaddr_storage address = getSockAddrStorage(src_addr);
+    socklen_t src_socket_size = sizeof(address);
     char buffer[BUFFER_SIZE];
-    if (recvfrom(socket_fd, buffer, BUFFER_SIZE, 0, (struct sockaddr*)&addr_in, &src_socket_size) < 0) {
+    if (recvfrom(socket_fd, buffer, BUFFER_SIZE, 0, (struct sockaddr*)&address, &src_socket_size) < 0) {
         Log::system_error("Couldn't receive");
         throw std::exception();
     }
