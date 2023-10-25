@@ -16,7 +16,7 @@ private:
 public:
     SocketAddress(std::string ip, unsigned short port, Protocol protocol);
     Protocol getProtocol();
-    unsigned short getPort();
+    unsigned short getPort() const;
     std::string getIp();
 };
 

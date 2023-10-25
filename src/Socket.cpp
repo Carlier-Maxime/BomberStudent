@@ -2,13 +2,14 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-#include <stdexcept>
 
 Socket::Socket(SocketAddress addr) : addr(addr) {
-    struct sockaddr_in addr_in;
-    addr_in.sin_family = AF_INET;
-    addr_in.sin_port = htons(addr.getPort());
-    addr_in.sin_addr.s_addr = inet_addr(addr.getIp().c_str());
+    struct sockaddr_in addr_in{
+            AF_INET,
+            htons(addr.getPort()),
+            {inet_addr(addr.getIp().c_str())},
+            {0,0,0,0,0,0,0,0}
+    };
     if ((socket_fd = socket(addr_in.sin_family, SOCK_DGRAM, 0)) < 0) { 
         perror("socket failed");
         throw std::exception();
