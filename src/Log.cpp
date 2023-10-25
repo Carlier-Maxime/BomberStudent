@@ -1,6 +1,7 @@
 #include <ctime>
 #include <sstream>
 #include <iostream>
+#include <string.h>
 #include "Log.h"
 
 std::ofstream Log::log_file;
@@ -23,6 +24,11 @@ void Log::warning(const std::string& msg) {
 
 void Log::error(const std::string& msg) {
     Log::write(LogType::Error, msg);
+}
+
+void Log::system_error(const std::string& msg) {
+    std::string final_msg = msg+" : ";
+    Log::write(LogType::Error, final_msg.append(std::string(strerror(errno))));
 }
 
 std::string Log::getTimestamp() {

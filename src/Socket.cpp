@@ -12,11 +12,11 @@ Socket::Socket(SocketAddress addr) : addr(addr) {
             {0,0,0,0,0,0,0,0}
     };
     if ((socket_fd = socket(addr_in.sin_family, SOCK_DGRAM, 0)) < 0) { 
-        Log::error("create socket failed");
+        Log::system_error("create socket failed");
         throw std::exception();
     }
     if(bind(socket_fd, (struct sockaddr*)&addr_in, sizeof(addr_in)) < 0){
-        Log::error("Socket couldn't bind to the port");
+        Log::system_error("Socket couldn't bind to the port");
         close(socket_fd);
         throw std::exception();
     }
