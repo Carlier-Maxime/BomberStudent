@@ -1,7 +1,6 @@
 #include <ctime>
-#include <sstream>
 #include <iostream>
-#include <string.h>
+#include <cstring>
 #include "Log.h"
 
 std::ofstream Log::log_file;

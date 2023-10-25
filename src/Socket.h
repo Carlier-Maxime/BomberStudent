@@ -9,9 +9,9 @@ private:
     SocketAddress addr;
     int socket_fd;
 public:
-    Socket(SocketAddress addr);
-    void send(std::string msg, const SocketAddress& dest_addr);
-    std::string receive(const SocketAddress& src_addr);
+    explicit Socket(const SocketAddress& addr);
+    void send(const std::string& msg, const SocketAddress& dest_addr) const;
+    [[nodiscard]] std::string receive(const SocketAddress& src_addr) const;
     ~Socket();
 };
 

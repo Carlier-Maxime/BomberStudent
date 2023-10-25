@@ -15,7 +15,7 @@ struct sockaddr_in getSockAddrIn(const SocketAddress& addr) {
     };
 }
 
-Socket::Socket(SocketAddress addr) : addr(addr) {
+Socket::Socket(const SocketAddress& addr) : addr(addr) {
     struct sockaddr_in addr_in = getSockAddrIn(addr);
     if ((socket_fd = socket(addr_in.sin_family, SOCK_DGRAM, 0)) < 0) { 
         Log::system_error("create socket failed");
@@ -32,7 +32,7 @@ Socket::~Socket() {
     close(socket_fd);
 }
 
-void Socket::send(std::string msg, const SocketAddress& dest_addr) {
+void Socket::send(const std::string& msg, const SocketAddress& dest_addr) const {
     struct sockaddr_in addr_in = getSockAddrIn(dest_addr);
     if (sendto(socket_fd, msg.c_str(), msg.length(), 0, (struct sockaddr*)&addr_in, sizeof(addr_in)) < 0) {
         Log::system_error("Socket can't send");
@@ -40,7 +40,7 @@ void Socket::send(std::string msg, const SocketAddress& dest_addr) {
     }
 }
 
-std::string Socket::receive(const SocketAddress& src_addr) {
+std::string Socket::receive(const SocketAddress& src_addr) const {
     struct sockaddr_in addr_in = getSockAddrIn(src_addr);
     socklen_t src_socket_size = sizeof(addr_in);
     char buffer[BUFFER_SIZE];
@@ -48,5 +48,5 @@ std::string Socket::receive(const SocketAddress& src_addr) {
         Log::system_error("Couldn't receive");
         throw std::exception();
     }
-    return std::string(buffer);
+    return buffer;
 }
