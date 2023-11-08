@@ -40,6 +40,35 @@ struct sockaddr_storage getSockAddrStorage(const SocketAddress& address) {
     return addr;
 }
 
+void setSocketAddress(SocketAddress* address, struct sockaddr_storage addr) {
+    struct sockaddr_in6 ipv6={};
+    struct sockaddr_in ipv4={};
+    char ipBuffer[INET6_ADDRSTRLEN];
+    switch (addr.ss_family) {
+        case AF_INET:
+            address->setProtocol(Protocol::IPV4);
+            std::memcpy( &ipv4, &addr, sizeof(struct sockaddr_in));
+            address->setPort(ntohs(ipv4.sin_port));
+            if (!inet_ntop(AF_INET, &ipv4.sin_addr, ipBuffer, sizeof(ipBuffer))) {
+                Log::system_error("Conversion IPV6 address failed");
+                throw std::exception();
+            }
+            break;
+        case AF_INET6:
+            address->setProtocol(Protocol::IPV6);
+            std::memcpy( &ipv6, &addr, sizeof(struct sockaddr_in6));
+            address->setPort(ntohs(ipv6.sin6_port));
+            if (!inet_ntop(AF_INET6, &ipv6.sin6_addr, ipBuffer, sizeof(ipBuffer))) {
+                Log::system_error("Conversion IPV6 address failed");
+                throw std::exception();
+            }
+            break;
+        default:
+            Log::error("Protocol not supported. Switching to IPv4 protocol");
+    }
+    address->setIp(ipBuffer);
+}
+
 Socket::Socket(const SocketAddress& address) : address(address) {
     struct sockaddr_storage addr = getSockAddrStorage(address);
     if ((socket_fd = socket(addr.ss_family, SOCK_DGRAM, 0)) < 0) {
@@ -65,8 +94,8 @@ void Socket::send(const std::string& msg, const SocketAddress& dest_addr) const 
     }
 }
 
-std::string Socket::receive(const SocketAddress& src_addr) const {
-    struct sockaddr_storage addr = getSockAddrStorage(src_addr);
+std::string Socket::receive(SocketAddress* src_addr) const {
+    struct sockaddr_storage addr = getSockAddrStorage(*src_addr);
     socklen_t src_socket_size = sizeof(addr);
     char buffer[BUFFER_SIZE];
     ssize_t bytesReceived = recvfrom(socket_fd, buffer, BUFFER_SIZE, 0, (struct sockaddr*)&addr, &src_socket_size);
@@ -74,5 +103,6 @@ std::string Socket::receive(const SocketAddress& src_addr) const {
         Log::system_error("Couldn't receive");
         throw std::exception();
     }
+    setSocketAddress(src_addr, addr);
     return {buffer, static_cast<size_t>(bytesReceived)};
 }
