@@ -25,3 +25,8 @@ void SocketAddress::setPort(unsigned short newPort) {
 void SocketAddress::setIp(const std::string &newIP) {
     ip = newIP;
 }
+
+std::ostream &operator<<(std::ostream &os, const SocketAddress &address) {
+    os << "protocol: " << (int) address.protocol << " port: " << address.port << " ip: " << address.ip;
+    return os;
+}

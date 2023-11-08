@@ -2,6 +2,7 @@
 #define BOMBER_STUDENT_SOCKET_ADDRESS_H
 
 #include <string>
+#include <ostream>
 
 enum class Protocol {
     IPV4,
@@ -21,6 +22,8 @@ public:
     void setProtocol(Protocol protocol);
     void setPort(unsigned short port);
     void setIp(const std::string &ip);
+
+    friend std::ostream &operator<<(std::ostream &os, const SocketAddress &address);
 };
 
 #endif //BOMBER_STUDENT_SOCKET_ADDRESS_H
