@@ -13,3 +13,15 @@ unsigned short SocketAddress::getPort() const {
 std::string SocketAddress::getIp() const {
     return ip;
 }
+
+void SocketAddress::setProtocol(Protocol newProtocol) {
+    protocol = newProtocol;
+}
+
+void SocketAddress::setPort(unsigned short newPort) {
+    port = newPort;
+}
+
+void SocketAddress::setIp(const std::string &newIP) {
+    ip = newIP;
+}

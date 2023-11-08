@@ -18,6 +18,9 @@ public:
     [[nodiscard]] Protocol getProtocol() const;
     [[nodiscard]] unsigned short getPort() const;
     [[nodiscard]] std::string getIp() const;
+    void setProtocol(Protocol protocol);
+    void setPort(unsigned short port);
+    void setIp(const std::string &ip);
 };
 
 #endif //BOMBER_STUDENT_SOCKET_ADDRESS_H
