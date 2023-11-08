@@ -2,32 +2,36 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include <memory>
+#include <cstring>
 #include "Log.h"
 
 #define BUFFER_SIZE 1024
 
 struct sockaddr_storage getSockAddrStorage(const SocketAddress& address) {
     struct sockaddr_storage addr{};
-    auto *ipv4 = (struct sockaddr_in *)&addr;
-    auto *ipv6 = (struct sockaddr_in6 *)&addr;
+    struct sockaddr_in6 ipv6={};
+    struct sockaddr_in ipv4={};
     switch (address.getProtocol()) {
         case Protocol::IPV4:
             label_ipv4:
             addr.ss_family = AF_INET;
-            ipv4->sin_family = AF_INET;
-            ipv4->sin_port = htons(address.getPort());
-            if (inet_pton(AF_INET, address.getIp().c_str(), &(ipv4->sin_addr)) <= 0) {
+            ipv4.sin_family = AF_INET;
+            ipv4.sin_port = htons(address.getPort());
+            if (inet_pton(AF_INET, address.getIp().c_str(), &(ipv4.sin_addr)) <= 0) {
                 Log::system_error("Conversion IPV4 address failed");
                 throw std::exception();
             }
+            std::memcpy(&addr, &ipv4, sizeof(struct sockaddr_storage));
             break;
         case Protocol::IPV6:
-            ipv6->sin6_family = addr.ss_family = AF_INET6;
-            ipv6->sin6_port = htons(address.getPort());
-            if (inet_pton(AF_INET6, address.getIp().c_str(), &(ipv6->sin6_addr)) < 0) {
+            ipv6.sin6_family = addr.ss_family = AF_INET6;
+            ipv6.sin6_port = htons(address.getPort());
+            if (inet_pton(AF_INET6, address.getIp().c_str(), &(ipv6.sin6_addr)) < 0) {
                 Log::system_error("Conversion IPV6 address failed");
                 throw std::exception();
             }
+            std::memcpy(&addr, &ipv6, sizeof(struct sockaddr_storage));
             break;
         default:
             Log::warning("Protocol not supported. Switching to IPv4 protocol");
