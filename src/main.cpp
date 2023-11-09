@@ -1,23 +1,35 @@
 #include <iostream>
 #include "Log.h"
 #include "Socket.h"
+#include "Server.h"
+#include "Client.h"
 
-int main() {
+int main(int argc, char* argv[]) {
     Log::open();
-    Log::info("Launching BomberStudent...");
+    bool launchServer=false;
+    if (argc>1) {
+        if ("server"==std::string(argv[1])) {
+            launchServer=true;
+        } else {
+            Log::error("Argument not recognised");
+            goto exit;
+        }
+    }
+
     try {
-        SocketAddress addr1 = SocketAddress("127.0.0.1",42069,Protocol::IPV6);
-        SocketAddress addr2 = SocketAddress("127.0.0.1",42469,Protocol::IPV6);
-        SocketAddress addr3 = SocketAddress("127.0.0.1",42569,Protocol::IPV6);
-        Socket socket1=Socket(addr1);
-        Socket socket2=Socket(addr2);
-        socket1.send("hello world !\n", addr2);
-        std::cout << socket2.receive(&addr3);
-        std::cout << addr3 << std::endl;
-        Log::info("BomberStudent launched");
+        if (launchServer) {
+            Log::info("Launching BomberStudent server...");
+            Server().run();
+            Log::info("BomberStudent server launched");
+        } else {
+            Log::info("Launching BomberStudent client...");
+            Client().run();
+            Log::info("BomberStudent client launched");
+        }
     } catch (std::exception const&) {
         Log::error("BomberStudent launching failed");
     }
+    exit:
     Log::info("BomberStudent stopped");
     Log::close();
 }
