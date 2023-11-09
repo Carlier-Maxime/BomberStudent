@@ -10,6 +10,7 @@ private:
     int socket_fd;
 public:
     explicit Socket(const SocketAddress& address);
+    Socket(const SocketAddress& address, bool enableBroadcast);
     void send(const std::string& msg, const SocketAddress& dest_addr) const;
     [[nodiscard]] std::string receive(SocketAddress* src_addr) const;
     ~Socket();

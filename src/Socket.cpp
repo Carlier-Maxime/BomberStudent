@@ -69,7 +69,9 @@ void setSocketAddress(SocketAddress* address, struct sockaddr_storage addr) {
     address->setIp(ipBuffer);
 }
 
-Socket::Socket(const SocketAddress& address) : address(address) {
+Socket::Socket(const SocketAddress& address) : Socket(address, false) {}
+
+Socket::Socket(const SocketAddress &address, bool enableBroadcast) : address(address) {
     struct sockaddr_storage addr = getSockAddrStorage(address);
     if ((socket_fd = socket(addr.ss_family, SOCK_DGRAM, 0)) < 0) {
         Log::system_error("create socket failed");
@@ -79,6 +81,20 @@ Socket::Socket(const SocketAddress& address) : address(address) {
         Log::system_error("Socket couldn't bind to the port");
         close(socket_fd);
         throw std::exception();
+    }
+    int broadcast = enableBroadcast;
+    if (address.getProtocol()==Protocol::IPV6) {
+        if (setsockopt(socket_fd, IPPROTO_IPV6, IPV6_MULTICAST_LOOP, &broadcast, sizeof(broadcast)) < 0) {
+            Log::system_error("Socket couldn't set broadcast option");
+            close(socket_fd);
+            throw std::exception();
+        }
+    } else {
+        if (setsockopt(socket_fd, SOL_SOCKET, SO_BROADCAST, &broadcast, sizeof(broadcast)) < 0) {
+            Log::system_error("Socket couldn't set broadcast option");
+            close(socket_fd);
+            throw std::exception();
+        }
     }
 }
 
