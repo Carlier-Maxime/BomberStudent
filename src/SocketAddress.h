@@ -15,6 +15,7 @@ private:
     unsigned short port;
     std::string ip;
 public:
+    SocketAddress(std::string ip, unsigned short port);
     SocketAddress(std::string ip, unsigned short port, Protocol protocol);
     [[nodiscard]] Protocol getProtocol() const;
     [[nodiscard]] unsigned short getPort() const;

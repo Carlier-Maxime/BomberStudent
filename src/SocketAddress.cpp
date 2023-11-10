@@ -1,5 +1,8 @@
 #include "SocketAddress.h"
 
+#include <utility>
+#include "Config.h"
+
 SocketAddress::SocketAddress(std::string ip, unsigned short port, Protocol protocol) : protocol(protocol), port(port), ip(std::move(ip)) {}
 
 Protocol SocketAddress::getProtocol() const {
@@ -30,3 +33,5 @@ std::ostream &operator<<(std::ostream &os, const SocketAddress &address) {
     os << "protocol: " << (int) address.protocol << " port: " << address.port << " ip: " << address.ip;
     return os;
 }
+
+SocketAddress::SocketAddress(std::string ip, unsigned short port) : SocketAddress(std::move(ip), port, Config::getProtocol()) {}
