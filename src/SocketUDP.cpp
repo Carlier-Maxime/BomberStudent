@@ -1,4 +1,4 @@
-#include <bits/socket_type.h>
+#include <sys/socket.h>
 #include "SocketUDP.h"
 
 SocketUDP::SocketUDP(const SocketAddress &address) : Socket(address, SOCK_DGRAM, false) {}
