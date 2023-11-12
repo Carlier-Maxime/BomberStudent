@@ -7,6 +7,7 @@
 class Utils {
 public:
     static std::filesystem::path getProgramPath();
+    static std::string processName;
 };
 
 

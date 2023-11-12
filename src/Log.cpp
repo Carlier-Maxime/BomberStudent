@@ -3,6 +3,7 @@
 #include <cstring>
 #include "Log.h"
 #include "IPCKeyID.h"
+#include "Utils.h"
 
 std::ofstream Log::log_file;
 Mutex Log::mutex = Mutex(IPCKeyID::LOGGER);
@@ -43,18 +44,19 @@ std::string Log::getTimestamp() {
 void Log::write(Log::LogType logType, const std::string& msg) {
     mutex.P();
     log_file.seekp(0, std::ios::end);
-    log_file << Log::getTimestamp();
+    log_file << Log::getTimestamp() << " [" << Utils::processName << "/";
     switch (logType) {
         case LogType::Info:
-            log_file << "[INFO] ";
+            log_file << "INFO";
             break;
         case LogType::Warning:
-            log_file << "[WARNING] ";
+            log_file << "WARNING";
             break;
         case LogType::Error:
-            log_file << "[ERROR] ";
+            log_file << "ERROR";
             break;
     }
+    log_file << "]: ";
     log_file << msg << std::endl;
     mutex.V();
 }

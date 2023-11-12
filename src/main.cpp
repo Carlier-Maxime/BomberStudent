@@ -3,6 +3,7 @@
 #include "Socket.h"
 #include "Server.h"
 #include "Client.h"
+#include "Utils.h"
 
 int main(int argc, char* argv[]) {
     Log::open();
@@ -18,10 +19,12 @@ int main(int argc, char* argv[]) {
 
     try {
         if (launchServer) {
+            Utils::processName = "Server";
             Log::info("Launching BomberStudent server...");
             Server().run();
             Log::info("BomberStudent server launched");
         } else {
+            Utils::processName = "Client";
             Log::info("Launching BomberStudent client...");
             Client().run();
             Log::info("BomberStudent client launched");
