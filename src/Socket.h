@@ -9,8 +9,7 @@ private:
     SocketAddress address;
     int socket_fd;
 public:
-    explicit Socket(const SocketAddress& address);
-    Socket(const SocketAddress& address, bool enableBroadcast);
+    Socket(const SocketAddress& address, int type, bool enableBroadcast);
     void send(const std::string& msg, const SocketAddress& dest_addr) const;
     [[nodiscard]] std::string receive(SocketAddress* src_addr) const;
     ~Socket();

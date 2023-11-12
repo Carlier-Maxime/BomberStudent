@@ -69,11 +69,9 @@ void setSocketAddress(SocketAddress* address, struct sockaddr_storage addr) {
     address->setIp(ipBuffer);
 }
 
-Socket::Socket(const SocketAddress& address) : Socket(address, false) {}
-
-Socket::Socket(const SocketAddress &address, bool enableBroadcast) : address(address) {
+Socket::Socket(const SocketAddress &address, int type, bool enableBroadcast) : address(address) {
     struct sockaddr_storage addr = getSockAddrStorage(address);
-    if ((socket_fd = socket(addr.ss_family, SOCK_DGRAM, 0)) < 0) {
+    if ((socket_fd = socket(addr.ss_family, type, 0)) < 0) {
         Log::system_error("create socket failed");
         throw std::exception();
     }

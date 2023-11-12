@@ -2,11 +2,11 @@
 #define BOMBER_STUDENT_SERVER_H
 
 
-#include "Socket.h"
+#include "SocketUDP.h"
 
 class Server {
 private:
-    Socket socket;
+    SocketUDP socket;
 public:
     Server();
     ~Server();
