@@ -29,7 +29,8 @@ int main(int argc, char* argv[]) {
             Client().run();
             Log::info("BomberStudent client launched");
         }
-    } catch (std::exception const&) {
+    } catch (std::exception const& e) {
+        Log::error(e.what());
         Log::error("BomberStudent launching failed");
     }
     exit:

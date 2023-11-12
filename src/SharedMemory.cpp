@@ -3,35 +3,33 @@
 #include "Log.h"
 #include "Utils.h"
 #include "IPCKeyID.h"
+#include "BomberStudentExceptions.h"
 
 SharedMemory::SharedMemory(int IPCKeyID, size_t size) : IPCKeyID(IPCKeyID), shm_id(-1), mem_ptr(nullptr) {
     key_t key = ftok(Utils::getProgramPath().c_str(), IPCKeyID);
     if (key==-1) {
-        if (IPCKeyID != IPCKeyID::LOGGER) Log::system_error("Key generation failed");
-        throw std::exception();
+        if (IPCKeyID != IPCKeyID::LOGGER) throw IPCException("Key generation failed");
     }
     created=true;
     shm_id = shmget(key, size, IPC_CREAT | IPC_EXCL | 0666);
     if (shm_id) created=false, shm_id=shmget(key,size,0600);
     if (shm_id == -1) {
-        if (IPCKeyID != IPCKeyID::LOGGER) Log::system_error("Error during creation of shared memory");
-        throw std::exception();
+        if (IPCKeyID != IPCKeyID::LOGGER) throw IPCException("Problem during creation of shared memory");
     }
 
     mem_ptr = shmat(shm_id, nullptr, 0);
     if (mem_ptr == reinterpret_cast<void*>(-1)) {
-        if (IPCKeyID != IPCKeyID::LOGGER) Log::system_error("Error during attachment of shared memory");
-        throw std::exception();
+        if (IPCKeyID != IPCKeyID::LOGGER) throw IPCException("Problem during attachment of shared memory");
     }
 }
 
 SharedMemory::~SharedMemory() {
     if (shmdt(mem_ptr) == -1) {
-        if (IPCKeyID != IPCKeyID::LOGGER) Log::system_error("Error during detachment of shared memory");
+        if (IPCKeyID != IPCKeyID::LOGGER) Log::warning("Problem during detachment of shared memory");
     }
 
     if (shmctl(shm_id, IPC_RMID, nullptr) == -1) {
-        if (IPCKeyID != IPCKeyID::LOGGER) Log::system_error("Error during delete shared memory");
+        if (IPCKeyID != IPCKeyID::LOGGER) Log::warning("Problem during delete shared memory");
     }
 }
 

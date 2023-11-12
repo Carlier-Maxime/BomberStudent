@@ -29,11 +29,6 @@ void Log::error(const std::string& msg) {
     Log::write(LogType::Error, msg);
 }
 
-void Log::system_error(const std::string& msg) {
-    std::string final_msg = msg+" : ";
-    Log::write(LogType::Error, final_msg.append(std::string(strerror(errno))));
-}
-
 std::string Log::getTimestamp() {
     char filename[32];
     std::time_t now = std::time(nullptr);

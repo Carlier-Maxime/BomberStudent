@@ -13,7 +13,6 @@ public:
     static void info(const std::string& msg);
     static void warning(const std::string& msg);
     static void error(const std::string& msg);
-    static void system_error(const std::string& msg);
 
 private:
     enum class LogType {
