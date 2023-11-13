@@ -24,12 +24,12 @@ SharedMemory::SharedMemory(int IPCKeyID, size_t size) : IPCKeyID(IPCKeyID), shm_
 }
 
 SharedMemory::~SharedMemory() {
-    if (shmdt(mem_ptr) == -1) {
-        Log::warning("Problem during detachment of shared memory");
-    }
-
     if (shmctl(shm_id, IPC_RMID, nullptr) == -1) {
         Log::warning("Problem during delete shared memory");
+    }
+
+    if (shmdt(mem_ptr) == -1) {
+        Log::warning("Problem during detachment of shared memory");
     }
 }
 
