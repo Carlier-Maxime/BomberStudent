@@ -1,4 +1,4 @@
-#include <csignal>
+#include <unistd.h>
 #include "Utils.h"
 
 std::string Utils::processName = "Unknown";
