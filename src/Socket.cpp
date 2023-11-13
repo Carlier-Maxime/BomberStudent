@@ -71,7 +71,7 @@ Socket::Socket(const SocketAddress &address, int type, bool enableBroadcast) : a
     if ((socket_fd = socket(addr.ss_family, type, 0)) < 0) {
         throw SocketException("create socket failed");
     }
-    if(bind(socket_fd, (struct sockaddr*)&addr, sizeof(address)) < 0){
+    if(bind(socket_fd, (struct sockaddr*)&addr, sizeof(addr)) < 0){
         close(socket_fd);
         throw IPCException("Socket couldn't bind to the port");
     }

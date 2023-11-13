@@ -5,9 +5,8 @@
 #include "SocketAddress.h"
 
 class Socket {
-private:
-    SocketAddress address;
 protected:
+    SocketAddress address;
     int socket_fd;
     static void setSocketAddress(SocketAddress* address, struct sockaddr_storage addr);
     static struct sockaddr_storage getSockAddrStorage(const SocketAddress& address);

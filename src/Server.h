@@ -3,10 +3,13 @@
 
 
 #include "SocketUDP.h"
+#include "SocketTCP.h"
 
 class Server {
 private:
-    SocketUDP socket;
+    SocketAddress address;
+    SocketUDP socketUDP;
+    SocketTCP socketTCP;
 public:
     Server();
     ~Server();

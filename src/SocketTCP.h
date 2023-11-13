@@ -6,7 +6,7 @@
 
 class SocketTCP : public Socket {
 public:
-    explicit SocketTCP(const SocketAddress& address);
+    SocketTCP(const SocketAddress& address, bool listen);
     void connect(const SocketAddress& address);
     SocketAddress accept();
 };

@@ -3,14 +3,16 @@
 #include "Config.h"
 #include "ConstantMessages.h"
 
-Server::Server() : socket(SocketAddress("::1",Config::getServerPort()), true) {}
+Server::Server() : address(SocketAddress("::1",Config::getServerPort())), socketUDP(address, true), socketTCP(address, true) {}
 
 Server::~Server() = default;
 
 void Server::run() {
-    SocketAddress address = SocketAddress("::", 0);
+    SocketAddress client = SocketAddress("::", 0);
     Log::info("waiting for client...");
-    while (socket.receive(&address)!=ConstantMessages::lookingServers);
-    socket.send(ConstantMessages::serverHello, address);
+    while (socketUDP.receive(&client)!=ConstantMessages::lookingServers);
+    socketUDP.send(ConstantMessages::serverHello, client);
     Log::info("client found !");
+    socketTCP.accept();
+    Log::info("client connected !");
 }

@@ -3,10 +3,13 @@
 
 
 #include "SocketUDP.h"
+#include "SocketTCP.h"
 
 class Client {
 private:
-    SocketUDP socket;
+    SocketAddress address;
+    SocketUDP socketUDP;
+    SocketTCP socketTCP;
 public:
     Client();
     ~Client();

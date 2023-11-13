@@ -1,8 +1,14 @@
 #include <sys/socket.h>
+#include <csignal>
 #include "SocketTCP.h"
 #include "BomberStudentExceptions.h"
 
-SocketTCP::SocketTCP(const SocketAddress &address) : Socket(address, SOCK_STREAM, false) {}
+SocketTCP::SocketTCP(const SocketAddress &address, bool listen) : Socket(address, SOCK_STREAM, false) {
+    if (listen && ::listen(socket_fd, 5) == -1) {
+        close(socket_fd);
+        throw SocketException("Error during listen in socket");
+    }
+}
 
 void SocketTCP::connect(const SocketAddress& address) {
     struct sockaddr_storage addr = Socket::getSockAddrStorage(address);
