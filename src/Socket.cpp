@@ -9,7 +9,7 @@
 
 #define BUFFER_SIZE 1024
 
-struct sockaddr_storage getSockAddrStorage(const SocketAddress& address) {
+struct sockaddr_storage Socket::getSockAddrStorage(const SocketAddress& address) {
     struct sockaddr_storage addr{};
     struct sockaddr_in6 ipv6={};
     struct sockaddr_in ipv4={};
@@ -39,7 +39,7 @@ struct sockaddr_storage getSockAddrStorage(const SocketAddress& address) {
     return addr;
 }
 
-void setSocketAddress(SocketAddress* address, struct sockaddr_storage addr) {
+void Socket::setSocketAddress(SocketAddress* address, struct sockaddr_storage addr) {
     struct sockaddr_in6 ipv6={};
     struct sockaddr_in ipv4={};
     char ipBuffer[INET6_ADDRSTRLEN];
