@@ -22,7 +22,7 @@ struct sockaddr_storage Socket::getSockAddrStorage(const SocketAddress& address)
             if (inet_pton(AF_INET, address.getIp().c_str(), &(ipv4.sin_addr)) <= 0) {
                 throw SocketException("Conversion IPV4 address failed");
             }
-            std::memcpy(&addr, &ipv4, sizeof(struct sockaddr_storage));
+            std::memcpy(&addr, &ipv4, sizeof(struct sockaddr_in));
             break;
         case Protocol::IPV6:
             ipv6.sin6_family = addr.ss_family = AF_INET6;
@@ -30,7 +30,7 @@ struct sockaddr_storage Socket::getSockAddrStorage(const SocketAddress& address)
             if (inet_pton(AF_INET6, address.getIp().c_str(), &(ipv6.sin6_addr)) < 0) {
                 throw SocketException("Conversion IPV6 address failed");
             }
-            std::memcpy(&addr, &ipv6, sizeof(struct sockaddr_storage));
+            std::memcpy(&addr, &ipv6, sizeof(struct sockaddr_in6));
             break;
         default:
             Log::warning("Protocol not supported. Switching to IPv4 protocol");
@@ -66,17 +66,20 @@ void Socket::setSocketAddress(SocketAddress* address, struct sockaddr_storage ad
     address->setIp(ipBuffer);
 }
 
-Socket::Socket(const SocketAddress &address, int type, bool enableBroadcast) : address(address) {
+void Socket::bind(const SocketAddress &address) const {
     struct sockaddr_storage addr = getSockAddrStorage(address);
-    if ((socket_fd = socket(addr.ss_family, type, 0)) < 0) {
-        throw SocketException("create socket failed");
-    }
-    if(bind(socket_fd, (struct sockaddr*)&addr, sizeof(addr)) < 0){
+    if(::bind(socket_fd, (struct sockaddr*)&addr, sizeof(addr)) < 0){
         close(socket_fd);
         throw IPCException("Socket couldn't bind to the port");
     }
+}
+
+Socket::Socket(Protocol protocol, int type, bool enableBroadcast) {
+    if ((socket_fd = socket(protocol==Protocol::IPV4 ? AF_INET : AF_INET6, type, 0)) < 0) {
+        throw SocketException("create socket failed");
+    }
     int broadcast = enableBroadcast;
-    if (address.getProtocol()==Protocol::IPV6) {
+    if (protocol==Protocol::IPV6) {
         if (setsockopt(socket_fd, IPPROTO_IPV6, IPV6_MULTICAST_LOOP, &broadcast, sizeof(broadcast)) < 0) {
             close(socket_fd);
             throw IPCException("Socket couldn't set broadcast option");

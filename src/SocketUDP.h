@@ -6,8 +6,8 @@
 
 class SocketUDP : public Socket {
 public:
-    explicit SocketUDP(const SocketAddress& address);
-    SocketUDP(const SocketAddress &address, bool enableBroadcast);
+    explicit SocketUDP(Protocol protocol);
+    SocketUDP(Protocol protocol, bool enableBroadcast);
 };
 
 
