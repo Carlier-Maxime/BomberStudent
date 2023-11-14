@@ -8,14 +8,11 @@ class Config {
 public:
     static Protocol getProtocol();
     static unsigned short getServerPort();
-    static unsigned short getClientPort();
-
     static const std::string &getLogFilePath();
 
 private:
     static const Protocol protocol = Protocol::IPV6;
     static const unsigned short serverPort = 42069;
-    static const unsigned short clientPort = 40469;
     static const std::string logFilePath;
 };
 

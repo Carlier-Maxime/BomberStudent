@@ -10,10 +10,6 @@ unsigned short Config::getServerPort() {
     return serverPort;
 }
 
-unsigned short Config::getClientPort() {
-    return clientPort;
-}
-
 const std::string &Config::getLogFilePath() {
     return logFilePath;
 }

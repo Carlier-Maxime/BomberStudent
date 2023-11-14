@@ -7,7 +7,6 @@
 
 class Client {
 private:
-    SocketAddress address;
     SocketUDP socketUDP;
     SocketTCP socketTCP;
 public:

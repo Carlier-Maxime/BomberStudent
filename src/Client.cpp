@@ -3,7 +3,7 @@
 #include "Config.h"
 #include "ConstantMessages.h"
 
-Client::Client() : address(SocketAddress("::1", Config::getClientPort())), socketUDP(address.getProtocol(), true), socketTCP(address.getProtocol()) {}
+Client::Client() : socketUDP(Config::getProtocol(), true), socketTCP(Config::getProtocol()) {}
 
 void Client::run() {
     SocketAddress multicast = SocketAddress("255.255.255.255", Config::getServerPort());
