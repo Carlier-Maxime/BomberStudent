@@ -8,7 +8,7 @@
 
 #define ERR (-1)
 
-Semaphore::Semaphore(int IPCKeyID, int nb, int value) : IPCKeyID(IPCKeyID), nbProcess(IPCKeyID, sizeof(uint)) {
+Semaphore::Semaphore(int IPCKeyID, int nb, int value) : nbSem(nb), IPCKeyID(IPCKeyID) {
     key_t key = ftok(Utils::getProgramPath().c_str(), IPCKeyID);
     if (key==ERR) {
         throw IPCException("Key generation failed");
@@ -22,16 +22,10 @@ Semaphore::Semaphore(int IPCKeyID, int nb, int value) : IPCKeyID(IPCKeyID), nbPr
     if (created) for(int i=0;i<nb;i++) if(semctl(sem_id,i,SETVAL,value)==ERR) {
         throw IPCException("Problem during initialization of semaphore");
     }
-    if (nbProcess.isCreated()) *static_cast<int *>(nbProcess.getMemoryPointer())=1;
-    else (*static_cast<int *>(nbProcess.getMemoryPointer()))++;
 }
 
-Semaphore::~Semaphore() {
-    (*static_cast<int *>(nbProcess.getMemoryPointer()))--;
-    if (*static_cast<int *>(nbProcess.getMemoryPointer())>0) return;
-    if ((semctl(sem_id,1,IPC_RMID)==ERR)&&(errno!=EPERM)) {
-        Log::warning("Problem during the deletion of semaphore");
-    }
+void Semaphore::del() {
+    if (semctl(sem_id,1,IPC_RMID)==ERR) Log::warning("Problem during the deletion of semaphore");
 }
 
 void Semaphore::P(unsigned short index) const {

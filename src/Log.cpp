@@ -7,7 +7,7 @@
 #include "Config.h"
 
 std::ofstream Log::log_file;
-Mutex Log::mutex = Mutex(IPCKeyID::LOGGER);
+Mutex Log::mutex = Mutex(IPCKeyID::LOGGER, true);
 
 void Log::open() {
     log_file.open(Config::getLogFilePath(), std::ios::out | (mutex.isCreated() ? std::ios::trunc : std::ios ::app));

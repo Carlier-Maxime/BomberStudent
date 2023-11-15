@@ -3,12 +3,15 @@
 
 #include "Semaphore.h"
 
-class Mutex : public Semaphore {
+class Mutex {
 public:
-    explicit Mutex(int IPCKeyID);
+    explicit Mutex(int IPCKeyID, bool isDynamic);
     ~Mutex();
     void P();
     void V();
+    bool isCreated();
+private:
+    Semaphore* sem;
 };
 
 

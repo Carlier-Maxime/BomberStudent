@@ -7,13 +7,14 @@
 class Semaphore {
 public:
     Semaphore(int IPCKeyID, int nb, int value);
-    ~Semaphore();
+    void del();
     void P(unsigned short index) const;
     void V(unsigned short index) const;
     [[nodiscard]] bool isCreated() const;
+protected:
+    int nbSem;
 private:
     int sem_id, IPCKeyID;
-    SharedMemory nbProcess;
     bool created;
 };
 

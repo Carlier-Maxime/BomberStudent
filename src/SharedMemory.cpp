@@ -11,7 +11,7 @@ SharedMemory::SharedMemory(int IPCKeyID, size_t size) : IPCKeyID(IPCKeyID), shm_
         throw IPCException("Key generation failed");
     }
     created=true;
-    shm_id = shmget(key, size, IPC_CREAT | IPC_EXCL | 0666);
+    shm_id = shmget(key, size, IPC_CREAT | IPC_EXCL | 0600);
     if (shm_id) created=false, shm_id=shmget(key,size,0600);
     if (shm_id == -1) {
         throw IPCException("Problem during creation of shared memory");
@@ -23,14 +23,12 @@ SharedMemory::SharedMemory(int IPCKeyID, size_t size) : IPCKeyID(IPCKeyID), shm_
     }
 }
 
-SharedMemory::~SharedMemory() {
-    if (shmctl(shm_id, IPC_RMID, nullptr) == -1) {
-        Log::warning("Problem during delete shared memory");
-    }
+void SharedMemory::del() {
+    if (shmctl(shm_id, IPC_RMID, nullptr) == -1) Log::warning("Problem during delete shared memory");
+}
 
-    if (shmdt(mem_ptr) == -1) {
-        Log::warning("Problem during detachment of shared memory");
-    }
+SharedMemory::~SharedMemory() {
+    if (shmdt(mem_ptr) == -1) Log::warning("Problem during detachment of shared memory");
 }
 
 void* SharedMemory::getMemoryPointer() const {

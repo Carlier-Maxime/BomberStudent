@@ -11,6 +11,7 @@ private:
 public:
     SharedMemory(int IPCKeyID, unsigned long size);
     ~SharedMemory();
+    void del();
     [[nodiscard]] bool isCreated() const;
     [[nodiscard]] void* getMemoryPointer() const;
 };
