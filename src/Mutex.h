@@ -12,6 +12,7 @@ public:
     bool isCreated();
 private:
     Semaphore* sem;
+    bool isDynamic;
 };
 
 
