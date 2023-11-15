@@ -1,9 +1,18 @@
 #include <iostream>
+#include <vector>
+
 #include "Log.h"
 #include "Socket.h"
 #include "Server.h"
 #include "Client.h"
 #include "Utils.h"
+
+#include "PlayerStateJSON.h"
+#include "PlayerJSON.h"
+#include "MapJSON.h"
+#include "GameJSON.h"
+#include "GameJSON.h"
+#include "JSONMessage.h"
 
 int main(int argc, char* argv[]) {
     Log::open();
