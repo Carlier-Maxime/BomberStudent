@@ -1,6 +1,9 @@
+#include <string>
+#include <sstream>
+#include <cstring>
+#include <cstdio>
 #include "PlayerStateJSON.h"
-#include <string.h>
-#include <stdio.h>
+
 
 PlayerStateJSON::PlayerStateJSON(int lifeValue, int speedValue, int nbClassicBombValue, int nbMineValue, int nbRemoteBombValue, int impactDistValue, int invincibleValue){
 	life=lifeValue;
@@ -12,53 +15,13 @@ PlayerStateJSON::PlayerStateJSON(int lifeValue, int speedValue, int nbClassicBom
 	invincible=invincibleValue;
 }
 
-char* PlayerStateJSON::toJSON(){
-	int lengthLife = 1;
-	int tmp=life;
-	while(tmp>9){
-		tmp=tmp/10;
-		lengthLife+=1;
-	}
-	int lengthSpeed = 1;
-	tmp=speed;
-	while(tmp>9){
-		tmp=tmp/10;
-		lengthSpeed+=1;
-	}
-	int lengthNbClassicBomb = 1;
-	tmp=nbClassicBomb;
-	while(tmp>9){
-		tmp=tmp/10;
-		lengthNbClassicBomb+=1;
-	}
+std::string PlayerStateJSON::toJSON() const{
+	
+	std::string invincibleString = this->invincible ? "True" : "False";
 
-	int lengthNbMine = 1;
-	tmp=nbMine;
-	while(tmp>9){
-		tmp=tmp/10;
-		lengthNbMine+=1;
-	}
+	std::ostringstream json;
+	json << "{\"life\":"<< this->life <<",\"speed\":"<< this->speed <<",\"nbClassicBomb\":"<<this->nbClassicBomb<<",\"nbMine\":"<<this->nbMine<<",\"nbRemoteBomb\":"<<this->nbRemoteBomb<<",\"impactDist\":"<<this->impactDist<<",\"invincible\":"<<invincibleString<<"}";
 
-	int lengthNbRemoteBomb = 1;
-	tmp=nbRemoteBomb;
-	while(tmp>9){
-		tmp=tmp/10;
-		lengthNbRemoteBomb+=1;
-	}
-
-	int lengthImpactDist = 1;
-	tmp=impactDist;
-	while(tmp>9){
-		tmp=tmp/10;
-		lengthImpactDist+=1;
-	}
-	const char* invincibleString = invincible ? "True" : "False";
-	int lengthInvincible=strlen(invincibleString);
-
-
-	int totalLength=strlen(PLAYER_STATE_JSON_STRING_PROTOTYPE)+lengthLife+lengthSpeed+lengthNbClassicBomb+lengthNbMine+lengthNbRemoteBomb+lengthImpactDist+lengthInvincible;
-	char* json = new char[totalLength];
-	sprintf(json,PLAYER_STATE_JSON_STRING_PROTOTYPE,life,speed,nbClassicBomb,nbMine,nbRemoteBomb,impactDist,invincibleString);
-	return json;
+	return json.str();
 
 }

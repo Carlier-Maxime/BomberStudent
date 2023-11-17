@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -Wall -Wextra -std=c++17
+CFLAGS = -Wall -Wextra -std=c++17 -lstdc++fs
 SRC_DIR = src
 OBJ_DIR = obj
 
@@ -12,7 +12,7 @@ EXEC = bomberStudent
 all : $(EXEC)
 
 bomberStudent : $(OBJ)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^ -lstdc++fs
 
 $(OBJ_DIR)/main.o : $(SRC_DIR)/main.cpp
 	@mkdir -p $(OBJ_DIR)

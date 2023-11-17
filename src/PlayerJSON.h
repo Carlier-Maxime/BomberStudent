@@ -1,16 +1,15 @@
 #ifndef BOMBER_STUDENT_PLAYER_JSON
 #define BOMBER_STUDENT_PLAYER_JSON
-#define PLAYER_JSON_STRING_PROTOTYPE "{\"name\":\"%s\",\"pos\":\"%d,%d\"}"
 
 class PlayerJSON{
 private:
-	char* name;
+	std::string name;
 	int posX;
 	int posY;
 public:
-	PlayerJSON(char* nameValue,int posXValue, int posYValue);
-	char* toJSON();
-	char* getName();
+	PlayerJSON(std::string nameValue,int posXValue, int posYValue);
+	std::string toJSON() const;
+	std::string getName() const;
 };
 
 #endif

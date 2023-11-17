@@ -1,19 +1,16 @@
 
 #include <vector>
+#include <cstring>
+#include <cstdio>
+#include <cstdlib>
+#include <string>
+#include <sstream>
 #include "PlayerJSON.h"
 #include "PlayerStateJSON.h"
 #include "GameJSON.h"
-#include <string.h>
-#include <stdio.h>
-#include <cstdlib>
 
 
-GameJSON::GameJSON(char* nameValue,int nbPlayerValue, int mapIdValue){
-	name=nameValue;
-	nbPlayer = nbPlayerValue;
-	mapId=mapIdValue;
-}
-GameJSON::GameJSON(char* nameValue,std::vector<PlayerJSON*> playersValue, int mapIdValue,int startPosValue[], PlayerStateJSON* playerStateJSONValue){
+GameJSON::GameJSON(std::string nameValue,std::vector<PlayerJSON*> playersValue, int mapIdValue,int startPosValue[], PlayerStateJSON* playerStateJSONValue){
 	name=nameValue;
 	players = playersValue;
 	mapId=mapIdValue;
@@ -23,70 +20,31 @@ GameJSON::GameJSON(char* nameValue,std::vector<PlayerJSON*> playersValue, int ma
 	
 }
 
-char* GameJSON::toJSON(){
-	int lengthNbPlayer = 1;
-	int tmp=nbPlayer;
-	while(tmp>9){
-		tmp=tmp/10;
-		lengthNbPlayer+=1;
-	}
-	int lengthMapId = 1;
-	tmp=mapId;
-	while(tmp>9){
-		tmp=tmp/10;
-		lengthMapId+=1;
-	}
-	int lengthName = strlen(name);
-	int totalLength=strlen(GAME_JSON_STRING_PROTOTYPE)+lengthMapId+lengthName+lengthNbPlayer;
-	char* json = new char[totalLength];
-	sprintf(json,GAME_JSON_STRING_PROTOTYPE,name,nbPlayer,mapId);
-	return json;
+std::string GameJSON::toJSON() const{
+
+	std::ostringstream json;
+	json << "{\"name\":\"" << this->name << "\",\"nbPlayer\":"<< this->players.size() << ",\"mapId\":" << this->mapId << "}";
+	return json.str();
 
 }
 
-char* GameJSON::toDetailJSON(){
-	int nbPlayer = this->players.size();
-	int lengthNbPlayer = 1;
-	int tmp=nbPlayer;
-	while(tmp>9){
-		tmp=tmp/10;
-		lengthNbPlayer+=1;
-	}
-	int lengthMapId = 1;
-	tmp=mapId;
-	while(tmp>9){
-		tmp=tmp/10;
-		lengthMapId+=1;
-	}
-	int lengthPosY = 1;
-	tmp=startPos[0];
-	while(tmp>9){
-		tmp=tmp/10;
-		lengthPosY+=1;
-	}
-	int lengthPosX = 1;
-	tmp=startPos[1];
-	while(tmp>9){
-		tmp=tmp/10;
-		lengthPosX+=1;
-	}
-	char* playerJSONString = playerStateJSON->toJSON();
-	int totalLength=lengthNbPlayer+lengthMapId+lengthPosX+lengthPosY+strlen(playerJSONString)+strlen(GAME_JSON_DETAIL_STRING_PROTOTYPE)+1;
-	char * json = new char[totalLength];
-	sprintf(json,GAME_JSON_DETAIL_STRING_PROTOTYPE,nbPlayer,mapId,startPos[0],startPos[1],playerJSONString);
-	delete [] playerJSONString;
-	return json;
+std::string GameJSON::toDetailJSON() const{
+
+	std::string playerJSONString = playerStateJSON->toJSON();
+	std::ostringstream json;
+	json << "{\"nbPlayer\":"<<this->players.size()<<",\"mapId\":"<<this->mapId<<",\"startPos\":\""<<this->startPos[0]<<","<<this->startPos[1]<<"\",\"player\":"<<playerJSONString<<"}";
+	return json.str();
 }
 
-PlayerStateJSON* GameJSON::getPlayerState(){
+PlayerStateJSON* GameJSON::getPlayerState() const{
 	return this->playerStateJSON;
 }
-int GameJSON::getMapId(){
+int GameJSON::getMapId() const{
 	return this->mapId;
 }
 int* GameJSON::getStartPos(){
 	return this->startPos;
 }
-std::vector<PlayerJSON*> GameJSON::getPlayers(){
+std::vector<PlayerJSON*> GameJSON::getPlayers() const{
 	return this->players;
 }

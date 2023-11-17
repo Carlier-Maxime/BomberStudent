@@ -7,12 +7,9 @@ private:
 	int id;
 	int width;
 	int height;
-	char* content;
+	std::string content;
 public:
-	MapJSON(int idValue, int widthValue, int heightValue, char* contentValue);
-	char* toJSON();
+	MapJSON(int idValue, int widthValue, int heightValue, std::string contentValue);
+	std::string toJSON() const;
 };
-
-
-#define MAP_JSON_STRING_PROTOTYPE "{\"id\":%d,\"width\":%d,\"height\":%d,\"content\":\"%s\"}"
 #endif

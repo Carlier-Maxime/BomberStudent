@@ -5,21 +5,20 @@
 
 class GameJSON{
 private:
-	char* name;
+	std::string name;
 	int nbPlayer;
 	std::vector<PlayerJSON*> players;
 	int mapId;
 	int startPos[2];
 	PlayerStateJSON* playerStateJSON;
 public:
-	GameJSON(char* nameValue,int nbPlayerValue, int mapIdValue);
-	GameJSON(char* nameValue,std::vector<PlayerJSON*> playersValue, int mapIdValue,int startPosValue[], PlayerStateJSON* playerStateJSONValue);
-	char* toJSON();
-	char* toDetailJSON();
-	PlayerStateJSON* getPlayerState();
-	int getMapId();
+	GameJSON(std::string nameValue,std::vector<PlayerJSON*> playersValue, int mapIdValue,int startPosValue[], PlayerStateJSON* playerStateJSONValue);
+	std::string toJSON() const;
+	std::string toDetailJSON() const;
+	PlayerStateJSON* getPlayerState() const;
+	int getMapId() const;
 	int* getStartPos();
-	std::vector<PlayerJSON*> getPlayers();
+	std::vector<PlayerJSON*> getPlayers() const;
 };
 
 #endif
