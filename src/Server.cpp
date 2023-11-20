@@ -3,11 +3,11 @@
 #include "Config.h"
 #include "ConstantMessages.h"
 #include "Utils.h"
+#include "BomberStudentExceptions.h"
 #include <unistd.h>
 #include <csignal>
 
-Server::Server() : address(SocketAddress("::1",Config::getServerPort())), socketUDP(address.getProtocol(), true), socketTCP(address.getProtocol()) {
-    socketUDP.bind(address);
+Server::Server() : address(SocketAddress("::1",Config::getServerPort())), socketTCP(address.getProtocol()) {
     socketTCP.bind(address);
     socketTCP.listen(5);
 }
@@ -16,6 +16,8 @@ Server::~Server() = default;
 
 [[noreturn]] void Server::loopUDP() {
     Utils::processName= "Server:UDP";
+    auto socketUDP = SocketUDP(address.getProtocol(), true);
+    socketUDP.bind(address);
     SocketAddress client = SocketAddress("::", 0);
     for (;;) {
         Log::info("waiting client...");
@@ -27,7 +29,7 @@ Server::~Server() = default;
 
 void Server::run() {
     int pid;
-    if ((pid=fork())==-1) return;
+    if ((pid=fork())==-1) throw SystemException("fork failed");
     else if (pid==0) loopUDP();
     SocketAddress client = SocketAddress("::", 0);
     socketTCP.accept();

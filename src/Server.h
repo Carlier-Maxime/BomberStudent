@@ -8,7 +8,6 @@
 class Server {
 private:
     SocketAddress address;
-    SocketUDP socketUDP;
     SocketTCP socketTCP;
 public:
     Server();
