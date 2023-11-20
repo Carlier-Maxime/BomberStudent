@@ -11,6 +11,17 @@ Server::Server() : address(SocketAddress("::1",Config::getServerPort())), socket
 
 Server::~Server() = default;
 
+void Server::loopUDP() {
+    Utils::processName = "Server/UDP";
+    SocketAddress client = SocketAddress("::", 0);
+    for (;;) {
+        Log::info("waiting client...");
+        while (socketUDP.receive(&client)!=ConstantMessages::lookingServers);
+        Log::info("client found !")
+        socketUDP.send(ConstantMessages::serverHello, client);
+    }
+}
+
 void Server::run() {
     SocketAddress client = SocketAddress("::", 0);
     Log::info("waiting for client...");
