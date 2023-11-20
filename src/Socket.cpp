@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <memory>
 #include <cstring>
+#include <utility>
 #include "Log.h"
 #include "BomberStudentExceptions.h"
 
@@ -74,7 +75,9 @@ void Socket::bind(const SocketAddress &address) const {
     }
 }
 
-Socket::Socket(Protocol protocol, int type, bool enableBroadcast) {
+Socket::Socket(int fd, SocketAddress  address) : address(std::move(address)), socket_fd(fd){}
+
+Socket::Socket(Protocol protocol, int type, bool enableBroadcast) : address("::1", 0, protocol) {
     if ((socket_fd = socket(protocol==Protocol::IPV4 ? AF_INET : AF_INET6, type, 0)) < 0) {
         throw SocketException("create socket failed");
     }

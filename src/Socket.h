@@ -5,10 +5,13 @@
 #include "SocketAddress.h"
 
 class Socket {
+private:
+    SocketAddress address;
 protected:
     int socket_fd;
     static void setSocketAddress(SocketAddress* address, struct sockaddr_storage addr);
     static struct sockaddr_storage getSockAddrStorage(const SocketAddress& address);
+    Socket(int fd, SocketAddress  address);
 public:
     Socket(Protocol protocol, int type, bool enableBroadcast);
     void bind(const SocketAddress& address) const;
