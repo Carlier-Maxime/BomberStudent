@@ -32,7 +32,7 @@ void Server::run() {
     if ((pid=fork())==-1) throw SystemException("fork failed");
     else if (pid==0) loopUDP();
     SocketAddress client = SocketAddress("::", 0);
-    socketTCP.accept();
+    auto socket = socketTCP.accept();
     Log::info("client connected !");
     kill(pid,2);
 }
