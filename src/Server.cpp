@@ -2,6 +2,9 @@
 #include "Log.h"
 #include "Config.h"
 #include "ConstantMessages.h"
+#include "Utils.h"
+#include <unistd.h>
+#include <csignal>
 
 Server::Server() : address(SocketAddress("::1",Config::getServerPort())), socketUDP(address.getProtocol(), true), socketTCP(address.getProtocol()) {
     socketUDP.bind(address);
@@ -11,23 +14,23 @@ Server::Server() : address(SocketAddress("::1",Config::getServerPort())), socket
 
 Server::~Server() = default;
 
-void Server::loopUDP() {
-    Utils::processName = "Server/UDP";
+[[noreturn]] void Server::loopUDP() {
+    Utils::processName= "Server:UDP";
     SocketAddress client = SocketAddress("::", 0);
     for (;;) {
         Log::info("waiting client...");
         while (socketUDP.receive(&client)!=ConstantMessages::lookingServers);
-        Log::info("client found !")
+        Log::info("client found !");
         socketUDP.send(ConstantMessages::serverHello, client);
     }
 }
 
 void Server::run() {
+    int pid;
+    if ((pid=fork())==-1) return;
+    else if (pid==0) loopUDP();
     SocketAddress client = SocketAddress("::", 0);
-    Log::info("waiting for client...");
-    while (socketUDP.receive(&client)!=ConstantMessages::lookingServers);
-    socketUDP.send(ConstantMessages::serverHello, client);
-    Log::info("client found !");
     socketTCP.accept();
     Log::info("client connected !");
+    kill(pid,2);
 }

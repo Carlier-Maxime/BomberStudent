@@ -14,7 +14,8 @@ public:
     Server();
     ~Server();
     void run();
-    void loopUDP();
+
+    [[noreturn]] void loopUDP();
 };
 
 
