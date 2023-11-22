@@ -7,11 +7,12 @@
 #include "Utils.h"
 
 int main(int argc, char* argv[]) {
+    Utils::processName = "Server";
     Log::open();
-    bool launchServer=false;
+    bool launchClient=false;
     if (argc>1) {
-        if ("server"==std::string(argv[1])) {
-            launchServer=true;
+        if ("client-dev"==std::string(argv[1])) {
+            launchClient=true;
         } else {
             Log::error("Argument not recognised");
             goto exit;
@@ -19,16 +20,15 @@ int main(int argc, char* argv[]) {
     }
 
     try {
-        if (launchServer) {
-            Utils::processName = "Server";
+        if (launchClient) {
+            Utils::processName = "Client";
+            Log::info("Launching BomberStudent client dev...");
+            Client().run();
+            Log::info("BomberStudent client dev launched");
+        } else {
             Log::info("Launching BomberStudent server...");
             Server().run();
             Log::info("BomberStudent server launched");
-        } else {
-            Utils::processName = "Client";
-            Log::info("Launching BomberStudent client...");
-            Client().run();
-            Log::info("BomberStudent client launched");
         }
     } catch (std::exception const& e) {
         Log::error(e.what());
