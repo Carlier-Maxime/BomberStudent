@@ -7,14 +7,14 @@ SRC = $(wildcard $(SRC_DIR)/*.cpp)
 
 OBJ = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC))
 
-EXEC = bomberStudent
+EXEC = bomberStudentServer
 
 all : $(EXEC)
 
-bomberStudent : $(OBJ)
+bomberStudentServer : $(OBJ)
 	$(CC) $(CFLAGS) -o $@ $^ -lstdc++fs
 
-$(OBJ_DIR)/main.o : $(SRC_DIR)/main.cpp
+$(OBJ_DIR)/bomberStudentServer.o : $(SRC_DIR)/bomberStudentServer.cpp
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
