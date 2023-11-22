@@ -1,9 +1,9 @@
 #include "Semaphore.h"
-#include "Log.h"
+#include "../utils/Log.h"
 #include <sys/ipc.h>
 #include <sys/sem.h>
-#include "Utils.h"
-#include "BomberStudentExceptions.h"
+#include "../utils/Utils.h"
+#include "../utils/BomberStudentExceptions.h"
 
 #define ERR (-1)
 

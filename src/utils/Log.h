@@ -4,7 +4,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
-#include "Mutex.h"
+#include "../ipc/Mutex.h"
 
 class Log {
 public:

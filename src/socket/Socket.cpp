@@ -4,8 +4,8 @@
 #include <unistd.h>
 #include <cstring>
 #include <utility>
-#include "Log.h"
-#include "BomberStudentExceptions.h"
+#include "../utils/Log.h"
+#include "../utils/BomberStudentExceptions.h"
 
 #define BUFFER_SIZE 1024
 

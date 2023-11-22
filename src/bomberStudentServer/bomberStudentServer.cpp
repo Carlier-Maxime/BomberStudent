@@ -1,10 +1,10 @@
 #include <vector>
 
-#include "Log.h"
-#include "Socket.h"
+#include "../utils/Log.h"
+#include "../socket/Socket.h"
 #include "Server.h"
 #include "Client.h"
-#include "Utils.h"
+#include "../utils/Utils.h"
 
 int main(int argc, char* argv[]) {
     Utils::processName = "Server";

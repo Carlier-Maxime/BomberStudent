@@ -2,8 +2,8 @@
 #define BOMBER_STUDENT_CLIENT_H
 
 
-#include "SocketUDP.h"
-#include "SocketTCP.h"
+#include "../socket/SocketUDP.h"
+#include "../socket/SocketTCP.h"
 
 class Client {
 private:

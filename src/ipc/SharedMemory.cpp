@@ -1,8 +1,8 @@
 #include "SharedMemory.h"
 #include <sys/shm.h>
-#include "Log.h"
-#include "Utils.h"
-#include "BomberStudentExceptions.h"
+#include "../utils/Log.h"
+#include "../utils/Utils.h"
+#include "../utils/BomberStudentExceptions.h"
 
 SharedMemory::SharedMemory(int IPCKeyID, size_t size) : IPCKeyID(IPCKeyID), shm_id(-1), mem_ptr(nullptr) {
     key_t key = ftok(Utils::getProgramPath().c_str(), IPCKeyID);

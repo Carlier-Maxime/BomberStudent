@@ -1,7 +1,7 @@
 #include "Client.h"
-#include "Log.h"
-#include "Config.h"
-#include "ConstantMessages.h"
+#include "../utils/Log.h"
+#include "../utils/Config.h"
+#include "../utils/ConstantMessages.h"
 
 Client::Client() : socketUDP(Config::getProtocol(), true), socketTCP(Config::getProtocol()) {}
 

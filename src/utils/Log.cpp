@@ -1,6 +1,6 @@
 #include <ctime>
 #include "Log.h"
-#include "IPCKeyID.h"
+#include "../ipc/IPCKeyID.h"
 #include "Utils.h"
 #include "Config.h"
 

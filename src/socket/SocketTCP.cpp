@@ -1,7 +1,7 @@
 #include <sys/socket.h>
 #include <utility>
 #include "SocketTCP.h"
-#include "BomberStudentExceptions.h"
+#include "../utils/BomberStudentExceptions.h"
 
 SocketTCP::SocketTCP(Protocol protocol) : Socket(protocol, SOCK_STREAM, false) {}
 

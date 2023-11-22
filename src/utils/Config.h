@@ -2,7 +2,7 @@
 #define BOMBER_STUDENT_CONFIG_H
 
 
-#include "SocketAddress.h"
+#include "../socket/SocketAddress.h"
 
 class Config {
 public:

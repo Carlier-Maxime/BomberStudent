@@ -1,7 +1,7 @@
 #include "SocketAddress.h"
 
 #include <utility>
-#include "Config.h"
+#include "../utils/Config.h"
 
 SocketAddress::SocketAddress(std::string ip, unsigned short port, Protocol protocol) : protocol(protocol), port(port), ip(std::move(ip)) {}
 

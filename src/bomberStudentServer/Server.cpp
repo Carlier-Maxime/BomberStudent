@@ -1,9 +1,9 @@
 #include "Server.h"
-#include "Log.h"
-#include "Config.h"
-#include "ConstantMessages.h"
-#include "Utils.h"
-#include "BomberStudentExceptions.h"
+#include "../utils/Log.h"
+#include "../utils/Config.h"
+#include "../utils/ConstantMessages.h"
+#include "../utils/Utils.h"
+#include "../utils/BomberStudentExceptions.h"
 #include <unistd.h>
 #include <csignal>
 

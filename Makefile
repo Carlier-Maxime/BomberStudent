@@ -1,28 +1,42 @@
 CC = g++
-CFLAGS = -Wall -Wextra -std=c++17 -lstdc++fs
+LD = g++
+CFLAGS = -Wall -Wextra -pedantic -std=c++17 -lstdc++fs
+LD_FLAGS =
 SRC_DIR = src
 OBJ_DIR = obj
+GLOBAL_DIR = utils socket ipc json
+OBJS_GLOBAL = $(foreach dir, $(GLOBAL_DIR), $(patsubst $(SRC_DIR)/$(dir)/%.cpp,$(OBJ_DIR)/$(dir)/%.o,$(wildcard $(SRC_DIR)/$(dir)/*.cpp)))
+EXE = bomberStudentServer
+OBJ_DIRS := $(addprefix $(OBJ_DIR)/, $(EXE) $(GLOBAL_DIR))
 
-SRC = $(wildcard $(SRC_DIR)/*.cpp)
+all : $(OBJ_DIRS) $(EXE)
+$(OBJ_DIRS):
+	@mkdir -p $@
 
-OBJ = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC))
+define build_exe
+$(1) : $(OBJS_GLOBAL) $(patsubst $(SRC_DIR)/$(1)/%.cpp,$(OBJ_DIR)/$(1)/%.o,$(wildcard $(SRC_DIR)/$(1)/*.cpp))
+	$(LD) $$^ $(LD_FLAGS) -o $$@
+endef
 
-EXEC = bomberStudentServer
 
-all : $(EXEC)
+$(foreach exe, $(EXE), $(eval $(call build_exe,$(exe))))
 
-bomberStudentServer : $(OBJ)
-	$(CC) $(CFLAGS) -o $@ $^ -lstdc++fs
-
-$(OBJ_DIR)/bomberStudentServer.o : $(SRC_DIR)/bomberStudentServer.cpp
-	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(OBJ_DIR)/%.o : $(SRC_DIR)/%.cpp $(SRC_DIR)/%.h
-	@mkdir -p $(OBJ_DIR)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean :
-	rm -f  $(OBJ) $(EXEC)
+	rm -rf  $(OBJ_DIR) $(EXE)
+
+define build_dep
+$(OBJ_DIR)/$(1)/%.d: $(SRC_DIR)/$(1)/%.cpp $(OBJ_DIR)/$(1)
+	@$(CC) -MM $$< | sed 's/\($$*\)\.o[ :]*/$(OBJ_DIR)\/$(1)\/\1.o : /g' > $$@
+endef
+
+$(foreach exe, $(EXE) $(GLOBAL_DIR), $(eval $(call build_dep,$(exe))))
+
+DEPS = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.d,$(wildcard $(SRC_DIR)/*.cpp) $(wildcard $(SRC_DIR)/**/*.cpp))
+
 
 .PHONY: clean all
+
+-include $(DEPS)
