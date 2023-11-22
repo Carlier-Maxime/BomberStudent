@@ -2,7 +2,6 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-#include <memory>
 #include <cstring>
 #include <utility>
 #include "Log.h"

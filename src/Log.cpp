@@ -1,6 +1,4 @@
 #include <ctime>
-#include <iostream>
-#include <cstring>
 #include "Log.h"
 #include "IPCKeyID.h"
 #include "Utils.h"

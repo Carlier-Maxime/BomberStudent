@@ -1,5 +1,4 @@
 #include <sys/socket.h>
-#include <csignal>
 #include <utility>
 #include "SocketTCP.h"
 #include "BomberStudentExceptions.h"

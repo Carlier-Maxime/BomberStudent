@@ -2,7 +2,6 @@
 #include <sys/shm.h>
 #include "Log.h"
 #include "Utils.h"
-#include "IPCKeyID.h"
 #include "BomberStudentExceptions.h"
 
 SharedMemory::SharedMemory(int IPCKeyID, size_t size) : IPCKeyID(IPCKeyID), shm_id(-1), mem_ptr(nullptr) {

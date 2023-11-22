@@ -1,7 +1,5 @@
 #include <sstream>
 #include <string>
-#include <cstring>
-#include <cstdio>
 #include "PlayerJSON.h"
 
 PlayerJSON::PlayerJSON(std::string nameValue,int posXValue, int posYValue){

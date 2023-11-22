@@ -3,7 +3,6 @@
 #include <sys/ipc.h>
 #include <sys/sem.h>
 #include "Utils.h"
-#include "IPCKeyID.h"
 #include "BomberStudentExceptions.h"
 
 #define ERR (-1)
