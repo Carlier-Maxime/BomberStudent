@@ -16,7 +16,7 @@ int main() {
     socketUDP.bind(address);
     SocketAddress client = SocketAddress("::", 0);
     const struct sigaction act = {
-            [](int){},
+            {[](int){}},
             {},
             0,
             {}
