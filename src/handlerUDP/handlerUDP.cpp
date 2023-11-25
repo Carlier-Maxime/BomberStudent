@@ -11,6 +11,7 @@
 int main() {
     Utils::processName= "Server:UDP";
     Log::open();
+    Log::info("start");
     SocketAddress address = SocketAddress("::1",Config::getServerPort());
     auto socketUDP = SocketUDP(address.getProtocol(), true);
     socketUDP.bind(address);
@@ -32,6 +33,6 @@ int main() {
         Log::info("client found !");
         socketUDP.send(ConstantMessages::serverHello, client);
     }
-    Log::info("shutdown handler UDP");
+    Log::info("stopped");
     Log::close();
 }
