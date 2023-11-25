@@ -5,12 +5,14 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-Server::Server() : address(SocketAddress("::1",Config::getServerPort())), socketTCP(address.getProtocol()) {
+Server::Server() : address(SocketAddress("::1",Config::getServerPort())), socketTCP(address.getProtocol()), clients(), threads() {
     socketTCP.bind(address);
     socketTCP.listen(5);
 }
 
-Server::~Server() = default;
+Server::~Server() {
+    for (auto* socket : clients) delete socket;
+}
 
 void Server::run() {
     int pid;
@@ -29,13 +31,35 @@ void Server::run() {
     sigaction(SIGINT, &act, nullptr);
     for (;;) {
         try {
-            auto socket = socketTCP.accept();
-            Log::info("Client connected - " + socket.getAddress().toString());
+            clients.push_back(socketTCP.accept());
+            Log::info("Client connected - " + clients.back()->getAddress().toString());
+            threads.emplace_back(&Server::handleClient, this, *clients.back());
         } catch (SocketException& e) {
             if (errno==EINTR) break;
             throw e;
         }
     }
-    kill(pid,2);
+    for (auto & thread : threads) pthread_kill(thread.native_handle(), SIGINT);
+    for (auto & thread : threads) thread.join();
+    kill(pid,SIGINT);
     waitpid(pid, nullptr, 0);
+}
+
+void Server::handleClient(const SocketTCP& socket) {
+    try {
+        for (;;) {
+            try {
+                std::string msg = socket.receive();
+                if (msg.empty()) break;
+                Log::info("A new message : "+msg);
+            } catch (SocketException& e) {
+                if (errno==EINTR) break;
+                throw e;
+            }
+        }
+    } catch (std::exception& e) {
+        Log::error(e.what());
+        Log::warning("terminated abnormally");
+    }
+    Log::info("terminate");
 }
