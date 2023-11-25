@@ -22,7 +22,7 @@ SharedMemory::SharedMemory(int IPCKeyID, size_t size) : IPCKeyID(IPCKeyID), shm_
     }
 }
 
-void SharedMemory::del() {
+void SharedMemory::del() { // NOLINT(*-make-member-function-const) - ignore no constant function warning because del shm
     if (shmctl(shm_id, IPC_RMID, nullptr) == -1) Log::warning("Problem during delete shared memory");
 }
 
