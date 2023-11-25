@@ -28,7 +28,8 @@ int main() {
         try {
             while (socketUDP.receive(&client)!=ConstantMessages::lookingServers);
         } catch (SocketException& e) {
-            break;
+            if (errno==EINTR) break;
+            throw e;
         }
         Log::info("client found - "+client.toString());
         socketUDP.send(ConstantMessages::serverHello, client);
