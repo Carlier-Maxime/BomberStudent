@@ -3,6 +3,11 @@
 #include <utility>
 #include "../utils/Config.h"
 
+std::ostream &operator<<(std::ostream &os, const Protocol &protocol) {
+    os << (protocol==Protocol::IPV4 ? "IPV4" : "IPV6");
+    return os;
+}
+
 SocketAddress::SocketAddress(std::string ip, unsigned short port, Protocol protocol) : protocol(protocol), port(port), ip(std::move(ip)) {}
 
 Protocol SocketAddress::getProtocol() const {
@@ -30,7 +35,7 @@ void SocketAddress::setIp(const std::string &newIP) {
 }
 
 std::ostream &operator<<(std::ostream &os, const SocketAddress &address) {
-    os << "protocol: " << (int) address.protocol << " port: " << address.port << " ip: " << address.ip;
+    os << "ip: " << address.ip << " port: " << address.port << " protocol: " << address.protocol;
     return os;
 }
 

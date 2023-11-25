@@ -9,6 +9,8 @@ enum class Protocol {
     IPV6
 };
 
+std::ostream &operator<<(std::ostream &os, const Protocol &protocol);
+
 class SocketAddress {
 private:
     Protocol protocol;
