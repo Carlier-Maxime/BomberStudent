@@ -1,6 +1,7 @@
 #include "SocketAddress.h"
 
 #include <utility>
+#include <sstream>
 #include "../utils/Config.h"
 
 std::ostream &operator<<(std::ostream &os, const Protocol &protocol) {
@@ -35,8 +36,14 @@ void SocketAddress::setIp(const std::string &newIP) {
 }
 
 std::ostream &operator<<(std::ostream &os, const SocketAddress &address) {
-    os << "ip: " << address.ip << " port: " << address.port << " protocol: " << address.protocol;
+    os << "IP: " << address.ip << ", Port: " << address.port << ", Protocol: " << address.protocol;
     return os;
 }
 
 SocketAddress::SocketAddress(std::string ip, unsigned short port) : SocketAddress(std::move(ip), port, Config::getProtocol()) {}
+
+std::string SocketAddress::toString() const {
+    std::ostringstream oss;
+    oss << *this;
+    return std::string(oss.str());
+}
