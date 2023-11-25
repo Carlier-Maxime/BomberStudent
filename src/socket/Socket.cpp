@@ -66,8 +66,8 @@ void Socket::setSocketAddress(SocketAddress* address, struct sockaddr_storage ad
     address->setIp(ipBuffer);
 }
 
-void Socket::bind(const SocketAddress &address) const {
-    struct sockaddr_storage addr = getSockAddrStorage(address);
+void Socket::bind(const SocketAddress &new_address) const {
+    struct sockaddr_storage addr = getSockAddrStorage(new_address);
     if(::bind(socket_fd, (struct sockaddr*)&addr, sizeof(addr)) < 0){
         close(socket_fd);
         throw IPCException("Socket couldn't bind to the port");
@@ -115,4 +115,12 @@ std::string Socket::receive(SocketAddress* src_addr) const {
     }
     setSocketAddress(src_addr, addr);
     return {buffer, static_cast<size_t>(bytesReceived)};
+}
+
+void Socket::setTimeout(unsigned int sec, unsigned int micro_sec) const {
+    struct timeval timeout{
+        sec,
+        micro_sec
+    };
+    setsockopt(socket_fd, SOL_SOCKET, SO_RCVTIMEO, (const char*)&timeout, sizeof(timeout));
 }
