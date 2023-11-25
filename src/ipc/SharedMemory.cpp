@@ -5,7 +5,7 @@
 #include "../utils/BomberStudentExceptions.h"
 
 SharedMemory::SharedMemory(int IPCKeyID, size_t size) : IPCKeyID(IPCKeyID), shm_id(-1), mem_ptr(nullptr) {
-    key_t key = ftok(Utils::getProgramPath().c_str(), IPCKeyID);
+    key_t key = ftok((Utils::getProgramPath().parent_path() / "bomberStudentServer").c_str(), IPCKeyID);
     if (key==-1) {
         throw IPCException("Key generation failed");
     }
