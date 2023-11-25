@@ -124,3 +124,7 @@ void Socket::setTimeout(unsigned int sec, unsigned int micro_sec) const {
     };
     setsockopt(socket_fd, SOL_SOCKET, SO_RCVTIMEO, (const char*)&timeout, sizeof(timeout));
 }
+
+const SocketAddress &Socket::getAddress() const {
+    return address;
+}
