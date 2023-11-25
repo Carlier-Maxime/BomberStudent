@@ -30,7 +30,7 @@ int main() {
         } catch (SocketException& e) {
             break;
         }
-        Log::info("client found !");
+        Log::info("client found - "+client.toString());
         socketUDP.send(ConstantMessages::serverHello, client);
     }
     Log::info("stopped");

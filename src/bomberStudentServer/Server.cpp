@@ -20,9 +20,8 @@ void Server::run() {
         execv(args[0], args);
         throw SystemException("Launching handler UDP failed (exec)");
     }
-    SocketAddress client = SocketAddress("::", 0);
     auto socket = socketTCP.accept();
-    Log::info("client connected !");
+    Log::info("Client connected - " + socket.getAddress().toString());
     kill(pid,2);
     waitpid(pid, nullptr, 0);
 }

@@ -19,9 +19,9 @@ void Client::run() {
         if (errno==EAGAIN || errno==EWOULDBLOCK) goto search_server;
         throw e;
     }
-    Log::info("Server found !");
+    Log::info("Server found - "+server_addr.toString());
     socketTCP.connect(server_addr);
-    Log::info("connected to the server");
+    Log::info("connected to the server - "+server_addr.toString());
 }
 
 Client::~Client() = default;
