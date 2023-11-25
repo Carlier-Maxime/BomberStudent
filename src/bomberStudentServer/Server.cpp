@@ -20,8 +20,22 @@ void Server::run() {
         execv(args[0], args);
         throw SystemException("Launching handler UDP failed (exec)");
     }
-    auto socket = socketTCP.accept();
-    Log::info("Client connected - " + socket.getAddress().toString());
+    const struct sigaction act = {
+            {[](int){}},
+            {},
+            0,
+            {}
+    };
+    sigaction(SIGINT, &act, nullptr);
+    for (;;) {
+        try {
+            auto socket = socketTCP.accept();
+            Log::info("Client connected - " + socket.getAddress().toString());
+        } catch (SocketException& e) {
+            if (errno==EINTR) break;
+            throw e;
+        }
+    }
     kill(pid,2);
     waitpid(pid, nullptr, 0);
 }
