@@ -15,8 +15,6 @@ protected:
 public:
     Socket(Protocol protocol, int type, bool enableBroadcast);
     void bind(const SocketAddress& new_address) const;
-    void send(const std::string& msg, const SocketAddress& dest_addr) const;
-    [[nodiscard]] std::string receive(SocketAddress* src_addr) const;
     void setTimeout(unsigned sec, unsigned micro_sec) const;
     [[nodiscard]] const SocketAddress &getAddress() const;
     ~Socket();

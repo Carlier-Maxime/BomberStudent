@@ -7,8 +7,6 @@
 #include "../utils/Log.h"
 #include "../utils/BomberStudentExceptions.h"
 
-#define BUFFER_SIZE 1024
-
 struct sockaddr_storage Socket::getSockAddrStorage(const SocketAddress& address) {
     struct sockaddr_storage addr{};
     struct sockaddr_in6 ipv6={};
@@ -96,25 +94,6 @@ Socket::Socket(Protocol protocol, int type, bool enableBroadcast) : address("::1
 
 Socket::~Socket() {
     close(socket_fd);
-}
-
-void Socket::send(const std::string& msg, const SocketAddress& dest_addr) const {
-    struct sockaddr_storage addr = getSockAddrStorage(dest_addr);
-    if (sendto(socket_fd, msg.c_str(), msg.length(), 0, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
-        throw SocketException("Socket can't send");
-    }
-}
-
-std::string Socket::receive(SocketAddress* src_addr) const {
-    struct sockaddr_storage addr = getSockAddrStorage(*src_addr);
-    socklen_t src_socket_size = sizeof(addr);
-    char buffer[BUFFER_SIZE];
-    ssize_t bytesReceived = recvfrom(socket_fd, buffer, BUFFER_SIZE, 0, (struct sockaddr*)&addr, &src_socket_size);
-    if (bytesReceived < 0) {
-        throw SocketException("Couldn't receive");
-    }
-    setSocketAddress(src_addr, addr);
-    return {buffer, static_cast<size_t>(bytesReceived)};
 }
 
 void Socket::setTimeout(unsigned int sec, unsigned int micro_sec) const {

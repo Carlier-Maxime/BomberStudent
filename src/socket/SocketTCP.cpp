@@ -3,6 +3,8 @@
 #include "SocketTCP.h"
 #include "../utils/BomberStudentExceptions.h"
 
+#define BUFFER_SIZE 1024
+
 SocketTCP::SocketTCP(Protocol protocol) : Socket(protocol, SOCK_STREAM, false) {}
 
 void SocketTCP::connect(const SocketAddress& address) {
@@ -10,14 +12,14 @@ void SocketTCP::connect(const SocketAddress& address) {
     if (::connect(socket_fd, (struct sockaddr*)&addr, sizeof(addr))==-1) throw SocketException("Socket connection failed");
 }
 
-Socket SocketTCP::accept() {
+SocketTCP* SocketTCP::accept() {
     struct sockaddr_storage addr{};
     socklen_t size;
     int fd;
     if ((fd=::accept(socket_fd, (struct sockaddr*)&addr, &size))==-1) throw SocketException("Socket Acceptation failed");
     SocketAddress address = SocketAddress("::", 0);
     Socket::setSocketAddress(&address, addr);
-    return SocketTCP(fd, address);
+    return new SocketTCP(fd, address);
 }
 
 void SocketTCP::listen(int lenQueue) {
@@ -27,3 +29,18 @@ void SocketTCP::listen(int lenQueue) {
 }
 
 SocketTCP::SocketTCP(int fd, SocketAddress address) : Socket(fd, std::move(address)) {}
+
+void SocketTCP::send(const std::string& msg) const {
+    if (::send(socket_fd, msg.c_str(), msg.length(), 0) < 0) {
+        throw SocketException("Socket can't send");
+    }
+}
+
+std::string SocketTCP::receive() const {
+    char buffer[BUFFER_SIZE];
+    ssize_t bytesReceived = recv(socket_fd, buffer, BUFFER_SIZE, 0);
+    if (bytesReceived < 0) {
+        throw SocketException("Couldn't receive");
+    }
+    return {buffer, static_cast<size_t>(bytesReceived)};
+}
