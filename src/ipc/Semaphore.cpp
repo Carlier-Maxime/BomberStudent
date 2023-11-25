@@ -8,7 +8,7 @@
 #define ERR (-1)
 
 Semaphore::Semaphore(int IPCKeyID, int nb, int value) : nbSem(nb), IPCKeyID(IPCKeyID) {
-    key_t key = ftok(Utils::getProgramPath().c_str(), IPCKeyID);
+    key_t key = ftok((Utils::getProgramPath().parent_path() / "bomberStudentServer").c_str(), IPCKeyID);
     if (key==ERR) {
         throw IPCException("Key generation failed");
     }
