@@ -53,8 +53,10 @@ void Server::handleClient(const SocketTCP& socket) {
                 if (msg.empty()) {
                     Log::info("Client disconnected : "+socket.getAddress().toString());
                     break;
+                } else {
+                    Log::warning("Unknown request : "+msg);
+                    socket.send(ConstantMessages::badRequest);
                 }
-                Log::info("A new message : "+msg);
             } catch (SocketException& e) {
                 if (errno==EINTR) break;
                 throw e;
