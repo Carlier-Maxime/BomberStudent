@@ -50,7 +50,10 @@ void Server::handleClient(const SocketTCP& socket) {
         for (;;) {
             try {
                 std::string msg = socket.receive();
-                if (msg.empty()) break;
+                if (msg.empty()) {
+                    Log::info("Client disconnected : "+socket.getAddress().toString());
+                    break;
+                }
                 Log::info("A new message : "+msg);
             } catch (SocketException& e) {
                 if (errno==EINTR) break;
@@ -59,7 +62,7 @@ void Server::handleClient(const SocketTCP& socket) {
         }
     } catch (std::exception& e) {
         Log::error(e.what());
-        Log::warning("terminated abnormally");
+        Log::warning("terminated abnormally communication with client : "+socket.getAddress().toString());
     }
     Log::info("terminate");
 }
