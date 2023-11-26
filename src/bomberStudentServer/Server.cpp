@@ -2,6 +2,7 @@
 #include "../utils/Log.h"
 #include "../utils/Config.h"
 #include "../utils/BomberStudentExceptions.h"
+#include "../utils/Utils.h"
 #include <unistd.h>
 #include <sys/wait.h>
 
@@ -51,6 +52,7 @@ void Server::run() {
 }
 
 void Server::handleClient(const SocketTCP& socket) {
+    Utils::threadName = "handlingClient";
     try {
         for (;;) {
             try {

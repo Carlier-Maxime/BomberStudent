@@ -38,7 +38,7 @@ std::string Log::getTimestamp() {
 void Log::write(Log::LogType logType, const std::string& msg) {
     mutex.P();
     log_file.seekp(0, std::ios::end);
-    log_file << Log::getTimestamp() << " [" << Utils::processName << "/";
+    log_file << Log::getTimestamp() << " [" << Utils::processName << ":" << Utils::threadName << "/";
     switch (logType) {
         case LogType::Info:
             log_file << "INFO";

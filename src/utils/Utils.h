@@ -8,6 +8,7 @@ class Utils {
 public:
     static std::filesystem::path getProgramPath();
     static std::string processName;
+    static thread_local std::string threadName;
 };
 
 
