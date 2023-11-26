@@ -11,6 +11,5 @@ void Mutex::V() {sem->V(0);}
 bool Mutex::isCreated() {return sem->isCreated();}
 
 Mutex::~Mutex() {
-    if (isDynamic) delete (SemaphoreDynamic*) sem;
-    else delete sem;
+    delete sem;
 }
