@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -pedantic -std=c++17 -lstdc++fs
 LD_FLAGS =
 SRC_DIR = src
 OBJ_DIR = obj
-GLOBAL_DIR = utils socket ipc json
+GLOBAL_DIR = utils socket ipc json game
 OBJS_GLOBAL = $(foreach dir, $(GLOBAL_DIR), $(patsubst $(SRC_DIR)/$(dir)/%.cpp,$(OBJ_DIR)/$(dir)/%.o,$(wildcard $(SRC_DIR)/$(dir)/*.cpp)))
 EXE = bomberStudentServer clientDev
 OBJ_DIRS := $(addprefix $(OBJ_DIR)/, $(EXE) $(GLOBAL_DIR))
