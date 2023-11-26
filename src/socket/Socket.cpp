@@ -13,7 +13,6 @@ struct sockaddr_storage Socket::getSockAddrStorage(const SocketAddress& address)
     struct sockaddr_in ipv4={};
     switch (address.getProtocol()) {
         case Protocol::IPV4:
-            label_ipv4:
             addr.ss_family = AF_INET;
             ipv4.sin_family = AF_INET;
             ipv4.sin_port = htons(address.getPort());
@@ -31,8 +30,7 @@ struct sockaddr_storage Socket::getSockAddrStorage(const SocketAddress& address)
             std::memcpy(&addr, &ipv6, sizeof(struct sockaddr_in6));
             break;
         default:
-            Log::warning("Protocol not supported. Switching to IPv4 protocol");
-            goto label_ipv4;
+            throw SocketException("Protocol not supported");
     }
     return addr;
 }
@@ -59,7 +57,7 @@ void Socket::setSocketAddress(SocketAddress* address, struct sockaddr_storage ad
             }
             break;
         default:
-            Log::error("Protocol not supported. Switching to IPv4 protocol");
+            throw SocketException("Protocol not supported");
     }
     address->setIp(ipBuffer);
 }
