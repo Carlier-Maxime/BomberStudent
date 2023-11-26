@@ -8,6 +8,7 @@ class ConstantMessages {
 public:
     static const std::string lookingServers;
     static const std::string serverHello;
+    static const std::string getMapList;
 };
 
 

@@ -22,6 +22,7 @@ void Client::run() {
     Log::info("Server found - "+server_addr.toString());
     socketTCP.connect(server_addr);
     Log::info("connected to the server - "+server_addr.toString());
+    socketTCP.send(ConstantMessages::getMapList);
 }
 
 Client::~Client() = default;
