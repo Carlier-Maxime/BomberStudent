@@ -1,7 +1,8 @@
 #ifndef BOMBER_STUDENT_GAME_JSON
 #define BOMBER_STUDENT_GAME_JSON
-#define GAME_JSON_STRING_PROTOTYPE "{\"name\":\"%s\",\"nbPlayer\":%d,\"mapId\":%d}"
-#define GAME_JSON_DETAIL_STRING_PROTOTYPE "{\"nbPlayer\":%d,\"mapId\":%d,\"startPos\":\"%d,%d\",\"player\":%s}"
+
+#include "PlayerJSON.h"
+#include "PlayerStateJSON.h"
 
 class GameJSON{
 private:

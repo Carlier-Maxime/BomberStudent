@@ -1,6 +1,12 @@
 #ifndef BOMBER_STUDENT_JSON_MESSAGE
 #define BOMBER_STUDENT_JSON_MESSAGE
 
+#include <vector>
+#include "MapJSON.h"
+#include "GameJSON.h"
+#include "PlayerJSON.h"
+#include "PlayerStateJSON.h"
+
 class JSONMessage{
 private:
 public:
