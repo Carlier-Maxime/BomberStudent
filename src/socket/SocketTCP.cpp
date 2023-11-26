@@ -14,7 +14,7 @@ void SocketTCP::connect(const SocketAddress& address) {
 
 SocketTCP* SocketTCP::accept() {
     struct sockaddr_storage addr{};
-    socklen_t size;
+    socklen_t size = sizeof(addr);
     int fd;
     if ((fd=::accept(socket_fd, (struct sockaddr*)&addr, &size))==-1) throw SocketException("Socket Acceptation failed");
     SocketAddress address = SocketAddress("::", 0);
