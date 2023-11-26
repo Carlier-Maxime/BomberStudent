@@ -29,20 +29,25 @@ void Server::run() {
             {}
     };
     sigaction(SIGINT, &act, nullptr);
-    for (;;) {
-        try {
-            clients.push_back(socketTCP.accept());
-            Log::info("Client connected - " + clients.back()->getAddress().toString());
-            threads.emplace_back(&Server::handleClient, this, *clients.back());
-        } catch (SocketException& e) {
-            if (errno==EINTR) break;
-            throw e;
+    try {
+        for (;;) {
+            try {
+                clients.push_back(socketTCP.accept());
+                Log::info("Client connected - " + clients.back()->getAddress().toString());
+                threads.emplace_back(&Server::handleClient, this, *clients.back());
+            } catch (SocketException& e) {
+                if (errno==EINTR) break;
+                throw e;
+            }
         }
+    } catch (std::exception& e) {
+        Log::error(e.what());
+        Log::warning("shutdown server");
     }
-    for (auto & thread : threads) pthread_kill(thread.native_handle(), SIGINT);
-    for (auto & thread : threads) thread.join();
     kill(pid,SIGINT);
     waitpid(pid, nullptr, 0);
+    for (auto & thread : threads) pthread_kill(thread.native_handle(), SIGINT);
+    for (auto & thread : threads) thread.join();
 }
 
 void Server::handleClient(const SocketTCP& socket) {
