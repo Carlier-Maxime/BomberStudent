@@ -15,6 +15,7 @@ private:
 public:
     Map(unsigned char width, unsigned char height, const std::string& cases);
     [[nodiscard]] std::string toJSON() const;
+    [[nodiscard]] unsigned int getId() const;
     ~Map();
 };
 

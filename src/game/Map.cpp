@@ -41,3 +41,7 @@ std::string Map::toJSON() const {
 Map::~Map() {
     for (auto* case_ : cases) delete case_;
 }
+
+unsigned int Map::getId() const {
+    return id;
+}
