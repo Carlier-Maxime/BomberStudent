@@ -14,22 +14,6 @@ std::string JSONMessage::errorMessage(int statut, const std::string& message) {
 	return errorMessage.str();
 }
 
-std::string JSONMessage::mapsListMessage(std::vector<Map*> maps, int nbMaps) {
-	if(nbMaps==0) return "error";
-	std::ostringstream res;
-	std::ostringstream allMapString;
-	std::string action = "maps/list";
-	
-	
-	for(int i =0 ;i<nbMaps;i++){
-		if(i>0) allMapString << ",";
-		allMapString << maps.at(i)->toJSON();
-	}
-	
-	res << R"({"action":")" << action << R"(", "statut":200,"message":"ok","nbMapsList":)" << nbMaps << ",\"maps\":[" << allMapString.str() << "]}";
-	return res.str();
-}
-
 std::string JSONMessage::gamesListMessage(std::vector<GameJSON*> games, int nbGames) {
 	std::string action = "game/list";
 
