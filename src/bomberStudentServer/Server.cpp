@@ -4,6 +4,7 @@
 #include "../utils/BomberStudentExceptions.h"
 #include "../utils/Utils.h"
 #include "../utils/ConstantMessages.h"
+#include "../game/MapManager.h"
 #include <sys/wait.h>
 
 Server::Server() : address(SocketAddress("::1",Config::getServerPort())), socketUDP(address.getProtocol(), true), socketTCP(address.getProtocol()), clients(), threads() {
@@ -51,8 +52,10 @@ void Server::handleClient(const SocketTCP& socket) {
             try {
                 std::string msg = socket.receive();
                 if (msg.empty()) {
-                    Log::info("Client disconnected : "+socket.getAddress().toString());
+                    Log::info("Client disconnected : " + socket.getAddress().toString());
                     break;
+                } else if (msg==ConstantMessages::getMapList) {
+                    socket.send(MapManager::getInstance()->toJSON());
                 } else {
                     Log::warning("Unknown request : "+msg);
                     socket.send(ConstantMessages::badRequest);
