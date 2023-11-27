@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Client.h"
 #include "../utils/Log.h"
 #include "../utils/Config.h"
@@ -23,7 +24,7 @@ void Client::run() {
     socketTCP.connect(server_addr);
     Log::info("connected to the server - "+server_addr.toString());
     socketTCP.send(ConstantMessages::getMapList);
-    socketTCP.receive();
+    std::cout << socketTCP.receive() << std::endl;
 }
 
 Client::~Client() = default;
