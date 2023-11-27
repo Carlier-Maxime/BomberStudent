@@ -4,7 +4,7 @@
 #include "PlayerStateJSON.h"
 #include "PlayerJSON.h"
 #include "GameJSON.h"
-#include "MapJSON.h"
+#include "../game/Map.h"
 #include "JSONMessage.h"
 
 
@@ -14,7 +14,7 @@ std::string JSONMessage::errorMessage(int statut, const std::string& message) {
 	return errorMessage.str();
 }
 
-std::string JSONMessage::mapsListMessage(std::vector<MapJSON*> maps, int nbMaps) {
+std::string JSONMessage::mapsListMessage(std::vector<Map*> maps, int nbMaps) {
 	if(nbMaps==0) return "error";
 	std::ostringstream res;
 	std::ostringstream allMapString;
