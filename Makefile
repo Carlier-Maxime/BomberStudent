@@ -1,7 +1,7 @@
 CC = g++
 LD = g++
-CFLAGS = -Wall -Wextra -pedantic -std=c++17 -lstdc++fs
-LD_FLAGS =
+CFLAGS = -Wall -Wextra -pedantic -std=c++17 -pthread
+LD_FLAGS = -lpthread -lstdc++fs
 SRC_DIR = src
 OBJ_DIR = obj
 GLOBAL_DIR = utils socket ipc json game
