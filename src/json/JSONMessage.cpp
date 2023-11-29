@@ -2,7 +2,6 @@
 #include <string>
 #include <sstream>
 #include "GameJSON.h"
-#include "../game/Map.h"
 #include "JSONMessage.h"
 
 
@@ -10,27 +9,6 @@ std::string JSONMessage::errorMessage(int statut, const std::string& message) {
 	std::ostringstream errorMessage;
 	errorMessage << "{\"statut\":"<<statut<<R"(,"message":")"<<message<<"\"}";
 	return errorMessage.str();
-}
-
-std::string JSONMessage::gamesListMessage(std::vector<GameJSON*> games, int nbGames) {
-	std::string action = "game/list";
-
-	if(nbGames>0){
-		std::ostringstream allGameString;
-		for(int i =0 ;i<nbGames;i++){
-			if(i>0) allGameString << ",";
-			
-			allGameString << games.at(i)->toJSON();
-		}
-		std::ostringstream res;
-		res << R"({"action":")" << action << R"(", "statut":200,"message":"ok","nbGamesList":)"<<nbGames<<"\"games\":[" << allGameString.str() <<"]}";
-		return res.str();
-	}else{
-		std::ostringstream res;
-		res << R"({"action":")" << action << R"(", "statut":200,"message":"ok","nbGamesList":)"<<nbGames<<"}";
-		return res.str();
-	}
-	
 }
 
 std::string JSONMessage::gameCreatedMessage(GameJSON* game) {

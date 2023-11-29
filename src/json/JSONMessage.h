@@ -10,8 +10,6 @@ class JSONMessage{
 private:
 public:
 	static std::string errorMessage(int statut, const std::string& message) ;
-	static std::string mapsListMessage(std::vector<Map*> maps, int nbMaps) ;
-	static std::string gamesListMessage(std::vector<GameJSON*> maps, int nbGames) ;
 	static std::string gameCreatedMessage(GameJSON* game) ;
 	static std::string joinGameMessage(GameJSON* game) ;
 	static std::string playerPositionUpdateMessage(Player* player, const std::string& dir) ;
