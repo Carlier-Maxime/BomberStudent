@@ -1,8 +1,6 @@
 #include <vector>
 #include <string>
 #include <sstream>
-#include "PlayerStateJSON.h"
-#include "PlayerJSON.h"
 #include "GameJSON.h"
 #include "../game/Map.h"
 #include "JSONMessage.h"
@@ -61,7 +59,7 @@ std::string JSONMessage::joinGameMessage(GameJSON* game) {
 		json << R"({"action":")"<< action <<R"(","statut":")" << statut << R"(","message":")" << msg << "\"}";
 		return json.str();
 	}
-	std::vector<PlayerJSON*> players = game->getPlayers();
+	std::vector<Player*> players = game->getPlayers();
 	u_int nbPlayers = players.size();
 	int statut = 201;
 	std::string msg = "game joined";
@@ -81,14 +79,14 @@ std::string JSONMessage::joinGameMessage(GameJSON* game) {
 
 }
 
-std::string JSONMessage::playerPositionUpdateMessage(PlayerJSON* player, const std::string& dir) {
+std::string JSONMessage::playerPositionUpdateMessage(Player* player, const std::string& dir) {
 	std::string name = player->getName();
 	std::ostringstream message;
 	message << "POST player/position/update\n{\"player\":\""<< name << R"(","dir":")"<< dir <<"\"}";
 	return message.str();
 }
 
-std::string JSONMessage::updatePoseBombPlayerMessage(PlayerStateJSON* playerState, int posX, int posY) {
+std::string JSONMessage::updatePoseBombPlayerMessage(Player* playerState, int posX, int posY) {
 	std::string action = "attack/bomb";
 	int statut = 201;
 	std::ostringstream msg;
@@ -113,14 +111,14 @@ std::string JSONMessage::alertBombExplodedMessage(int posX, int posY, const std:
 	return json.str();
 }
 
-std::string JSONMessage::alertAttackAffectMessage(PlayerStateJSON* playerState) {
+std::string JSONMessage::alertAttackAffectMessage(Player* playerState) {
 	std::string playerStateJSONString = playerState->toJSON();
 	
 	std::ostringstream json;
 	json << "POST attack/affect\n" << playerStateJSONString;
 	return json.str();
 }
-std::string JSONMessage::bonusUpdateMessage(PlayerStateJSON* playerState) {
+std::string JSONMessage::bonusUpdateMessage(Player* playerState) {
 	std::string action = "object/new";
 	std::string msg="ok";
 	int statut = 201;

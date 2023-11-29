@@ -4,8 +4,7 @@
 #include <vector>
 #include "../game/Map.h"
 #include "GameJSON.h"
-#include "PlayerJSON.h"
-#include "PlayerStateJSON.h"
+#include "../game/Player.h"
 
 class JSONMessage{
 private:
@@ -15,12 +14,12 @@ public:
 	static std::string gamesListMessage(std::vector<GameJSON*> maps, int nbGames) ;
 	static std::string gameCreatedMessage(GameJSON* game) ;
 	static std::string joinGameMessage(GameJSON* game) ;
-	static std::string playerPositionUpdateMessage(PlayerJSON* player, const std::string& dir) ;
-	static std::string updatePoseBombPlayerMessage(PlayerStateJSON* playerState, int posX, int posY) ;
+	static std::string playerPositionUpdateMessage(Player* player, const std::string& dir) ;
+	static std::string updatePoseBombPlayerMessage(Player* playerState, int posX, int posY) ;
 	static std::string alertBombPosedMessage(int posX, int posY, const std::string& type) ;
 	static std::string alertBombExplodedMessage(int posX, int posY, const std::string& type, int impactDist, const std::string& map) ;
-	static std::string alertAttackAffectMessage(PlayerStateJSON* playerState) ;
-	static std::string bonusUpdateMessage(PlayerStateJSON* playerState) ;
+	static std::string alertAttackAffectMessage(Player* playerState) ;
+	static std::string bonusUpdateMessage(Player* playerState) ;
 };
 
 #endif
