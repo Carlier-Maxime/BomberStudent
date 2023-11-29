@@ -27,6 +27,8 @@ void Client::run() {
     std::cout << socketTCP.receive() << std::endl;
     socketTCP.send(ConstantMessages::getGameList);
     std::cout << socketTCP.receive() << std::endl;
+    socketTCP.send(ConstantMessages::postGameCreate+"\n{\"name\":\"game1\",\"mapId\":0}");
+    std::cout << socketTCP.receive() << std::endl;
 }
 
 Client::~Client() = default;

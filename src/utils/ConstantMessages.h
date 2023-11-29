@@ -11,6 +11,7 @@ public:
     static const std::string getMapList;
     static const std::string badRequest;
     static const std::string getGameList;
+    static const std::string postGameCreate;
 };
 
 

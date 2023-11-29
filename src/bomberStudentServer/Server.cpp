@@ -59,6 +59,9 @@ void Server::handleClient(const SocketTCP& socket) {
                     socket.send(MapManager::getInstance()->toJSON());
                 } else if (msg==ConstantMessages::getGameList) {
                     socket.send(GameManager::getInstance()->toJSON());
+                } else if (msg.compare(0, ConstantMessages::postGameCreate.size(), ConstantMessages::postGameCreate)==0) {
+                    Log::warning("request not implemented : "+msg);
+                    socket.send(ConstantMessages::badRequest);
                 } else {
                     Log::warning("Unknown request : "+msg);
                     socket.send(ConstantMessages::badRequest);
