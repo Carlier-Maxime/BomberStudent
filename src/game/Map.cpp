@@ -32,7 +32,7 @@ Map::Map(unsigned char width, unsigned char height, const std::string& cases) : 
 
 std::string Map::toJSON() const {
     std::ostringstream json;
-    json << "{\"id\":" << id << ",\"width\":" << width << ",\"height\":" << height << R"(,"content":")";
+    json << "{\"id\":" << id << ",\"width\":" << std::to_string(width) << ",\"height\":" << std::to_string(height) << R"(,"content":")";
     for (auto* case_ : cases) json << case_->getType();
     json << "\"}";;
     return json.str();
