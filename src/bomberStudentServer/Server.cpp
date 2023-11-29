@@ -7,6 +7,7 @@
 #include "../game/MapManager.h"
 #include "../game/GameManager.h"
 #include <sys/wait.h>
+#include <nlohmann/json.hpp>
 
 Server::Server() : address(SocketAddress("::1",Config::getServerPort())), socketUDP(address.getProtocol(), true), socketTCP(address.getProtocol()), clients(), threads() {
     socketUDP.bind(address);
@@ -61,6 +62,11 @@ void Server::handleClient(const SocketTCP& socket) {
                     socket.send(GameManager::getInstance()->toJSON());
                 } else if (msg.compare(0, ConstantMessages::postGameCreate.size(), ConstantMessages::postGameCreate)==0) {
                     Log::warning("request not implemented : "+msg);
+                    nlohmann::json json = nlohmann::json::parse(msg.substr(ConstantMessages::postGameCreate.size()));
+                    std::string name = json["name"];
+                    int id = json["mapId"];
+                    Log::info("name : "+name);
+                    Log::info("mapId : "+std::to_string(id));
                     socket.send(ConstantMessages::badRequest);
                 } else {
                     Log::warning("Unknown request : "+msg);
