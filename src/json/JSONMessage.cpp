@@ -11,6 +11,12 @@ std::string JSONMessage::errorMessage(int statut, const std::string& message) {
 	return errorMessage.str();
 }
 
+std::string JSONMessage::actionMessage(const std::string& action, int statut, const std::string& message, const std::string& jsonContent) {
+    std::ostringstream json;
+    json << R"({"action":")" << action << R"(","statut":)" << statut << R"(,"message":")" << message << "\"," << jsonContent << '}';
+    return json.str();
+}
+
 std::string JSONMessage::gameCreatedMessage(GameJSON* game) {
 	std::string action = "game/create"; 
 	if(game==nullptr){
