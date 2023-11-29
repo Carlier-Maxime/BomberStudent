@@ -5,6 +5,7 @@
 #include "../utils/Utils.h"
 #include "../utils/ConstantMessages.h"
 #include "../game/MapManager.h"
+#include "../game/GameManager.h"
 #include <sys/wait.h>
 
 Server::Server() : address(SocketAddress("::1",Config::getServerPort())), socketUDP(address.getProtocol(), true), socketTCP(address.getProtocol()), clients(), threads() {
@@ -56,6 +57,8 @@ void Server::handleClient(const SocketTCP& socket) {
                     break;
                 } else if (msg==ConstantMessages::getMapList) {
                     socket.send(MapManager::getInstance()->toJSON());
+                } else if (msg==ConstantMessages::getGameList) {
+                    socket.send(GameManager::getInstance()->toJSON());
                 } else {
                     Log::warning("Unknown request : "+msg);
                     socket.send(ConstantMessages::badRequest);

@@ -10,6 +10,7 @@ public:
     static const std::string serverHello;
     static const std::string getMapList;
     static const std::string badRequest;
+    static const std::string getGameList;
 };
 
 

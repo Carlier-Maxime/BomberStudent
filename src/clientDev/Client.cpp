@@ -25,6 +25,8 @@ void Client::run() {
     Log::info("connected to the server - "+server_addr.toString());
     socketTCP.send(ConstantMessages::getMapList);
     std::cout << socketTCP.receive() << std::endl;
+    socketTCP.send(ConstantMessages::getGameList);
+    std::cout << socketTCP.receive() << std::endl;
 }
 
 Client::~Client() = default;
