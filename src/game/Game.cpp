@@ -10,3 +10,7 @@ std::string Game::toJSON() const{
     json << R"({"name":")" << name << R"(","nbPlayer":)"<< players.size() << ",\"mapId\":" << map.getId() << "}";
     return json.str();
 }
+
+const std::string &Game::getName() const {
+    return name;
+}

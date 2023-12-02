@@ -9,6 +9,7 @@ class Game {
 public:
     Game(std::string name, const Map &map);
     [[nodiscard]] std::string toJSON() const;
+    [[nodiscard]] const std::string &getName() const;
 private:
     std::string name;
     Map map;
