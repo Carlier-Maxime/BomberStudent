@@ -1,4 +1,5 @@
 #include <sstream>
+#include <algorithm>
 #include "GameManager.h"
 #include "../json/JSONMessage.h"
 
@@ -20,6 +21,16 @@ std::string GameManager::toJSON() {
         json << ']';
     }
     return JSONMessage::actionMessage("game/list",200,"ok",json.str());
+}
+
+bool GameManager::isExist(const std::string& name) {
+    return std::any_of(games.begin(), games.end(), [&name](const auto& game) {
+        return game.getName() == name;
+    });
+}
+
+void GameManager::addGame(const std::string& name, const Map& map) {
+    games.emplace_back(name, map);
 }
 
 GameManager::GameManager() = default;
