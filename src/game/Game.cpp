@@ -14,3 +14,7 @@ std::string Game::toJSON() const{
 const std::string &Game::getName() const {
     return name;
 }
+
+void Game::addPlayer(const Player &player) {
+    players.push_back(player);
+}
