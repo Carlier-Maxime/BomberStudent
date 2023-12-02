@@ -12,6 +12,8 @@ private:
     MapManager();
 public:
     static MapManager* getInstance();
+    [[nodiscard]] bool isExist(unsigned int mapId);
+    Map get(unsigned int mapId);
     std::string toJSON();
 };
 
