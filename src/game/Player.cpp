@@ -2,8 +2,61 @@
 
 #include <utility>
 #include <sstream>
+#include <random>
+#include "../utils/Utils.h"
 
-Player::Player(std::string name) : name(std::move(name)), speed(1), life(100), nbClassicBomb(2), nbMine(0),
+const std::string Player::possibleNames[] = {
+        "Anis",
+        "Antoine",
+        "Arthur",
+        "Axel",
+        "Benjamin",
+        "Bernard",
+        "Cameron",
+        "Chaker",
+        "Christ",
+        "Cyrille",
+        "Elliot",
+        "Emeline",
+        "Enzo",
+        "Godwin",
+        "Guillaume",
+        "Hadrien",
+        "Hana",
+        "Hugo",
+        "Ismael",
+        "Ismail",
+        "James",
+        "Jean-Marie",
+        "Leo",
+        "Lucas",
+        "Marc",
+        "Mathias",
+        "Maxime",
+        "Nicolas",
+        "Patrice",
+        "Patrick",
+        "Paul",
+        "Pierre",
+        "Rabah",
+        "Rayane",
+        "Remi",
+        "Theo",
+        "Thi",
+        "Thomas",
+        "Ugo",
+        "Walid",
+        "William",
+        "Yann",
+        "Youcef",
+        "Zhaoyang"
+};
+
+std::string Player::randomNames() {
+    return Player::possibleNames[Utils::getRandomNumber(0, 43)];
+}
+
+Player::Player() : name(randomNames()), speed(1), life(100), nbClassicBomb(2), nbMine(0),
 nbRemoteBomb(1), impactDist(2), posX(0), posY(0), invincible(false) {}
 
 std::string Player::toJSON() const {
