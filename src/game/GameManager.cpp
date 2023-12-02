@@ -29,8 +29,14 @@ bool GameManager::isExist(const std::string& name) {
     });
 }
 
-void GameManager::addGame(const std::string& name, const Map& map) {
+Game* GameManager::addGame(const std::string& name, const Map& map) {
     games.emplace_back(name, map);
+    return &(*games.end());
 }
 
 GameManager::GameManager() = default;
+
+Game* GameManager::getGame(const std::string &name) {
+    for (auto & game : games) if (game.getName()==name) return &game;
+    return nullptr;
+}

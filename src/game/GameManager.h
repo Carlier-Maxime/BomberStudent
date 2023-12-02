@@ -14,7 +14,8 @@ public:
     static GameManager* getInstance();
     std::string toJSON();
     bool isExist(const std::string& name);
-    void addGame(const std::string& name, const Map& map);
+    Game* addGame(const std::string& name, const Map& map);
+    Game* getGame(const std::string& name);
 };
 
 
