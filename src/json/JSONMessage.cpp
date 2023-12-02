@@ -13,7 +13,7 @@ std::string JSONMessage::errorMessage(int statut, const std::string& message) {
 
 std::string JSONMessage::actionMessage(const std::string& action, int statut, const std::string& message, const std::string& jsonContent) {
     std::ostringstream json;
-    json << R"({"action":")" << action << R"(","statut":)" << statut << R"(,"message":")" << message << "\"," << jsonContent << '}';
+    json << R"({"action":")" << action << R"(","statut":)" << statut << R"(,"message":")" << message << (jsonContent.empty() ? "\"" : "\",") << jsonContent << '}';
     return json.str();
 }
 
