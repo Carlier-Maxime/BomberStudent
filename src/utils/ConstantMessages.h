@@ -12,6 +12,7 @@ public:
     static const std::string badRequest;
     static const std::string getGameList;
     static const std::string postGameCreate;
+    static const std::string failedCreateGame;
 };
 
 
