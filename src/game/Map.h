@@ -6,12 +6,6 @@
 #include <string>
 #include "Case.h"
 
-#define SPLIT_POS(pos, x, y) \
-    do { \
-        y = static_cast<uint8_t>((pos) >> 8); \
-        x = static_cast<uint8_t>((pos) & 0xFF); \
-    } while(0)
-
 class Map {
 private:
     static unsigned int nextID;
