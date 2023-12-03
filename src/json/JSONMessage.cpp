@@ -3,6 +3,7 @@
 #include <sstream>
 #include "GameJSON.h"
 #include "JSONMessage.h"
+#include "../utils/Utils.h"
 
 
 std::string JSONMessage::errorMessage(int statut, const std::string& message) {
@@ -15,23 +16,6 @@ std::string JSONMessage::actionMessage(const std::string& action, int statut, co
     std::ostringstream json;
     json << R"({"action":")" << action << R"(","statut":)" << statut << R"(,"message":")" << message << (jsonContent.empty() ? "\"" : "\",") << jsonContent << '}';
     return json.str();
-}
-
-std::string JSONMessage::gameCreatedMessage(GameJSON* game) {
-	std::string action = "game/create"; 
-	if(game==nullptr){
-		std::string msg = "cannot create game";
-		std::ostringstream json;
-		json << R"({"action":")" << action << R"(","statut":501,"message":")" << msg << "\"}";
-
-		return json.str();
-	}
-	std::string msg = "game created";
-	std::string gameJSONString = game->toDetailJSON();
-	std::ostringstream json;
-	json << R"({"action":")" << action << R"(","statut":201,"message":")" << msg << "\"," << gameJSONString.substr(1,gameJSONString.size()-2)<<"}" ;
-		
-	return json.str();
 }
 
 std::string JSONMessage::joinGameMessage(GameJSON* game) {

@@ -11,7 +11,6 @@ private:
 public:
 	static std::string errorMessage(int statut, const std::string& message);
     static std::string actionMessage(const std::string& action, int statut, const std::string& message, const std::string& jsonContent);
-	static std::string gameCreatedMessage(GameJSON* game);
 	static std::string joinGameMessage(GameJSON* game);
 	static std::string playerPositionUpdateMessage(Player* player, const std::string& dir);
 	static std::string updatePoseBombPlayerMessage(Player* playerState, int posX, int posY);
