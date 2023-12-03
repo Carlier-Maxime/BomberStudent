@@ -14,6 +14,7 @@ private:
     std::vector<Case*> cases;
 public:
     Map(unsigned char width, unsigned char height, const std::string& cases);
+    Map(const Map& other);
     [[nodiscard]] std::string toJSON() const;
     [[nodiscard]] unsigned int getId() const;
     [[nodiscard]] u_int16_t getRandomAvailablePos() const;
