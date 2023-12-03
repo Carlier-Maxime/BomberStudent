@@ -15,6 +15,16 @@ const std::string &Game::getName() const {
     return name;
 }
 
-void Game::addPlayer(const Player &player) {
-    players.push_back(player);
+Player* Game::newPlayer() {
+    players.emplace_back(this);
+    u_int16_t pos = map.getRandomAvailablePos();
+    u_char x, y;
+    SPLIT_POS(pos,x,y);
+    Player* player = &(*players.end());
+    player->move(x,y);
+    return player;
+}
+
+bool Game::isAccessiblePos(unsigned char x, unsigned char y) {
+    return map.isAccessiblePos(x, y);
 }

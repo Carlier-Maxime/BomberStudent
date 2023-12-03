@@ -10,7 +10,8 @@ public:
     Game(std::string name, const Map &map);
     [[nodiscard]] std::string toJSON() const;
     [[nodiscard]] const std::string &getName() const;
-    void addPlayer(const Player& player);
+    Player* newPlayer();
+    bool isAccessiblePos(unsigned char x, unsigned char y);
 private:
     std::string name;
     Map map;
