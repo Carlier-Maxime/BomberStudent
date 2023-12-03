@@ -50,12 +50,12 @@ unsigned int Map::getId() const {
 u_int16_t Map::getRandomAvailablePos() const {
     std::vector<u_int> availablePos;
     for (unsigned int i=0; i<cases.size(); i++) if (cases[i]->isAccessible()) availablePos.push_back(i);
-    u_int index = availablePos[Utils::getRandomNumber(0, cases.size()-1)];
+    u_int index = availablePos[Utils::getRandomNumber(0, availablePos.size()-1)];
     u_char y = index / width;
     u_char x = index % width;
     return MERGE_POS(x,y);
 }
 
 bool Map::isAccessiblePos(unsigned char x, unsigned char y) {
-    return cases[MERGE_POS(x,y)]->isAccessible();
+    return cases[static_cast<u_int>(y)*width+static_cast<u_int>(x)]->isAccessible();
 }
