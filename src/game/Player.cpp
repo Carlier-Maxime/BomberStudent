@@ -1,9 +1,8 @@
 #include "Player.h"
 
-#include <utility>
 #include <sstream>
-#include <random>
 #include "../utils/Utils.h"
+#include "Game.h"
 
 const std::string Player::possibleNames[] = {
         "Anis",
@@ -56,7 +55,7 @@ std::string Player::randomNames() {
     return Player::possibleNames[Utils::getRandomNumber(0, 43)];
 }
 
-Player::Player() : name(randomNames()), speed(1), life(100), nbClassicBomb(2), nbMine(0),
+Player::Player(Game* game) : game(game), name(randomNames()), speed(1), life(100), nbClassicBomb(2), nbMine(0),
 nbRemoteBomb(1), impactDist(2), posX(0), posY(0), invincible(false) {}
 
 std::string Player::toJSON() const {
@@ -75,4 +74,10 @@ std::string Player::toJSONState() const {
 
 const std::string &Player::getName() const {
     return name;
+}
+
+void Player::move(unsigned char x, unsigned char y) {
+    if (game && !game->isAccessiblePos(x, y)) return;
+    posY=y;
+    posX=x;
 }
