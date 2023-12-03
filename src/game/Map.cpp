@@ -5,6 +5,7 @@
 #include "CaseWall.h"
 #include "CaseUnbreakable.h"
 #include "../utils/Log.h"
+#include "../utils/Utils.h"
 
 unsigned int Map::nextID = 0;
 
@@ -34,7 +35,7 @@ std::string Map::toJSON() const {
     std::ostringstream json;
     json << "{\"id\":" << id << ",\"width\":" << std::to_string(width) << ",\"height\":" << std::to_string(height) << R"(,"content":")";
     for (auto* case_ : cases) json << case_->getType();
-    json << "\"}";;
+    json << "\"}";
     return json.str();
 }
 
@@ -44,4 +45,13 @@ Map::~Map() {
 
 unsigned int Map::getId() const {
     return id;
+}
+
+u_int16_t Map::getRandomAvailablePos() const {
+    std::vector<u_int> availablePos;
+    for (unsigned int i=0; i<cases.size(); i++) if (cases[i]->isAccessible()) availablePos.push_back(i);
+    u_int index = availablePos[Utils::getRandomNumber(0, cases.size()-1)];
+    u_char y = index / width;
+    u_char x = index % width;
+    return (static_cast<u_int16_t>(y)<<8) | x;
 }
