@@ -31,7 +31,7 @@ bool GameManager::isExist(const std::string& name) {
 
 Game* GameManager::addGame(const std::string& name, const Map& map) {
     games.emplace_back(name, map);
-    return &(*games.end());
+    return &games.back();
 }
 
 GameManager::GameManager() = default;
