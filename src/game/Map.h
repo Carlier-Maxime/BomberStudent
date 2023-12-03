@@ -6,7 +6,7 @@
 #include <string>
 #include "Case.h"
 
-#define SPLIT_POS(pos, y, x) \
+#define SPLIT_POS(pos, x, y) \
     do { \
         y = static_cast<uint8_t>((pos) >> 8); \
         x = static_cast<uint8_t>((pos) & 0xFF); \
@@ -23,6 +23,7 @@ public:
     [[nodiscard]] std::string toJSON() const;
     [[nodiscard]] unsigned int getId() const;
     [[nodiscard]] u_int16_t getRandomAvailablePos() const;
+    bool isAccessiblePos(unsigned char x, unsigned char y);
     ~Map();
 };
 

@@ -55,3 +55,7 @@ u_int16_t Map::getRandomAvailablePos() const {
     u_char x = index % width;
     return (static_cast<u_int16_t>(y)<<8) | x;
 }
+
+bool Map::isAccessiblePos(unsigned char x, unsigned char y) {
+    return cases[(static_cast<u_int16_t>(y)<<8) | x]->isAccessible();
+}
