@@ -35,6 +35,6 @@ bool MapManager::isExist(unsigned int mapId) {
     return maps.size()>mapId && maps[mapId].getId()==mapId;
 }
 
-Map MapManager::get(unsigned int mapId) {
+const Map& MapManager::get(unsigned int mapId) {
     return maps[mapId];
 }
