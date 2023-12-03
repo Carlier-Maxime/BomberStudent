@@ -63,7 +63,6 @@ void Server::handleClient(const SocketTCP& socket) {
                 } else if (msg==ConstantMessages::getGameList) {
                     socket.send(GameManager::getInstance()->toJSON());
                 } else if (msg.compare(0, ConstantMessages::postGameCreate.size(), ConstantMessages::postGameCreate)==0) {
-                    Log::warning("request not implemented : "+msg);
                     nlohmann::json json = nlohmann::json::parse(msg.substr(ConstantMessages::postGameCreate.size()));
                     std::string name = json["name"];
                     int id = json["mapId"];
