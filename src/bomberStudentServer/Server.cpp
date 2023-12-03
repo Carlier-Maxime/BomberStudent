@@ -49,6 +49,8 @@ void Server::run() {
 
 void Server::handleClient(const SocketTCP& socket) {
     Utils::threadName = "handlingClient";
+    Player* player = nullptr;
+    Game* game = nullptr;
     try {
         for (;;) {
             try {
@@ -65,9 +67,25 @@ void Server::handleClient(const SocketTCP& socket) {
                     nlohmann::json json = nlohmann::json::parse(msg.substr(ConstantMessages::postGameCreate.size()));
                     std::string name = json["name"];
                     int id = json["mapId"];
-                    Log::info("name : "+name);
-                    Log::info("mapId : "+std::to_string(id));
-                    socket.send(ConstantMessages::badRequest);
+                    if (!MapManager::getInstance()->isExist(id)) {
+                        Log::warning("Unknown map id: "+std::to_string(id));
+                        socket.send(ConstantMessages::failedCreateGame);
+                    }
+                    if (GameManager::getInstance()->isExist(name)){
+                        Log::warning("game name is used: "+name);
+                        socket.send(ConstantMessages::failedCreateGame);
+                    }
+                    game = GameManager::getInstance()->addGame(name, MapManager::getInstance()->get(id));
+                    if (!game) {
+                        Log::warning("game creation failed");
+                        socket.send(ConstantMessages::failedCreateGame);
+                    }
+                    player = game->newPlayer();
+                    if (!player) {
+                        Log::warning("player creation failed");
+                        socket.send(ConstantMessages::failedCreateGame);
+                    }
+                    socket.send(Game::gameCreationJSON(*player, id));
                 } else {
                     Log::warning("Unknown request : "+msg);
                     socket.send(ConstantMessages::badRequest);
