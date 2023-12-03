@@ -20,6 +20,7 @@ public:
     [[nodiscard]] std::string toJSON() const;
     [[nodiscard]] std::string toJSONState() const;
     [[nodiscard]] const std::string &getName() const;
+    [[nodiscard]] u_int16_t getPos() const;
     void move(unsigned char x, unsigned char y);
 };
 

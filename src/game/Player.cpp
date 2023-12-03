@@ -81,3 +81,7 @@ void Player::move(unsigned char x, unsigned char y) {
     posY=y;
     posX=x;
 }
+
+u_int16_t Player::getPos() const {
+    return MERGE_POS(posX, posY);
+}
