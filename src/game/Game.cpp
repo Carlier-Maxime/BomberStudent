@@ -22,7 +22,7 @@ Player* Game::newPlayer() {
     u_int16_t pos = map.getRandomAvailablePos();
     u_char x, y;
     SPLIT_POS(pos,x,y);
-    Player* player = &(*players.end());
+    Player* player = &players.back();
     player->move(x,y);
     return player;
 }
