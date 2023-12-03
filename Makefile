@@ -1,6 +1,9 @@
 CC = g++
 LD = g++
 CFLAGS = -Wall -Wextra -pedantic -std=c++17 -pthread
+ifdef DEBUG
+    CFLAGS += -g
+endif
 LD_FLAGS = -lpthread -lstdc++fs
 SRC_DIR = src
 OBJ_DIR = obj
