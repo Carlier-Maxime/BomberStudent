@@ -9,6 +9,8 @@ public:
     [[nodiscard]] char getType() const override;
     [[nodiscard]] bool isAccessible() const override;
 
+    Case *clone() const override;
+
 public:
     static const char type = '*';
 };

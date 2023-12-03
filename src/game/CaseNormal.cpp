@@ -7,3 +7,7 @@ char CaseNormal::getType() const {
 bool CaseNormal::isAccessible() const {
     return true;
 }
+
+Case *CaseNormal::clone() const {
+    return new CaseNormal(*this);
+}

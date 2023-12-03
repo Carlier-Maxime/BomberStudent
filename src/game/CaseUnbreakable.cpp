@@ -7,3 +7,7 @@ char CaseUnbreakable::getType() const {
 bool CaseUnbreakable::isAccessible() const {
     return false;
 }
+
+Case *CaseUnbreakable::clone() const {
+    return new CaseUnbreakable(*this);
+}

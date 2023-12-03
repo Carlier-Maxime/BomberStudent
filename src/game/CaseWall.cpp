@@ -7,3 +7,7 @@ char CaseWall::getType() const {
 bool CaseWall::isAccessible() const {
     return false;
 }
+
+Case *CaseWall::clone() const {
+    return new CaseWall(*this);
+}
