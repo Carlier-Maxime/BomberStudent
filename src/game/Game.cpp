@@ -31,24 +31,21 @@ bool Game::isAccessiblePos(unsigned char x, unsigned char y) {
     return map.isAccessiblePos(x, y);
 }
 
-std::string Game::gameCreationJSON(const Player &player, unsigned int mapId) {
+std::string Game::jsonCreateOrJoinGame(const Player &player) {
     std::ostringstream json;
     unsigned char posX, posY;
     SPLIT_POS(player.getPos(), posX, posY);
-    json << R"("nbPlayers":0,"mapId":)"<<mapId<<R"(,"startPos":")"<<std::to_string(posX)<<','<<std::to_string(posY)<<R"(","player":)"<<player.toJSONState();
-    return JSONMessage::actionMessage("game/create", 201, "game created", json.str());
-}
-
-std::string Game::gameJoinJSON(const Player &player) {
-    std::ostringstream json;
-    unsigned char posX, posY;
-    SPLIT_POS(player.getPos(), posX, posY);
-    json << R"("nbPlayers":)"<<players.size()-1<<R"(","mapId":)"<<map.getId()<<R"(,"players":[)";
-    for (u_int i=0; i<players.size(); i++) {
-        if (players[i].getPos()==player.getPos()) continue;
-        if (i) json << ',';
-        json << players[i].toJSON();
+    u_int nbPlayers = players.size()-1;
+    json << R"("nbPlayers":)"<<nbPlayers<<R"(","mapId":)"<<map.getId();
+    if (nbPlayers) {
+        json << R"(,"players":[)";
+        for (u_int i=0; i<players.size(); i++) {
+            if (players[i].getPos()==player.getPos()) continue;
+            if (i) json << ',';
+            json << players[i].toJSON();
+        }
+        json << ']';
     }
-    json << R"(],"startPos":")"<<std::to_string(posX)<<','<<std::to_string(posY)<<R"(","player":)"<<player.toJSONState();
-    return JSONMessage::actionMessage("game/join", 201, "game joined", json.str());
+    json << R"(,"startPos":")"<<std::to_string(posX)<<','<<std::to_string(posY)<<R"(","player":)"<<player.toJSONState();
+    return JSONMessage::actionMessage(nbPlayers ? "game/join" : "game/create", 201, nbPlayers ? "game joined" : "game created", json.str());
 }
