@@ -85,6 +85,20 @@ void Server::handleClient(const SocketTCP& socket) {
                         socket.send(ConstantMessages::failedCreateGame);
                     }
                     socket.send(Game::gameCreationJSON(*player, id));
+                } else if (msg.compare(0, ConstantMessages::postGameJoin.size(), ConstantMessages::postGameJoin)==0) {
+                    nlohmann::json json = nlohmann::json::parse(msg.substr(ConstantMessages::postGameJoin.size()));
+                    std::string name = json["name"];
+                    game = GameManager::getInstance()->getGame(name);
+                    if (!game) {
+                        Log::warning("game name not exist");
+                        socket.send(ConstantMessages::failedJoinGame);
+                    }
+                    player = game->newPlayer();
+                    if (!player) {
+                        Log::warning("player creation failed");
+                        socket.send(ConstantMessages::failedJoinGame);
+                    }
+                    socket.send(game->gameJoinJSON(*player));
                 } else {
                     Log::warning("Unknown request : "+msg);
                     socket.send(ConstantMessages::badRequest);
