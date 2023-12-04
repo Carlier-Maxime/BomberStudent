@@ -2,6 +2,7 @@
 #include <algorithm>
 #include "GameManager.h"
 #include "../json/JSONMessage.h"
+#include "../utils/Log.h"
 
 GameManager GameManager::instance = GameManager();
 
@@ -30,6 +31,7 @@ bool GameManager::isExist(const std::string& name) {
 }
 
 Game* GameManager::addGame(const std::string& name, const Map& map) {
+    if (isExist(name)) throw std::invalid_argument("game name is used: "+name);
     games.emplace_back(name, map);
     return &games.back();
 }
@@ -38,6 +40,7 @@ GameManager::GameManager() = default;
 
 Game* GameManager::getGame(const std::string &name) {
     for (auto & game : games) if (game.getName()==name) return &game;
+    Log::warning("game name not exist");
     return nullptr;
 }
 

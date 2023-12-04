@@ -85,40 +85,30 @@ void Server::handleClient(const SocketTCP* socket) {
 void Server::handleGameCreate(const SocketTCP *socket, json data, Player *&player, Game *&game) {
     std::string name = data["name"];
     int id = data["mapId"];
-    if (!MapManager::getInstance()->isExist(id)) {
-        Log::warning("Unknown map id: "+std::to_string(id));
+    try {
+        game = GameManager::getInstance()->addGame(name, MapManager::getInstance()->get(id));
+        if (!game) socket->send(CM::failedCreateGame);
+        player = game->newPlayer();
+        if (!player) socket->send(CM::failedCreateGame);
+        socket->send(game->jsonCreateOrJoinGame(*player));
+    } catch (std::exception& e) {
+        Log::warning(e.what());
         socket->send(CM::failedCreateGame);
     }
-    if (GameManager::getInstance()->isExist(name)){
-        Log::warning("game name is used: "+name);
-        socket->send(CM::failedCreateGame);
-    }
-    game = GameManager::getInstance()->addGame(name, MapManager::getInstance()->get(id));
-    if (!game) {
-        Log::warning("game creation failed");
-        socket->send(CM::failedCreateGame);
-    }
-    player = game->newPlayer();
-    if (!player) {
-        Log::warning("player creation failed");
-        socket->send(CM::failedCreateGame);
-    }
-    socket->send(game->jsonCreateOrJoinGame(*player));
 }
 
 void Server::handleGameJoin(const SocketTCP *socket, json data, Player *&player, Game *&game) {
     std::string name = data["name"];
-    game = GameManager::getInstance()->getGame(name);
-    if (!game) {
-        Log::warning("game name not exist");
+    try {
+        game = GameManager::getInstance()->getGame(name);
+        if (!game) socket->send(CM::failedJoinGame);
+        player = game->newPlayer();
+        if (!player) socket->send(CM::failedJoinGame);
+        socket->send(game->jsonCreateOrJoinGame(*player));
+    } catch (std::exception& e) {
+        Log::warning(e.what());
         socket->send(CM::failedJoinGame);
     }
-    player = game->newPlayer();
-    if (!player) {
-        Log::warning("player creation failed");
-        socket->send(CM::failedJoinGame);
-    }
-    socket->send(game->jsonCreateOrJoinGame(*player));
 }
 
 void Server::handleUDP() {

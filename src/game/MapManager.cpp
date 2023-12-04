@@ -1,6 +1,7 @@
 #include <sstream>
 #include "MapManager.h"
 #include "../json/JSONMessage.h"
+#include "../utils/Log.h"
 
 MapManager MapManager::mapManager = MapManager();
 
@@ -36,5 +37,6 @@ bool MapManager::isExist(unsigned int mapId) {
 }
 
 const Map& MapManager::get(unsigned int mapId) {
+    if (!isExist(mapId)) throw std::invalid_argument("Unknown map id: "+std::to_string(mapId));
     return maps[mapId];
 }
