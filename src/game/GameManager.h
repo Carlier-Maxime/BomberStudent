@@ -3,11 +3,13 @@
 
 
 #include <vector>
+#include <mutex>
 #include "Game.h"
 
 class GameManager {
 private:
     static GameManager instance;
+    std::mutex mutex;
     std::vector<Game> games;
     GameManager();
 public:

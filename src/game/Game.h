@@ -15,6 +15,7 @@ public:
     std::string jsonCreateOrJoinGame(const Player& player);
     void removePlayer(const Player& player);
 private:
+    std::mutex mutex;
     std::string name;
     Map map;
     std::vector<Player> players;

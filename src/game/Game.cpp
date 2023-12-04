@@ -19,6 +19,7 @@ const std::string &Game::getName() const {
 }
 
 Player* Game::newPlayer() {
+    std::lock_guard<std::mutex> lock(mutex);
     players.emplace_back(this);
     u_int16_t pos = map.getRandomAvailablePos();
     u_char x, y;
@@ -33,6 +34,7 @@ bool Game::isAccessiblePos(unsigned char x, unsigned char y) {
 }
 
 std::string Game::jsonCreateOrJoinGame(const Player &player) {
+    std::lock_guard<std::mutex> lock(mutex);
     std::ostringstream json;
     unsigned char posX, posY;
     SPLIT_POS(player.getPos(), posX, posY);
@@ -52,6 +54,7 @@ std::string Game::jsonCreateOrJoinGame(const Player &player) {
 }
 
 void Game::removePlayer(const Player &player) {
+    std::lock_guard<std::mutex> lock(mutex);
     for (auto it=players.begin(); it!=players.end(); it++) if (it->getPos()==player.getPos()) {
         players.erase(it);
         break;

@@ -31,6 +31,7 @@ bool GameManager::isExist(const std::string& name) {
 }
 
 Game* GameManager::addGame(const std::string& name, const Map& map) {
+    std::lock_guard<std::mutex> lock(mutex);
     if (isExist(name)) throw std::invalid_argument("game name is used: "+name);
     games.emplace_back(name, map);
     return &games.back();
@@ -45,6 +46,7 @@ Game* GameManager::getGame(const std::string &name) {
 }
 
 void GameManager::removeGame(const std::string &name) {
+    std::lock_guard<std::mutex> lock(mutex);
     for (auto it = games.begin(); it!=games.end(); it++) if (it->getName()==name) {
         games.erase(it);
         break;
