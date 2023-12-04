@@ -1,9 +1,6 @@
-#include <vector>
 #include <string>
 #include <sstream>
-#include "GameJSON.h"
 #include "JSONMessage.h"
-#include "../utils/Utils.h"
 
 
 std::string JSONMessage::errorMessage(int statut, const std::string& message) {
@@ -16,35 +13,6 @@ std::string JSONMessage::actionMessage(const std::string& action, int statut, co
     std::ostringstream json;
     json << R"({"action":")" << action << R"(","statut":)" << statut << R"(,"message":")" << message << (jsonContent.empty() ? "\"" : "\",") << jsonContent << '}';
     return json.str();
-}
-
-std::string JSONMessage::joinGameMessage(GameJSON* game) {
-	std::string action = "game/join";
-	if(game==nullptr){
-		std::string msg = "cannot join game";
-		int statut = 501;
-		std::ostringstream json;
-		json << R"({"action":")"<< action <<R"(","statut":")" << statut << R"(","message":")" << msg << "\"}";
-		return json.str();
-	}
-	std::vector<Player*> players = game->getPlayers();
-	u_int nbPlayers = players.size();
-	int statut = 201;
-	std::string msg = "game joined";
-	int mapId=game->getMapId();
-	int * startPos=game->getStartPos();
-
-	std::ostringstream allPlayerString;
-	for(u_int i =0 ;i<nbPlayers;i++){
-		if(i>0) allPlayerString << ",";
-		allPlayerString << players.at(i)->toJSON();
-	}
-	std::string playerState = game->getPlayerState()->toJSON();
-	std::ostringstream json;
-	json << R"({"action":")"<< action <<"\"" "," "\"statut\":\""<<  statut<<R"(","message":")"<< msg <<"\"" ",\"nbPlayers\":"<< nbPlayers <<",\"mapId\":"<< mapId <<",\"players\":[" <<  allPlayerString.str() << R"(],"startPos":")"<< startPos[0] <<"," << startPos[1] <<R"(","player":)" << playerState << "}" ;
-	return json.str();
-
-
 }
 
 std::string JSONMessage::playerPositionUpdateMessage(Player* player, const std::string& dir) {
