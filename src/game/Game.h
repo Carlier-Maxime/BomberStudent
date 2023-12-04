@@ -13,6 +13,7 @@ public:
     Player* newPlayer();
     bool isAccessiblePos(unsigned char x, unsigned char y);
     std::string jsonCreateOrJoinGame(const Player& player);
+    void removePlayer(const Player& player);
 private:
     std::string name;
     Map map;

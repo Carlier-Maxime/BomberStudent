@@ -49,3 +49,12 @@ std::string Game::jsonCreateOrJoinGame(const Player &player) {
     json << R"(,"startPos":")"<<std::to_string(posX)<<','<<std::to_string(posY)<<R"(","player":)"<<player.toJSONState();
     return JSONMessage::actionMessage(nbPlayers ? "game/join" : "game/create", 201, nbPlayers ? "game joined" : "game created", json.str());
 }
+
+void Game::removePlayer(const Player &player) {
+    u_int index;
+    for (u_int i=0; i<players.size(); i++) if (players[i].getPos()==player.getPos()) {
+        index=i;
+        break;
+    }
+    players.erase(players.begin() + index);
+}
