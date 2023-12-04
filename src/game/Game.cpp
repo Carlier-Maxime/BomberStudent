@@ -51,10 +51,8 @@ std::string Game::jsonCreateOrJoinGame(const Player &player) {
 }
 
 void Game::removePlayer(const Player &player) {
-    u_int index;
-    for (u_int i=0; i<players.size(); i++) if (players[i].getPos()==player.getPos()) {
-        index=i;
+    for (auto it=players.begin(); it!=players.end(); it++) if (it->getPos()==player.getPos()) {
+        players.erase(it);
         break;
     }
-    players.erase(players.begin() + index);
 }
