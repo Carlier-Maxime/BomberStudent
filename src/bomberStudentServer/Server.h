@@ -4,8 +4,12 @@
 
 #include <vector>
 #include <thread>
+#include <nlohmann/json.hpp>
 #include "../socket/SocketUDP.h"
 #include "../socket/SocketTCP.h"
+#include "../game/Player.h"
+
+using json = nlohmann::json;
 
 class Server {
 private:
@@ -16,6 +20,8 @@ private:
     std::vector<std::thread> threads;
     void handleClient(const SocketTCP* socket);
     void handleUDP();
+    static void handleGameCreate(const SocketTCP *socket, json data, Player *&player, Game *&game);
+    static void handleGameJoin(const SocketTCP *socket, json data, Player *&player, Game *&game);
 public:
     Server();
     ~Server();

@@ -7,7 +7,8 @@
 #include "../game/MapManager.h"
 #include "../game/GameManager.h"
 #include <sys/wait.h>
-#include <nlohmann/json.hpp>
+
+using CM = ConstantMessages;
 
 Server::Server() : address(SocketAddress("::1",Config::getServerPort())), socketUDP(address.getProtocol(), true), socketTCP(address.getProtocol()), clients(), threads() {
     socketUDP.bind(address);
@@ -59,50 +60,15 @@ void Server::handleClient(const SocketTCP* socket) {
                 if (msg.empty()) {
                     Log::info("Client disconnected : " + socket->getAddress().toString());
                     break;
-                } else if (msg==ConstantMessages::getMapList) {
-                    socket->send(MapManager::getInstance()->toJSON());
-                } else if (msg==ConstantMessages::getGameList) {
-                    socket->send(GameManager::getInstance()->toJSON());
-                } else if (msg.compare(0, ConstantMessages::postGameCreate.size(), ConstantMessages::postGameCreate)==0) {
-                    nlohmann::json json = nlohmann::json::parse(msg.substr(ConstantMessages::postGameCreate.size()));
-                    std::string name = json["name"];
-                    int id = json["mapId"];
-                    if (!MapManager::getInstance()->isExist(id)) {
-                        Log::warning("Unknown map id: "+std::to_string(id));
-                        socket->send(ConstantMessages::failedCreateGame);
-                    }
-                    if (GameManager::getInstance()->isExist(name)){
-                        Log::warning("game name is used: "+name);
-                        socket->send(ConstantMessages::failedCreateGame);
-                    }
-                    game = GameManager::getInstance()->addGame(name, MapManager::getInstance()->get(id));
-                    if (!game) {
-                        Log::warning("game creation failed");
-                        socket->send(ConstantMessages::failedCreateGame);
-                    }
-                    player = game->newPlayer();
-                    if (!player) {
-                        Log::warning("player creation failed");
-                        socket->send(ConstantMessages::failedCreateGame);
-                    }
-                    socket->send(game->jsonCreateOrJoinGame(*player));
-                } else if (msg.compare(0, ConstantMessages::postGameJoin.size(), ConstantMessages::postGameJoin)==0) {
-                    nlohmann::json json = nlohmann::json::parse(msg.substr(ConstantMessages::postGameJoin.size()));
-                    std::string name = json["name"];
-                    game = GameManager::getInstance()->getGame(name);
-                    if (!game) {
-                        Log::warning("game name not exist");
-                        socket->send(ConstantMessages::failedJoinGame);
-                    }
-                    player = game->newPlayer();
-                    if (!player) {
-                        Log::warning("player creation failed");
-                        socket->send(ConstantMessages::failedJoinGame);
-                    }
-                    socket->send(game->jsonCreateOrJoinGame(*player));
-                } else {
+                }else if (msg==CM::getMapList) socket->send(MapManager::getInstance()->toJSON());
+                else if (msg==CM::getGameList) socket->send(GameManager::getInstance()->toJSON());
+                else if (msg.compare(0, CM::postGameCreate.size(), CM::postGameCreate)==0)
+                    handleGameCreate(socket, json::parse(msg.substr(CM::postGameCreate.size())), player,game);
+                else if (msg.compare(0, CM::postGameJoin.size(), CM::postGameJoin)==0)
+                    handleGameJoin(socket, json::parse(msg.substr(CM::postGameJoin.size())), player,game);
+                else {
                     Log::warning("Unknown request : "+msg);
-                    socket->send(ConstantMessages::badRequest);
+                    socket->send(CM::badRequest);
                 }
             } catch (SocketException& e) {
                 if (errno==EINTR) break;
@@ -116,19 +82,58 @@ void Server::handleClient(const SocketTCP* socket) {
     Log::info("terminate");
 }
 
+void Server::handleGameCreate(const SocketTCP *socket, json data, Player *&player, Game *&game) {
+    std::string name = data["name"];
+    int id = data["mapId"];
+    if (!MapManager::getInstance()->isExist(id)) {
+        Log::warning("Unknown map id: "+std::to_string(id));
+        socket->send(CM::failedCreateGame);
+    }
+    if (GameManager::getInstance()->isExist(name)){
+        Log::warning("game name is used: "+name);
+        socket->send(CM::failedCreateGame);
+    }
+    game = GameManager::getInstance()->addGame(name, MapManager::getInstance()->get(id));
+    if (!game) {
+        Log::warning("game creation failed");
+        socket->send(CM::failedCreateGame);
+    }
+    player = game->newPlayer();
+    if (!player) {
+        Log::warning("player creation failed");
+        socket->send(CM::failedCreateGame);
+    }
+    socket->send(game->jsonCreateOrJoinGame(*player));
+}
+
+void Server::handleGameJoin(const SocketTCP *socket, json data, Player *&player, Game *&game) {
+    std::string name = data["name"];
+    game = GameManager::getInstance()->getGame(name);
+    if (!game) {
+        Log::warning("game name not exist");
+        socket->send(CM::failedJoinGame);
+    }
+    player = game->newPlayer();
+    if (!player) {
+        Log::warning("player creation failed");
+        socket->send(CM::failedJoinGame);
+    }
+    socket->send(game->jsonCreateOrJoinGame(*player));
+}
+
 void Server::handleUDP() {
     Utils::threadName= "handlingUDP";
     Log::info("start UDP handler");
     SocketAddress client = SocketAddress("::", 0);
     for (;;) {
         try {
-            while (socketUDP.receive(&client)!=ConstantMessages::lookingServers);
+            while (socketUDP.receive(&client)!=CM::lookingServers);
         } catch (SocketException& e) {
             if (errno==EINTR) break;
             throw e;
         }
         Log::info("client found - "+client.toString());
-        socketUDP.send(ConstantMessages::serverHello, client);
+        socketUDP.send(CM::serverHello, client);
     }
     Log::info("stopped");
 }
