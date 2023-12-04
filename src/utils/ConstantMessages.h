@@ -13,6 +13,8 @@ public:
     static const std::string getGameList;
     static const std::string postGameCreate;
     static const std::string failedCreateGame;
+    static const std::string postGameJoin;
+    static const std::string failedJoinGame;
 };
 
 
