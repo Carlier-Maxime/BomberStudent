@@ -79,6 +79,7 @@ void Server::handleClient(const SocketTCP* socket) {
         Log::error(e.what());
         Log::warning("terminated abnormally communication with client : "+socket->getAddress().toString());
     }
+    if (player && game) game->removePlayer(*player);
     Log::info("terminate");
 }
 
@@ -86,6 +87,7 @@ void Server::handleGameCreate(const SocketTCP *socket, json data, Player *&playe
     std::string name = data["name"];
     int id = data["mapId"];
     try {
+        if (player && game) game->removePlayer(*player);
         game = GameManager::getInstance()->addGame(name, MapManager::getInstance()->get(id));
         if (!game) socket->send(CM::failedCreateGame);
         player = game->newPlayer();
@@ -100,6 +102,7 @@ void Server::handleGameCreate(const SocketTCP *socket, json data, Player *&playe
 void Server::handleGameJoin(const SocketTCP *socket, json data, Player *&player, Game *&game) {
     std::string name = data["name"];
     try {
+        if (player && game) game->removePlayer(*player);
         game = GameManager::getInstance()->getGame(name);
         if (!game) socket->send(CM::failedJoinGame);
         player = game->newPlayer();
