@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "../utils/Utils.h"
 #include "../json/JSONMessage.h"
+#include "GameManager.h"
 
 #include <utility>
 #include <sstream>
@@ -55,4 +56,5 @@ void Game::removePlayer(const Player &player) {
         players.erase(it);
         break;
     }
+    if (players.empty()) GameManager::getInstance()->removeGame(name);
 }
