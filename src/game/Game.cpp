@@ -38,3 +38,17 @@ std::string Game::gameCreationJSON(const Player &player, unsigned int mapId) {
     json << R"("nbPlayers":0,"mapId":)"<<mapId<<R"(,"startPos":")"<<std::to_string(posX)<<','<<std::to_string(posY)<<R"(","player":)"<<player.toJSONState();
     return JSONMessage::actionMessage("game/create", 201, "game created", json.str());
 }
+
+std::string Game::gameJoinJSON(const Player &player) {
+    std::ostringstream json;
+    unsigned char posX, posY;
+    SPLIT_POS(player.getPos(), posX, posY);
+    json << R"("nbPlayers":)"<<players.size()-1<<R"(","mapId":)"<<map.getId()<<R"(,"players":[)";
+    for (u_int i=0; i<players.size(); i++) {
+        if (players[i].getPos()==player.getPos()) continue;
+        if (i) json << ',';
+        json << players[i].toJSON();
+    }
+    json << R"(],"startPos":")"<<std::to_string(posX)<<','<<std::to_string(posY)<<R"(","player":)"<<player.toJSONState();
+    return JSONMessage::actionMessage("game/create", 201, "game created", json.str());
+}
