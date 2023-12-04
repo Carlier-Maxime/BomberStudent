@@ -16,6 +16,7 @@ public:
     bool isExist(const std::string& name);
     Game* addGame(const std::string& name, const Map& map);
     Game* getGame(const std::string& name);
+    void removeGame(const std::string& name);
 };
 
 

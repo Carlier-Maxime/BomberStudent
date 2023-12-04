@@ -40,3 +40,10 @@ Game* GameManager::getGame(const std::string &name) {
     for (auto & game : games) if (game.getName()==name) return &game;
     return nullptr;
 }
+
+void GameManager::removeGame(const std::string &name) {
+    for (auto it = games.begin(); it!=games.end(); it++) if (it->getName()==name) {
+        games.erase(it);
+        break;
+    }
+}
