@@ -14,7 +14,7 @@ private:
     SocketTCP socketTCP;
     std::vector<SocketTCP*> clients;
     std::vector<std::thread> threads;
-    void handleClient(const SocketTCP& socket);
+    void handleClient(const SocketTCP* socket);
     void handleUDP();
 public:
     Server();
