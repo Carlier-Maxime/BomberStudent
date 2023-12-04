@@ -50,5 +50,5 @@ std::string Game::gameJoinJSON(const Player &player) {
         json << players[i].toJSON();
     }
     json << R"(],"startPos":")"<<std::to_string(posX)<<','<<std::to_string(posY)<<R"(","player":)"<<player.toJSONState();
-    return JSONMessage::actionMessage("game/create", 201, "game created", json.str());
+    return JSONMessage::actionMessage("game/join", 201, "game joined", json.str());
 }
