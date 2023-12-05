@@ -1,6 +1,6 @@
 CC = g++
 LD = g++
-CFLAGS = -Wall -Wextra -pedantic -std=c++17 -pthread
+CFLAGS = -Wall -Wextra -pedantic -std=c++17 -pthread -Ithird_party
 ifdef DEBUG
     CFLAGS += -g
 endif

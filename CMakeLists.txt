@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.26)
 project(bomberStudent)
 set(CMAKE_CXX_STANDARD 17)
+include_directories(third_party)
 file(GLOB server_src_files "src/bomberStudentServer/*")
 file(GLOB client_src_files "src/clientDev/*")
 file(GLOB game_src_files "src/game/*")
