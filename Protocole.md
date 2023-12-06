@@ -136,3 +136,20 @@ server response:
 }
 }
 ```
+
+## Start Game
+
+All players join a game before game start.  
+For start a game, the player created the game send request:  
+``POST game/start``
+
+Server responds to all players:  
+```
+POST game/ready
+{
+"time": 3
+}
+```
+
+After time cool down, the server send to all players:  
+``POST game/go``
