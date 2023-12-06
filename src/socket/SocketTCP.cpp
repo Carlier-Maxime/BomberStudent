@@ -1,11 +1,16 @@
 #include <sys/socket.h>
 #include <utility>
+#include <netinet/tcp.h>
+#include <netinet/in.h>
 #include "SocketTCP.h"
 #include "../utils/BomberStudentExceptions.h"
 
 #define BUFFER_SIZE 1024
 
-SocketTCP::SocketTCP(Protocol protocol) : Socket(protocol, SOCK_STREAM, false) {}
+SocketTCP::SocketTCP(Protocol protocol) : Socket(protocol, SOCK_STREAM, false) {
+    int flag = 1;
+    setsockopt(socket_fd, IPPROTO_TCP, TCP_NODELAY, &flag, sizeof(int));
+}
 
 void SocketTCP::connect(const SocketAddress& address) {
     struct sockaddr_storage addr = Socket::getSockAddrStorage(address);
