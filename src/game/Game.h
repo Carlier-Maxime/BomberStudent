@@ -18,7 +18,7 @@ public:
     std::string jsonCreateOrJoinGame(const Player& player);
     void removePlayer(const Player& player);
     bool isStarted() const;
-    bool start(const Player& player);
+    void start(const Player& player);
     void sendForAllPlayers(const std::string& msg);
 private:
     mutable std::shared_mutex mutex;

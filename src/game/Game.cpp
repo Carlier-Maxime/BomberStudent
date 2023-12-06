@@ -82,17 +82,16 @@ bool Game::isStarted() const {
     return started;
 }
 
-bool Game::start(const Player& player) {
+void Game::start(const Player& player) {
     if (!started && !players.empty() && player.getPos()==players[0].getPos()) {
-        started=true;
-        sendForAllPlayers(CM::postGameReady);
         std::thread go([this](){
+            sendForAllPlayers(CM::postGameReady);
             std::this_thread::sleep_for(std::chrono::seconds(3));
+            started=true;
             sendForAllPlayers(CM::postGameGo);
         });
         go.detach();
     }
-    return started;
 }
 
 void Game::sendForAllPlayers(const std::string& msg) {
