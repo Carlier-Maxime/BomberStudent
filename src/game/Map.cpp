@@ -31,7 +31,7 @@ Map::Map(unsigned char width, unsigned char height, const std::string& cases) : 
     }
 }
 
-Map::Map(const Map& other) : id(nextID++), width(other.width), height(other.height), cases(other.cases.size(), nullptr) {
+Map::Map(const Map& other) : id(other.id), width(other.width), height(other.height), cases(other.cases.size(), nullptr) {
     try {
         for (unsigned int i = 0; i < other.cases.size(); i++) if (other.cases[i]) cases[i] = other.cases[i]->clone();
     } catch (...) {
