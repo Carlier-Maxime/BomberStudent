@@ -31,6 +31,7 @@ void Client::run() {
     std::cout << socketTCP.receive() << std::endl;
     socketTCP.send(ConstantMessages::postGameStart);
     std::cout << socketTCP.receive() << std::endl;
+    std::cout << socketTCP.receive() << std::endl;
 }
 
 Client::~Client() = default;
