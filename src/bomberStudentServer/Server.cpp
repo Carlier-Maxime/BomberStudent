@@ -34,7 +34,7 @@ void Server::run() {
             try {
                 clients.push_back(socketTCP.accept());
                 Log::info("Client connected - " + clients.back()->getAddress().toString());
-                threads.emplace_back(&Server::handleClient, this, clients.back());
+                threads.emplace_back(&Server::handleClient, clients.back());
             } catch (SocketException& e) {
                 if (errno==EINTR) break;
                 throw e;
@@ -66,6 +66,7 @@ void Server::handleClient(const SocketTCP* socket) {
                     handleGameCreate(socket, json::parse(msg.substr(CM::postGameCreate.size())), player,game);
                 else if (msg.compare(0, CM::postGameJoin.size(), CM::postGameJoin)==0)
                     handleGameJoin(socket, json::parse(msg.substr(CM::postGameJoin.size())), player,game);
+                else if (msg==CM::postGameStart && game && player) game->start(*player);
                 else {
                     Log::warning("Unknown request : "+msg);
                     socket->send(CM::badRequest);
@@ -90,7 +91,7 @@ void Server::handleGameCreate(const SocketTCP *socket, json data, Player *&playe
         if (player && game) game->removePlayer(*player);
         game = GameManager::getInstance()->addGame(name, MapManager::getInstance()->get(id));
         if (!game) socket->send(CM::failedCreateGame);
-        player = game->newPlayer();
+        player = game->newPlayer(socket);
         if (!player) socket->send(CM::failedCreateGame);
         socket->send(game->jsonCreateOrJoinGame(*player));
     } catch (std::exception& e) {
@@ -105,7 +106,7 @@ void Server::handleGameJoin(const SocketTCP *socket, json data, Player *&player,
         if (player && game) game->removePlayer(*player);
         game = GameManager::getInstance()->getGame(name);
         if (!game) socket->send(CM::failedJoinGame);
-        player = game->newPlayer();
+        player = game->newPlayer(socket);
         if (!player) socket->send(CM::failedJoinGame);
         socket->send(game->jsonCreateOrJoinGame(*player));
     } catch (std::exception& e) {
