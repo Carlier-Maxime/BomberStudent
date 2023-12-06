@@ -13,13 +13,13 @@ public:
     Game& operator=(const Game& other);
     [[nodiscard]] std::string toJSON() const;
     [[nodiscard]] const std::string &getName() const;
-    Player* newPlayer();
+    Player *newPlayer(const SocketTCP *socket);
     bool isAccessiblePos(unsigned char x, unsigned char y);
     std::string jsonCreateOrJoinGame(const Player& player);
     void removePlayer(const Player& player);
     bool isStarted() const;
     bool start(const Player& player);
-
+    void sendForAllPlayers(const std::string& msg);
 private:
     mutable std::shared_mutex mutex;
     std::string name;

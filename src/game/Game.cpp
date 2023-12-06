@@ -2,9 +2,12 @@
 #include "../utils/Utils.h"
 #include "../json/JSONMessage.h"
 #include "GameManager.h"
+#include "../utils/ConstantMessages.h"
 
 #include <utility>
 #include <sstream>
+
+using CM = ConstantMessages;
 
 Game::Game(std::string name, const Map &map) : mutex(), name(std::move(name)), map(map), players(), started(false) {}
 
@@ -29,10 +32,10 @@ const std::string &Game::getName() const {
     return name;
 }
 
-Player* Game::newPlayer() {
+Player * Game::newPlayer(const SocketTCP *socket) {
     if (isStarted()) return nullptr;
     std::lock_guard<std::shared_mutex> lock(mutex);
-    players.emplace_back(this);
+    players.emplace_back(socket, this);
     u_int16_t pos = map.getRandomAvailablePos();
     u_char x, y;
     SPLIT_POS(pos,x,y);
@@ -79,5 +82,10 @@ bool Game::isStarted() const {
 }
 
 bool Game::start(const Player& player) {
-    return (started = (!players.empty() && player.getPos()==players[0].getPos()));
+    if (!players.empty() && player.getPos()==players[0].getPos()) started=true, sendForAllPlayers(CM::postGameReady);
+    return started;
+}
+
+void Game::sendForAllPlayers(const std::string& msg) {
+    for (const auto& player : players) player.getSocket()->send(msg);
 }
