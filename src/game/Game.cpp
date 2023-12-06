@@ -6,6 +6,7 @@
 
 #include <utility>
 #include <sstream>
+#include <thread>
 
 using CM = ConstantMessages;
 
@@ -82,7 +83,15 @@ bool Game::isStarted() const {
 }
 
 bool Game::start(const Player& player) {
-    if (!players.empty() && player.getPos()==players[0].getPos()) started=true, sendForAllPlayers(CM::postGameReady);
+    if (!started && !players.empty() && player.getPos()==players[0].getPos()) {
+        started=true;
+        sendForAllPlayers(CM::postGameReady);
+        std::thread go([this](){
+            std::this_thread::sleep_for(std::chrono::seconds(3));
+            sendForAllPlayers(CM::postGameGo);
+        });
+        go.detach();
+    }
     return started;
 }
 
