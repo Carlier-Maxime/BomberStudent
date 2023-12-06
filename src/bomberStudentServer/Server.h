@@ -18,7 +18,7 @@ private:
     SocketTCP socketTCP;
     std::vector<SocketTCP*> clients;
     std::vector<std::thread> threads;
-    void handleClient(const SocketTCP* socket);
+    static void handleClient(const SocketTCP* socket);
     void handleUDP();
     static void handleGameCreate(const SocketTCP *socket, json data, Player *&player, Game *&game);
     static void handleGameJoin(const SocketTCP *socket, json data, Player *&player, Game *&game);
