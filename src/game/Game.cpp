@@ -6,14 +6,15 @@
 #include <utility>
 #include <sstream>
 
-Game::Game(std::string name, const Map &map) : mutex(), name(std::move(name)), map(map), players() {}
+Game::Game(std::string name, const Map &map) : mutex(), name(std::move(name)), map(map), players(), started(false) {}
 
-Game::Game(const Game &other) : mutex(), name(other.name), map(other.map){}
+Game::Game(const Game &other) : mutex(), name(other.name), map(other.map), started(false) {}
 
 Game &Game::operator=(const Game &other) {
     if (this != &other) {
         name = other.name;
         map = other.map;
+        players = other.players;
     }
     return *this;
 }
@@ -29,6 +30,7 @@ const std::string &Game::getName() const {
 }
 
 Player* Game::newPlayer() {
+    if (isStarted()) return nullptr;
     std::lock_guard<std::shared_mutex> lock(mutex);
     players.emplace_back(this);
     u_int16_t pos = map.getRandomAvailablePos();
@@ -70,4 +72,12 @@ void Game::removePlayer(const Player &player) {
         break;
     }
     if (players.empty()) GameManager::getInstance()->removeGame(name);
+}
+
+bool Game::isStarted() const {
+    return started;
+}
+
+bool Game::start(const Player& player) {
+    return (started = (!players.empty() && player.getPos()==players[0].getPos()));
 }

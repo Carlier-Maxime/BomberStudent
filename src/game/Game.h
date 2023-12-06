@@ -17,11 +17,15 @@ public:
     bool isAccessiblePos(unsigned char x, unsigned char y);
     std::string jsonCreateOrJoinGame(const Player& player);
     void removePlayer(const Player& player);
+    bool isStarted() const;
+    bool start(const Player& player);
+
 private:
     mutable std::shared_mutex mutex;
     std::string name;
     Map map;
     std::vector<Player> players;
+    bool started;
 };
 
 
