@@ -68,7 +68,7 @@ std::string Player::toJSONState() const {
     std::ostringstream json;
     json << "{\"life\":"<<std::to_string(life)<<",\"speed\":"<<speed<<",\"nbClassicBomb\":"<<std::to_string(nbClassicBomb)
         <<",\"nbMine\":"<<std::to_string(nbMine)<<",\"nbRemoteBomb\":"<<std::to_string(nbRemoteBomb)<<",\"impactDist\":"
-        <<std::to_string(impactDist)<<",\"invincible\":"<<(invincible ? "True" : "False")<<"}";
+        <<std::to_string(impactDist)<<",\"invincible\":"<<(invincible ? "true" : "false")<<"}";
     return json.str();
 }
 

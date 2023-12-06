@@ -54,7 +54,7 @@ std::string Game::jsonCreateOrJoinGame(const Player &player) {
     unsigned char posX, posY;
     SPLIT_POS(player.getPos(), posX, posY);
     u_int nbPlayers = players.size()-1;
-    json << R"("nbPlayers":)"<<nbPlayers<<R"(","mapId":)"<<map.getId();
+    json << R"("nbPlayers":)"<<nbPlayers<<R"(,"mapId":)"<<map.getId();
     if (nbPlayers) {
         json << R"(,"players":[)";
         for (u_int i=0; i<players.size(); i++) {
