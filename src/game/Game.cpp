@@ -94,6 +94,6 @@ void Game::start(const Player& player) {
     }
 }
 
-void Game::sendForAllPlayers(const std::string& msg) {
+void Game::sendForAllPlayers(const std::string& msg) const {
     for (const auto& player : players) player.getSocket()->send(msg);
 }

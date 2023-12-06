@@ -23,8 +23,10 @@ public:
     [[nodiscard]] std::string toJSONState() const;
     [[nodiscard]] const std::string &getName() const;
     [[nodiscard]] u_int16_t getPos() const;
-    void move(unsigned char x, unsigned char y);
+    bool move(unsigned char x, unsigned char y);
+    bool move(const std::string& direction);
     [[nodiscard]] const SocketTCP* getSocket() const;
+    std::string toJSONMove(const std::string& direction);
 };
 
 

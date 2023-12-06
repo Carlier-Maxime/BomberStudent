@@ -67,6 +67,8 @@ void Server::handleClient(const SocketTCP* socket) {
                 else if (msg.compare(0, CM::postGameJoin.size(), CM::postGameJoin)==0)
                     handleGameJoin(socket, json::parse(msg.substr(CM::postGameJoin.size())), player,game);
                 else if (msg==CM::postGameStart && game && player) game->start(*player);
+                else if (msg.compare(0, CM::postPlayerMove.size(), CM::postPlayerMove)==0)
+                    handlePlayerMove(json::parse(msg.substr(CM::postPlayerMove.size())), player, game);
                 else {
                     Log::warning("Unknown request : "+msg);
                     socket->send(CM::badRequest);
@@ -84,7 +86,7 @@ void Server::handleClient(const SocketTCP* socket) {
     Log::info("terminate");
 }
 
-void Server::handleGameCreate(const SocketTCP *socket, json data, Player *&player, Game *&game) {
+void Server::handleGameCreate(const SocketTCP *socket, const json& data, Player *&player, Game *&game) {
     std::string name = data["name"];
     int id = data["mapId"];
     try {
@@ -100,7 +102,7 @@ void Server::handleGameCreate(const SocketTCP *socket, json data, Player *&playe
     }
 }
 
-void Server::handleGameJoin(const SocketTCP *socket, json data, Player *&player, Game *&game) {
+void Server::handleGameJoin(const SocketTCP *socket, const json& data, Player *&player, Game *&game) {
     std::string name = data["name"];
     try {
         if (player && game) game->removePlayer(*player);
@@ -130,4 +132,10 @@ void Server::handleUDP() {
         socketUDP.send(CM::serverHello, client);
     }
     Log::info("stopped");
+}
+
+void Server::handlePlayerMove(const json &data, Player *player, const Game *game) {
+    if (!game || !player) return;
+    std::string move = data["move"];
+    if (player->move(move)) game->sendForAllPlayers(player->toJSONMove(move));
 }

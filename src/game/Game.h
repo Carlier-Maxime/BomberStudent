@@ -19,7 +19,7 @@ public:
     void removePlayer(const Player& player);
     bool isStarted() const;
     void start(const Player& player);
-    void sendForAllPlayers(const std::string& msg);
+    void sendForAllPlayers(const std::string& msg) const;
 private:
     mutable std::shared_mutex mutex;
     std::string name;

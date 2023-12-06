@@ -18,6 +18,7 @@ public:
     static const std::string postGameStart;
     static const std::string postGameReady;
     static const std::string postGameGo;
+    static const std::string postPlayerMove;
 };
 
 

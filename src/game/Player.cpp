@@ -76,10 +76,11 @@ const std::string &Player::getName() const {
     return name;
 }
 
-void Player::move(unsigned char x, unsigned char y) {
-    if (game && !game->isAccessiblePos(x, y)) return;
+bool Player::move(unsigned char x, unsigned char y) {
+    if (game && !game->isAccessiblePos(x, y)) return false;
     posY=y;
     posX=x;
+    return true;
 }
 
 u_int16_t Player::getPos() const {
@@ -88,4 +89,20 @@ u_int16_t Player::getPos() const {
 
 const SocketTCP* Player::getSocket() const {
     return socket;
+}
+
+bool Player::move(const std::string& direction) {
+    u_char x = posX, y = posY;
+    if (direction=="up") y++;
+    else if (direction=="down") y--;
+    else if (direction=="left") x--;
+    else if (direction=="right") x++;
+    else return false;
+    return move(x,y);
+}
+
+std::string Player::toJSONMove(const std::string &direction) {
+    std::ostringstream oss;
+    oss << "POST player/position/update\n{\"player\":\"" << name << R"(","dir":")" << direction << "\"}";
+    return oss.str();
 }

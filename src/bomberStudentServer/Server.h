@@ -20,8 +20,9 @@ private:
     std::vector<std::thread> threads;
     static void handleClient(const SocketTCP* socket);
     void handleUDP();
-    static void handleGameCreate(const SocketTCP *socket, json data, Player *&player, Game *&game);
-    static void handleGameJoin(const SocketTCP *socket, json data, Player *&player, Game *&game);
+    static void handleGameCreate(const SocketTCP *socket, const json& data, Player *&player, Game *&game);
+    static void handleGameJoin(const SocketTCP *socket, const json& data, Player *&player, Game *&game);
+    static void handlePlayerMove(const json &data, Player *player, const Game *game);
 public:
     Server();
     ~Server();
