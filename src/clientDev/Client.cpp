@@ -33,9 +33,9 @@ void Client::run() {
     std::cout << socketTCP.receive() << std::endl;
     std::cout << socketTCP.receive() << std::endl;
     socketTCP.send(ConstantMessages::postPlayerMove+"\n{\"move\":\"up\"}");
-    //socketTCP.send(ConstantMessages::postPlayerMove+"\n{\"move\":\"right\"}");
-    //socketTCP.send(ConstantMessages::postPlayerMove+"\n{\"move\":\"down\"}");
-    //socketTCP.send(ConstantMessages::postPlayerMove+"\n{\"move\":\"left\"}");
+    socketTCP.send(ConstantMessages::postPlayerMove+"\n{\"move\":\"right\"}");
+    socketTCP.send(ConstantMessages::postPlayerMove+"\n{\"move\":\"down\"}");
+    socketTCP.send(ConstantMessages::postPlayerMove+"\n{\"move\":\"left\"}");
 }
 
 Client::~Client() = default;
