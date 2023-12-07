@@ -6,13 +6,12 @@ int main() {
     Utils::processName = "ClientDev";
     Log::open();
     try {
-        Log::info("Launching BomberStudent client dev...");
+        Log::info("start");
         Client().run();
-        Log::info("BomberStudent client dev launched");
     } catch (std::exception const& e) {
         Log::error(e.what());
-        Log::error("BomberStudent client dev failed");
+        Log::error("abnormally exit");
     }
-    Log::info("BomberStudent client dev stopped");
+    Log::info("stopped");
     Log::close();
 }

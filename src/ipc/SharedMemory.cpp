@@ -5,7 +5,7 @@
 #include "../utils/BomberStudentExceptions.h"
 
 SharedMemory::SharedMemory(int IPCKeyID, size_t size) : IPCKeyID(IPCKeyID), shm_id(-1), mem_ptr(nullptr) {
-    key_t key = ftok(Utils::getProgramPath().c_str(), IPCKeyID);
+    key_t key = ftok((Utils::getProgramPath().parent_path() / "bomberStudentServer").c_str(), IPCKeyID);
     if (key==-1) {
         throw IPCException("Key generation failed");
     }
@@ -22,7 +22,7 @@ SharedMemory::SharedMemory(int IPCKeyID, size_t size) : IPCKeyID(IPCKeyID), shm_
     }
 }
 
-void SharedMemory::del() {
+void SharedMemory::del() { // NOLINT(*-make-member-function-const) - ignore no constant function warning because del shm
     if (shmctl(shm_id, IPC_RMID, nullptr) == -1) Log::warning("Problem during delete shared memory");
 }
 

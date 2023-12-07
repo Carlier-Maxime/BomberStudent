@@ -9,6 +9,8 @@ enum class Protocol {
     IPV6
 };
 
+std::ostream &operator<<(std::ostream &os, const Protocol &protocol);
+
 class SocketAddress {
 private:
     Protocol protocol;
@@ -23,7 +25,7 @@ public:
     void setProtocol(Protocol protocol);
     void setPort(unsigned short port);
     void setIp(const std::string &ip);
-
+    std::string toString() const;
     friend std::ostream &operator<<(std::ostream &os, const SocketAddress &address);
 };
 

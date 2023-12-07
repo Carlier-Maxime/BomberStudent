@@ -28,15 +28,14 @@ int main(int argc, char* argv[]) {
             throw SystemException("Launching client failed (fork)");
         }
         else {
-            Log::info("Launching BomberStudent server...");
+            Log::info("start");
             Server().run();
-            Log::info("BomberStudent server launched");
         }
     } catch (std::exception const& e) {
         Log::error(e.what());
-        Log::error("BomberStudent launching failed");
+        Log::error("abnormally exit");
     }
     exit:
-    Log::info("BomberStudent stopped");
+    Log::info("stopped");
     Log::close();
 }

@@ -11,7 +11,9 @@ public:
     explicit SocketTCP(Protocol protocol);
     void listen(int lenQueue);
     void connect(const SocketAddress& address);
-    [[nodiscard]] Socket accept();
+    [[nodiscard]] SocketTCP* accept();
+    void send(const std::string& msg) const;
+    [[nodiscard]] std::string receive() const;
 };
 
 

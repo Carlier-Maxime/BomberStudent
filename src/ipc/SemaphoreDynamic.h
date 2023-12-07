@@ -7,10 +7,7 @@
 class SemaphoreDynamic : public Semaphore {
 public:
     SemaphoreDynamic(int IPCKeyID, int nb, int value);
-    ~SemaphoreDynamic();
-    void P(unsigned short index) const;
-    void V(unsigned short index) const;
-    [[nodiscard]] bool isCreated() const;
+    ~SemaphoreDynamic() override;
 private:
     SharedMemory nbProcess;
     int indexMutexShm;

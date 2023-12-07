@@ -11,6 +11,7 @@ public:
     void P(unsigned short index) const;
     void V(unsigned short index) const;
     [[nodiscard]] bool isCreated() const;
+    virtual ~Semaphore() = default;
 protected:
     int nbSem;
 private:

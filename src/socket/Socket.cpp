@@ -7,15 +7,12 @@
 #include "../utils/Log.h"
 #include "../utils/BomberStudentExceptions.h"
 
-#define BUFFER_SIZE 1024
-
 struct sockaddr_storage Socket::getSockAddrStorage(const SocketAddress& address) {
     struct sockaddr_storage addr{};
     struct sockaddr_in6 ipv6={};
     struct sockaddr_in ipv4={};
     switch (address.getProtocol()) {
         case Protocol::IPV4:
-            label_ipv4:
             addr.ss_family = AF_INET;
             ipv4.sin_family = AF_INET;
             ipv4.sin_port = htons(address.getPort());
@@ -33,8 +30,7 @@ struct sockaddr_storage Socket::getSockAddrStorage(const SocketAddress& address)
             std::memcpy(&addr, &ipv6, sizeof(struct sockaddr_in6));
             break;
         default:
-            Log::warning("Protocol not supported. Switching to IPv4 protocol");
-            goto label_ipv4;
+            throw SocketException("Protocol not supported");
     }
     return addr;
 }
@@ -61,13 +57,13 @@ void Socket::setSocketAddress(SocketAddress* address, struct sockaddr_storage ad
             }
             break;
         default:
-            Log::error("Protocol not supported. Switching to IPv4 protocol");
+            throw SocketException("Protocol not supported");
     }
     address->setIp(ipBuffer);
 }
 
-void Socket::bind(const SocketAddress &address) const {
-    struct sockaddr_storage addr = getSockAddrStorage(address);
+void Socket::bind(const SocketAddress &new_address) const {
+    struct sockaddr_storage addr = getSockAddrStorage(new_address);
     if(::bind(socket_fd, (struct sockaddr*)&addr, sizeof(addr)) < 0){
         close(socket_fd);
         throw IPCException("Socket couldn't bind to the port");
@@ -98,21 +94,14 @@ Socket::~Socket() {
     close(socket_fd);
 }
 
-void Socket::send(const std::string& msg, const SocketAddress& dest_addr) const {
-    struct sockaddr_storage addr = getSockAddrStorage(dest_addr);
-    if (sendto(socket_fd, msg.c_str(), msg.length(), 0, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
-        throw SocketException("Socket can't send");
-    }
+void Socket::setTimeout(unsigned int sec, unsigned int micro_sec) const {
+    struct timeval timeout{
+        sec,
+        micro_sec
+    };
+    setsockopt(socket_fd, SOL_SOCKET, SO_RCVTIMEO, (const char*)&timeout, sizeof(timeout));
 }
 
-std::string Socket::receive(SocketAddress* src_addr) const {
-    struct sockaddr_storage addr = getSockAddrStorage(*src_addr);
-    socklen_t src_socket_size = sizeof(addr);
-    char buffer[BUFFER_SIZE];
-    ssize_t bytesReceived = recvfrom(socket_fd, buffer, BUFFER_SIZE, 0, (struct sockaddr*)&addr, &src_socket_size);
-    if (bytesReceived < 0) {
-        throw SocketException("Couldn't receive");
-    }
-    setSocketAddress(src_addr, addr);
-    return {buffer, static_cast<size_t>(bytesReceived)};
+const SocketAddress &Socket::getAddress() const {
+    return address;
 }
