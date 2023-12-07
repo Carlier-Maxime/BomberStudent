@@ -33,10 +33,13 @@ void SocketTCP::listen(int lenQueue) {
     }
 }
 
-SocketTCP::SocketTCP(int fd, SocketAddress address) : Socket(fd, std::move(address)) {}
+SocketTCP::SocketTCP(int fd, SocketAddress address) : Socket(fd, std::move(address)) {
+    int flag = 1;
+    setsockopt(socket_fd, IPPROTO_TCP, TCP_NODELAY, &flag, sizeof(int));
+}
 
 void SocketTCP::send(const std::string& msg) const {
-    if (::send(socket_fd, msg.c_str(), msg.length(), 0) < 0) {
+    if (::send(socket_fd, (msg+'\0').c_str(), msg.length()+1, 0) < 0) {
         throw SocketException("Socket can't send");
     }
 }
