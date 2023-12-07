@@ -58,7 +58,6 @@ void Server::handleClient(const SocketTCP* socket) {
         for (;;) {
             try {
                 std::string msg_received = socket->receive();
-                Log::info("msg received : "+msg_received);
                 if (msg_received.empty()) {
                     Log::info("Client disconnected : " + socket->getAddress().toString());
                     break;
