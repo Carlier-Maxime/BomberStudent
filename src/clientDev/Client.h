@@ -9,6 +9,7 @@ class Client {
 private:
     SocketUDP socketUDP;
     SocketTCP socketTCP;
+    void handleReceive();
 public:
     Client();
     ~Client();
