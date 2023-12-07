@@ -8,6 +8,7 @@ public class InputManager : MonoBehaviour
 
     private BombType chosenBomb=BombType.classic;
     public MessageSender messageSender;
+    public BombCount bombCount;
 
 
     private void Awake()
@@ -64,6 +65,7 @@ public class InputManager : MonoBehaviour
         }else if (Input.GetKeyDown(KeyCode.Tab))
         {
             chosenBomb = (BombType)((int)(chosenBomb + 1) %3);
+            bombCount.selectBomb(chosenBomb);
             Debug.Log(chosenBomb.ToString());
         }
     }

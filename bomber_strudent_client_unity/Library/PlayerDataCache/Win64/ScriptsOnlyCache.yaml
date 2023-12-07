@@ -2,11 +2,14 @@ ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
     - Bomb
+    - BombCount
     - BombManager
     - FalseMessageReceiver
     - FalseMessageSender
     - InputManager
+    - LifeCount
     - MapGenerator
+    - NetworkManager
     - PlayerManager
     - PlayerState
     Unity.2D.Animation.Editor.dll:
@@ -34,7 +37,19 @@ ScriptsOnlyBuild:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
     - UnityEditor.TestTools.TestRunner.TestListCacheData
     - UnityEditor.TestTools.TestRunner.TestRun.TestJobDataHolder
-  serializedClasses: {}
+    UnityEngine.UI.dll:
+    - UnityEngine.EventSystems.EventSystem
+    - UnityEngine.EventSystems.StandaloneInputModule
+    - UnityEngine.UI.CanvasScaler
+    - UnityEngine.UI.GraphicRaycaster
+    - UnityEngine.UI.Image
+    - UnityEngine.UI.Text
+  serializedClasses:
+    UnityEngine.CoreModule:
+    - UnityEngine.Events.PersistentCallGroup
+    UnityEngine.UI:
+    - UnityEngine.UI.FontData
+    - UnityEngine.UI.MaskableGraphic/CullStateChangedEvent
   methodsToPreserve: []
   sceneClasses:
     Assets/Scenes/battleScene.unity:
@@ -55,7 +70,13 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
+      Script: {instanceID: 1584}
+    - Class: 114
       Script: {instanceID: 2462}
+    - Class: 114
+      Script: {instanceID: 2740}
+    - Class: 114
+      Script: {instanceID: 2974}
     - Class: 114
       Script: {instanceID: 3824}
     - Class: 114
@@ -65,12 +86,24 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 5286}
     - Class: 114
-      Script: {instanceID: 7904}
+      Script: {instanceID: 5940}
     - Class: 114
-      Script: {instanceID: 8118}
+      Script: {instanceID: 6294}
     - Class: 114
-      Script: {instanceID: 8818}
+      Script: {instanceID: 6868}
+    - Class: 114
+      Script: {instanceID: 6914}
+    - Class: 114
+      Script: {instanceID: 7906}
+    - Class: 114
+      Script: {instanceID: 8120}
+    - Class: 114
+      Script: {instanceID: 8436}
+    - Class: 114
+      Script: {instanceID: 8824}
     - Class: 115
+      Script: {instanceID: 0}
+    - Class: 128
       Script: {instanceID: 0}
     - Class: 157
       Script: {instanceID: 0}
@@ -79,6 +112,29 @@ ScriptsOnlyBuild:
     - Class: 212
       Script: {instanceID: 0}
     - Class: 213
+      Script: {instanceID: 0}
+    - Class: 222
+      Script: {instanceID: 0}
+    - Class: 223
+      Script: {instanceID: 0}
+    - Class: 224
+      Script: {instanceID: 0}
+    Assets/Scenes/menuScene.unity:
+    - Class: 1
+      Script: {instanceID: 0}
+    - Class: 4
+      Script: {instanceID: 0}
+    - Class: 28
+      Script: {instanceID: 0}
+    - Class: 104
+      Script: {instanceID: 0}
+    - Class: 114
+      Script: {instanceID: 8490}
+    - Class: 115
+      Script: {instanceID: 0}
+    - Class: 157
+      Script: {instanceID: 0}
+    - Class: 196
       Script: {instanceID: 0}
   scriptHashData:
   - hash:
@@ -191,7 +247,7 @@ ScriptsOnlyBuild:
     className: RawImage
   - hash:
       serializedVersion: 2
-      Hash: 48f35b00b865a66fc7a66c0e555812f3
+      Hash: 9539449bc8b025445afeb2d6b4d2e098
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: FalseMessageReceiver
@@ -773,6 +829,12 @@ ScriptsOnlyBuild:
     className: MarkerTrack
   - hash:
       serializedVersion: 2
+      Hash: e1d167a78b490641333b6985ccd7f86f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: BombCount
+  - hash:
+      serializedVersion: 2
       Hash: 8e6ceabfd38a184413d69b7db56c89cc
     assemblyName: UnityEngine.TestRunner.dll
     namespaceName: UnityEngine.TestTools
@@ -923,7 +985,7 @@ ScriptsOnlyBuild:
     className: SignalTrack
   - hash:
       serializedVersion: 2
-      Hash: 729f0188ef4eb478189272b7b32537ad
+      Hash: 3a52eea82b526cd570d3b096921c96a3
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerState
@@ -947,7 +1009,7 @@ ScriptsOnlyBuild:
     className: ControlTrack
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+      Hash: 517df55dcb77f53f5e2a89ed6744bf02
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: InputManager
@@ -983,10 +1045,22 @@ ScriptsOnlyBuild:
     className: UnityOnMouseOverMessageListener
   - hash:
       serializedVersion: 2
+      Hash: 4ce15e99c635d2567873d27549d1f16f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: LifeCount
+  - hash:
+      serializedVersion: 2
       Hash: 2574ac7d50617d23cdefe4ad22f5e1ad
     assemblyName: Unity.VisualScripting.Core.dll
     namespaceName: Unity.VisualScripting
     className: Variables
+  - hash:
+      serializedVersion: 2
+      Hash: f9a984b76d49201b5c2856d4420d3f29
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: NetworkManager
   - hash:
       serializedVersion: 2
       Hash: 2574ac7d50617d23cdefe4ad22f5e1ad
@@ -1055,5 +1129,6 @@ ScriptsOnlyBuild:
     className: UnityOnSliderValueChangedMessageListener
   platform: 19
   scenePathNames:
+  - Assets/Scenes/menuScene.unity
   - Assets/Scenes/battleScene.unity
-  playerPath: D:/Document/Reseau/bomber-student/bomber_strudent_client_unity/build/bomber_strudent_client_unity.exe
+  playerPath: D:/Document/Reseau/bomber-student/bomber_strudent_client_unity/build/bomber_strudent_client_unity_WIndows/bomber_strudent_client_unity.exe
