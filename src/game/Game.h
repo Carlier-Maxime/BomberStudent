@@ -20,6 +20,8 @@ public:
     bool isStarted() const;
     void start(const Player& player);
     void sendForAllPlayers(const std::string& msg) const;
+    u_char getWidth();
+    u_char getHeight();
 private:
     mutable std::shared_mutex mutex;
     std::string name;

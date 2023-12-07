@@ -97,3 +97,11 @@ void Game::start(const Player& player) {
 void Game::sendForAllPlayers(const std::string& msg) const {
     for (const auto& player : players) player.getSocket()->send(msg);
 }
+
+u_char Game::getWidth() {
+    return map.getWidth();
+}
+
+u_char Game::getHeight() {
+    return map.getHeight();
+}

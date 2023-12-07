@@ -21,6 +21,8 @@ public:
     [[nodiscard]] u_int16_t getRandomAvailablePos() const;
     bool isAccessiblePos(unsigned char x, unsigned char y);
     ~Map();
+    [[nodiscard]] unsigned char getWidth() const;
+    [[nodiscard]] unsigned char getHeight() const;
 };
 
 
