@@ -17,6 +17,7 @@ public class MapGenerator : MonoBehaviour
                             "*_===_*" +
                             "*_____*" +
                             "*******";
+    private string map;
     private GameObject[] cases = new GameObject[1];
 
     private int width;
@@ -26,12 +27,10 @@ public class MapGenerator : MonoBehaviour
     private void Start()
     {
         initMap(8, 7);
+        setContentMap(baseContent);
+        
     }
-    void Update()
-    {
-        generateMap(baseContent);
-    }
-
+    
 
     public void initMap(int height, int width)
     {
@@ -52,7 +51,7 @@ public class MapGenerator : MonoBehaviour
             }
         }
     }
-    public void generateMap( string content)
+    public void generateMap()
     {
        
         for (int lig = 0; lig < height; lig++)
@@ -61,10 +60,10 @@ public class MapGenerator : MonoBehaviour
             {
                 Sprite spriteCase;
                 int idx = lig * width + col;
-                if (content[idx] == '_')
+                if (map[idx] == '_')
                 {
                     spriteCase = caseSol;
-                }else if(content[idx] == '=')
+                }else if(map[idx] == '=')
                 {
                     spriteCase = caseMur;
                 }
@@ -87,5 +86,22 @@ public class MapGenerator : MonoBehaviour
     public Vector2 getPosForCoord(Vector2 vector)
     {
         return getPosForCoord((int)vector.x, (int)vector.y);
+    }
+    public void setContentMap(string content)
+    {
+        if(content.Length == width*height) this.map = content;
+        generateMap();
+    }
+
+    public char getCase(int x, int y)
+    {
+        if(x>=0 && x<width && y>=0 && y<height)
+            return map[y * width + x];
+        return ' ';
+    }
+
+    public char getCase(Vector2Int coord)
+    {
+        return getCase(coord.x, coord.y);
     }
 }

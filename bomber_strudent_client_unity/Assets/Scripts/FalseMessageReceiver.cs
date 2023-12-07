@@ -7,7 +7,26 @@ public class FalseMessageReceiver : MonoBehaviour
     public PlayerManager playerManager;
     public BombManager bombManager;
     public PlayerState playerState;
-    
+    public MapGenerator mapGenerator;
+    public LifeCount lifeCount;
+    public Explosion explosion;
+    public GameObject explosionPrefab;
+
+    private void Start()
+    {
+
+        affectPlayer(playerState);
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            this.bombExplode(new Vector2Int(2, 1), BombType.classic, 3, "********_____**_===_**_____**_____**__==_**_____********");
+            playerState.setLife(70);
+            affectPlayer(playerState);
+        }
+    }
+
     public void updatePositionPlayer(string playerName,string dir)
     {
         Player[] players = playerManager.getPlayers();
@@ -59,5 +78,19 @@ public class FalseMessageReceiver : MonoBehaviour
         {
             bombManager.addMine(coord); 
         }
+    }
+
+    public void bombExplode(Vector2Int coord, BombType bombType, int impactDist, string newMap)
+    {
+        bombManager.deleteBomb(coord, bombType);
+        Explosion explosion = Instantiate(explosionPrefab).GetComponent<Explosion>();
+        explosion.setExplosion(coord, impactDist,mapGenerator);
+        mapGenerator.setContentMap(newMap);
+    }
+
+    public void affectPlayer(PlayerState other)
+    {
+        this.playerState.updatePlayerState(other);
+        lifeCount.setHp(this.playerState.getLife());
     }
 }

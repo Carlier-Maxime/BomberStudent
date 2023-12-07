@@ -10,6 +10,9 @@ public class PlayerState : MonoBehaviour
     private int impactDist=0;
     private bool invicible=false;
 
+
+    public BombCount bombCount;
+
     public void updatePlayerState(PlayerState other)
     {
         this.life = other.life;
@@ -18,6 +21,9 @@ public class PlayerState : MonoBehaviour
         this.nbMine = other.nbMine;
         this.invicible = other.invicible;
         this.impactDist = other.impactDist;
+        this.bombCount.setClassicCount(this.nbClassicBomb);
+        this.bombCount.setRemoteCount(this.nbRemoteBomb);
+        this.bombCount.setMineCount(this.nbMine);
     }
 
     public string getName()
@@ -27,6 +33,10 @@ public class PlayerState : MonoBehaviour
     public int getLife()
     {
         return this.life;
+    }
+    public void setLife(int life)
+    {
+        this.life=life;
     }
     public int getNbClassicBomb()
     {

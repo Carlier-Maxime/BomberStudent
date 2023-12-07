@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BombManager : MonoBehaviour
 {
+ 
     List<Bomb> classicBombList = new List<Bomb>();
     List<Bomb> remoteBombList = new List<Bomb>();
     List<Bomb> mineList = new List<Bomb>();
@@ -13,6 +14,7 @@ public class BombManager : MonoBehaviour
     public GameObject remoteBombPrefab;
 
     public MapGenerator mapGenerator;
+
 
 
     public void addClassicBomb(Vector2Int coord)
@@ -38,5 +40,23 @@ public class BombManager : MonoBehaviour
         bomb.setBombType(BombType.mine);
         bomb.setCoord(coord, mapGenerator);
         mineList.Add(bomb);
+    }
+
+    public void deleteBomb(Vector2Int coord, BombType bombType)
+    {
+        List<Bomb> bombList;
+        if (bombType == BombType.classic) bombList = classicBombList;
+        else if (bombType == BombType.remote) bombList = remoteBombList;
+        else bombList = mineList;
+        for (int i = 0; i < bombList.Count; i++)
+        {
+            Bomb bomb = bombList[i];
+            if (bomb.getCoord().Equals(coord))
+            {
+                bombList.Remove(bomb);
+                GameObject.Destroy(bomb.gameObject);
+            }
+        }
+        
     }
 }
