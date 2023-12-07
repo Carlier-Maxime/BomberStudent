@@ -77,7 +77,11 @@ const std::string &Player::getName() const {
 }
 
 bool Player::move(unsigned char x, unsigned char y) {
-    if (game && !game->isAccessiblePos(x, y)) return false;
+    while (x<0) x+=game->getWidth();
+    while (x>=game->getWidth()) x-=game->getWidth();
+    while (y<0) y+=game->getHeight();
+    while (y>=game->getHeight()) y-=game->getHeight();
+    if (!game->isAccessiblePos(x, y)) return false;
     posY=y;
     posX=x;
     return true;
