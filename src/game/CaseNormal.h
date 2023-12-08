@@ -5,13 +5,15 @@
 #include "Case.h"
 
 class CaseNormal : public Case {
+private:
+    bool accessible;
 public:
+    CaseNormal();
     [[nodiscard]] char getType() const override;
     [[nodiscard]] bool isAccessible() const override;
-
-    Case *clone() const override;
-
-public:
+    [[nodiscard]] Case *clone() const override;
+    void resetAccessible() override;
+    void toNoAccessible() override;
     static const char type = '-';
 };
 

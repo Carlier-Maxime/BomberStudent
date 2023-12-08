@@ -11,3 +11,13 @@ bool CaseNormal::isAccessible() const {
 Case *CaseNormal::clone() const {
     return new CaseNormal(*this);
 }
+
+void CaseNormal::resetAccessible() {
+    accessible=true;
+}
+
+void CaseNormal::toNoAccessible() {
+    accessible=false;
+}
+
+CaseNormal::CaseNormal() : Case(), accessible(true) {}

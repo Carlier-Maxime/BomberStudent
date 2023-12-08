@@ -11,6 +11,10 @@ public:
 
     Case *clone() const override;
 
+    void resetAccessible() override;
+
+    void toNoAccessible() override;
+
 public:
     static const char type = '*';
 };

@@ -11,3 +11,7 @@ bool CaseUnbreakable::isAccessible() const {
 Case *CaseUnbreakable::clone() const {
     return new CaseUnbreakable(*this);
 }
+
+void CaseUnbreakable::resetAccessible() {}
+
+void CaseUnbreakable::toNoAccessible() {}
