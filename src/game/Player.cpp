@@ -77,10 +77,6 @@ const std::string &Player::getName() const {
 }
 
 bool Player::move(unsigned char x, unsigned char y) {
-    while (x<0) x+=game->getWidth();
-    while (x>=game->getWidth()) x-=game->getWidth();
-    while (y<0) y+=game->getHeight();
-    while (y>=game->getHeight()) y-=game->getHeight();
     if (!game->getMap().getCase(x, y)->isAccessible()) return false;
     game->getMap().getCase(posX, posY)->resetAccessible();
     game->getMap().getCase(x, y)->toNoAccessible();
@@ -98,11 +94,12 @@ const SocketTCP* Player::getSocket() const {
 }
 
 bool Player::move(const std::string& direction) {
+    u_char w = game->getMap().getWidth(), h = game->getMap().getHeight();
     u_char x = posX, y = posY;
-    if (direction=="up") y++;
-    else if (direction=="down") y--;
-    else if (direction=="left") x--;
-    else if (direction=="right") x++;
+    if (direction=="up") y = (y==0) ? h-1 : y-1;
+    else if (direction=="down") y = (y==h-1) ? 0 : y+1;
+    else if (direction=="left") x = (x==0) ? w-1 : x-1;
+    else if (direction=="right") x = (x==w-1) ? 0 : x+1;
     else return false;
     return move(x,y);
 }
