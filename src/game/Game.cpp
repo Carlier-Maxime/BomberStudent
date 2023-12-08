@@ -36,12 +36,12 @@ const std::string &Game::getName() const {
 Player * Game::newPlayer(const SocketTCP *socket) {
     if (isStarted()) return nullptr;
     std::lock_guard<std::shared_mutex> lock(mutex);
-    players.emplace_back(socket, this);
     u_int16_t pos = map.getRandomAvailablePos();
     u_char x, y;
     SPLIT_POS(pos,x,y);
+    players.emplace_back(socket, this, x, y);
+    map.getCase(x,y)->toNoAccessible();
     Player* player = &players.back();
-    player->move(x,y);
     return player;
 }
 
