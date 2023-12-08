@@ -65,14 +65,15 @@ u_int16_t Map::getRandomAvailablePos() const {
     return MERGE_POS(x,y);
 }
 
-bool Map::isAccessiblePos(unsigned char x, unsigned char y) {
-    return x>0 && y>0 && x<width && y<height && cases[static_cast<u_int>(y)*width+static_cast<u_int>(x)]->isAccessible();
-}
-
 unsigned char Map::getWidth() const {
     return width;
 }
 
 unsigned char Map::getHeight() const {
     return height;
+}
+
+Case *Map::getCase(u_char x, u_char y) {
+    if (x>0 && y>0 && x<width && y<height) return cases[static_cast<u_int>(y)*width+static_cast<u_int>(x)];
+    return nullptr;
 }

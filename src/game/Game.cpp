@@ -45,10 +45,6 @@ Player * Game::newPlayer(const SocketTCP *socket) {
     return player;
 }
 
-bool Game::isAccessiblePos(unsigned char x, unsigned char y) {
-    return map.isAccessiblePos(x, y);
-}
-
 std::string Game::jsonCreateOrJoinGame(const Player &player) {
     std::shared_lock<std::shared_mutex> lock(mutex);
     std::ostringstream json;
@@ -104,4 +100,8 @@ u_char Game::getWidth() {
 
 u_char Game::getHeight() {
     return map.getHeight();
+}
+
+Map &Game::getMap() {
+    return map;
 }

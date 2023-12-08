@@ -81,7 +81,7 @@ bool Player::move(unsigned char x, unsigned char y) {
     while (x>=game->getWidth()) x-=game->getWidth();
     while (y<0) y+=game->getHeight();
     while (y>=game->getHeight()) y-=game->getHeight();
-    if (!game->isAccessiblePos(x, y)) return false;
+    if (!game->getMap().getCase(x, y)->isAccessible()) return false;
     posY=y;
     posX=x;
     return true;
