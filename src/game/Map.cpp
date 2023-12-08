@@ -74,6 +74,6 @@ unsigned char Map::getHeight() const {
 }
 
 Case *Map::getCase(u_char x, u_char y) {
-    if (x>0 && y>0 && x<width && y<height) return cases[static_cast<u_int>(y)*width+static_cast<u_int>(x)];
+    if (x<width && y<height) return cases[static_cast<u_int>(y)*width+static_cast<u_int>(x)];
     return nullptr;
 }
