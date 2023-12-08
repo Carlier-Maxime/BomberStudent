@@ -9,7 +9,7 @@ int main(int argc, char* argv[]) {
     Utils::processName = "Server";
     Log::open();
     bool launchClient=false;
-    int pid;
+    int pid=1;
     if (argc>1) {
         if ("dev"==std::string(argv[1])) {
             launchClient=true;
@@ -26,8 +26,7 @@ int main(int argc, char* argv[]) {
             throw SystemException("Launching client failed (exec)");
         } else if (pid==-1) {
             throw SystemException("Launching client failed (fork)");
-        }
-        else {
+        } else {
             Log::info("start");
             Server().run();
         }
