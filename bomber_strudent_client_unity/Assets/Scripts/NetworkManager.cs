@@ -3,6 +3,8 @@ using System.Net.Sockets;
 using UnityEngine;
 using System.Threading;
 using System.IO;
+using System.Collections;
+using System.Collections.Generic;
 
 public class NetworkManager : MonoBehaviour
 {
@@ -16,6 +18,8 @@ public class NetworkManager : MonoBehaviour
 
     private bool isConnectedTCP = false;
     private bool isListeningUDP = false;
+
+    public MessageParser messageParser;
 
     private void Awake()
     {
@@ -56,6 +60,12 @@ public class NetworkManager : MonoBehaviour
 
     public void startListeningUDP(int port)
     {
+        if (this.udpListener != null)
+        {
+
+            this.udpListener.Close();
+            this.udpListener.Dispose();
+        }
         Debug.Log("ok1");
         isListeningUDP = true;
         this.udpListener = new UdpClient(port);
@@ -71,13 +81,24 @@ public class NetworkManager : MonoBehaviour
         IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Any, 42069);
         while (isListeningUDP)
         {
-            byte[] data = this.udpListener.Receive(ref iPEndPoint);
-            string message = System.Text.Encoding.ASCII.GetString(data, 0, data.Length);
-            Debug.Log(message);
+            try
+            {
+                byte[] data = this.udpListener.Receive(ref iPEndPoint);
+                string message = System.Text.Encoding.ASCII.GetString(data, 0, data.Length);
+                messageParser.parseMessage(message, iPEndPoint.Address);
+            } catch(SocketException e)
+            {
+                isListeningUDP = false;
+            }
 
         }
     }
-
+    public void stopListeningUDP()
+    {
+        this.isListeningUDP = false;
+        this.udpListener.Close();
+        this.udpListener.Dispose();
+    }
     public void initUpdClient(string addressIP)
     {
         this.udpClient = new UdpClient();
@@ -169,6 +190,8 @@ public class NetworkManager : MonoBehaviour
         }
 
     }
+
+    
 
 }
 

@@ -1,18 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Net;
 
-public class MenuMessageReceiver : MonoBehaviour
+public class MenuMessageReceiver : MonoBehaviour, IMessageReceiver
 {
-    // Start is called before the first frame update
-    void Start()
+    public ServeurList serveurList;
+    private void Start()
     {
-        
+        MessageParser.getInstance().setMessageReceiver(this);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void foundBomberStudentServer(IPAddress iPAddress)
     {
-        
+        Debug.Log("Il y a un serveur bomber student là: " + iPAddress.ToString());
+        serveurList.addServer(iPAddress.ToString());
     }
 }

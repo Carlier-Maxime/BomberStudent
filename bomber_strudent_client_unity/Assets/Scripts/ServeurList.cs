@@ -14,6 +14,8 @@ public class ServeurList : MonoBehaviour
     private List<string> serverList = new List<string>();
     private int idx = 0;
 
+    private bool changed = false;
+
     private void Awake()
     {
         initButton();
@@ -33,6 +35,11 @@ public class ServeurList : MonoBehaviour
         }else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             this.up();
+        }
+        if (changed)
+        {
+            changed = false;
+            updateButton();
         }
     }
 
@@ -60,9 +67,15 @@ public class ServeurList : MonoBehaviour
     public void setButtons(int idx)
     {
         this.idx = idx;
+        changed = true;
+        
+    }
+
+    public void updateButton()
+    {
         if (serverList.Count == 0)
         {
-            for(int i=0; i < buttonList.Count; i++)
+            for (int i = 0; i < buttonList.Count; i++)
             {
                 buttonList[i].GetComponentInChildren<Text>().text = "";
                 buttonList[i].GetComponent<ServerButton>().setServerIdx(0);
@@ -71,7 +84,7 @@ public class ServeurList : MonoBehaviour
         else
         {
             int centerIdx = buttonList.Count / 2;
-            for(int i=0; i < buttonList.Count; i++)
+            for (int i = 0; i < buttonList.Count; i++)
             {
                 int tmp = i - centerIdx;
                 int serverIdx = ((tmp + serverList.Count + idx) % serverList.Count + serverList.Count) % serverList.Count;
@@ -93,16 +106,22 @@ public class ServeurList : MonoBehaviour
         this.setButtons();
     }
 
-    public void up()
-    {
-        int idx = (this.idx + 1) % serverList.Count;
-        setButtons(idx);
-    }
     public void down()
     {
-        int idx = this.idx - 1;
-        idx = (idx%serverList.Count + serverList.Count) % serverList.Count;
-        setButtons(idx);
+        if (serverList.Count > 0)
+        {
+            int idx = (this.idx + 1) % serverList.Count;
+            setButtons(idx);
+        }
+    }
+    public void up()
+    {
+        if (serverList.Count > 0)
+        {
+            int idx = this.idx - 1;
+            idx = (idx % serverList.Count + serverList.Count) % serverList.Count;
+            setButtons(idx);
+        }
     }
     public void resetServeurList()
     {

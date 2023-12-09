@@ -57,7 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\FalseMessageReceiver.cs" />
-    <Compile Include="Assets\Scripts\MessageSender.cs" />
+    <Compile Include="Assets\Scripts\IMessageSender.cs" />
     <Compile Include="Assets\Scripts\MenuMessageReceiver.cs" />
     <Compile Include="Assets\Scripts\MapGenerator.cs" />
     <Compile Include="Assets\Scripts\BombManager.cs" />
@@ -78,6 +78,8 @@
     <Compile Include="Assets\Scripts\LifeCount.cs" />
     <Compile Include="Assets\Scripts\NetworkManager.cs" />
     <Compile Include="Assets\Scripts\Bomb.cs" />
+    <Compile Include="Assets\Scripts\IMessageReceiver.cs" />
+    <Compile Include="Assets\Scripts\MessageParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

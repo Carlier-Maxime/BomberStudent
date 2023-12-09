@@ -14,6 +14,7 @@ ScriptsOnlyBuild:
     - MenuManager
     - MenuMessageReceiver
     - MenuMessageSender
+    - MessageParser
     - NetworkManager
     - PlayerManager
     - PlayerState
@@ -28,6 +29,7 @@ ScriptsOnlyBuild:
     - UnityEditor.Tilemaps.GridBrush
     - UnityEditor.Tilemaps.GridPaintingState
     - UnityEditor.Tilemaps.GridPaletteBrushes
+    - UnityEditor.Tilemaps.GridPalettes
     - UnityEditor.Tilemaps.SceneViewGridManager
     - UnityEditor.Tilemaps.SceneViewOpenTilePaletteHelper
     - UnityEditor.Tilemaps.TileDragAndDropManager
@@ -239,6 +241,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 8142}
     - Class: 114
       Script: {instanceID: 8532}
+    - Class: 114
+      Script: {instanceID: 28986}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -516,7 +520,7 @@ ScriptsOnlyBuild:
     className: Bone
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+      Hash: c01af3a4c4056e312c5386f84598f236
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: MenuMessageReceiver
@@ -1224,7 +1228,7 @@ ScriptsOnlyBuild:
     className: Variables
   - hash:
       serializedVersion: 2
-      Hash: f9a984b76d49201b5c2856d4420d3f29
+      Hash: 8e397171af6183e40d8a0ec1cf7cca57
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: NetworkManager
@@ -1294,6 +1298,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.Core.dll
     namespaceName: Unity.VisualScripting
     className: UnityOnSliderValueChangedMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: MessageParser
   platform: 19
   scenePathNames:
   - Assets/Scenes/menuScene.unity
