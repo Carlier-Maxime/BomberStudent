@@ -98,14 +98,17 @@ void Server::handleGameCreate(const SocketTCP *socket, const json& data, Player 
     try {
         if (player && game) game->removePlayer(*player);
         game = GameManager::getInstance()->addGame(name, MapManager::getInstance()->get(id));
-        if (!game) socket->send(CM::failedCreateGame);
+        if (!game) goto fail;
         player = game->newPlayer(socket);
-        if (!player) socket->send(CM::failedCreateGame);
+        if (!player) goto fail;
         socket->send(game->jsonCreateOrJoinGame(*player));
     } catch (std::exception& e) {
         Log::warning(e.what());
         socket->send(CM::failedCreateGame);
     }
+    return;
+    fail:
+    socket->send(CM::failedCreateGame);
 }
 
 void Server::handleGameJoin(const SocketTCP *socket, const json& data, Player *&player, Game *&game) {
@@ -113,14 +116,17 @@ void Server::handleGameJoin(const SocketTCP *socket, const json& data, Player *&
     try {
         if (player && game) game->removePlayer(*player);
         game = GameManager::getInstance()->getGame(name);
-        if (!game) socket->send(CM::failedJoinGame);
+        if (!game) goto fail;
         player = game->newPlayer(socket);
-        if (!player) socket->send(CM::failedJoinGame);
+        if (!player) goto fail;
         socket->send(game->jsonCreateOrJoinGame(*player));
     } catch (std::exception& e) {
         Log::warning(e.what());
         socket->send(CM::failedJoinGame);
     }
+    return;
+    fail:
+    socket->send(CM::failedJoinGame);
 }
 
 void Server::handleUDP() {
