@@ -4,6 +4,8 @@
 #include "../utils/Utils.h"
 #include "Game.h"
 
+u_int Player::id = 0;
+
 const std::string Player::possibleNames[] = {
         "Anis",
         "Antoine",
@@ -55,7 +57,8 @@ std::string Player::randomNames() {
     return Player::possibleNames[Utils::getRandomNumber(0, 43)];
 }
 
-Player::Player(const SocketTCP* socket, Game* game, u_char posX, u_char posY) : socket(socket), game(game), name(randomNames()), speed(1), life(100), nbClassicBomb(2), nbMine(0),
+Player::Player(const SocketTCP* socket, Game* game, u_char posX, u_char posY) : socket(socket), game(game),
+name(randomNames()+std::to_string(id++)), speed(1), life(100), nbClassicBomb(2), nbMine(0),
 nbRemoteBomb(1), impactDist(2), posX(posX), posY(posY), invincible(false) {}
 
 std::string Player::toJSON() const {

@@ -8,6 +8,7 @@ class Game;
 
 class Player {
 private:
+    static u_int id;
     static const std::string possibleNames[];
     static std::string randomNames();
     const SocketTCP* socket;
