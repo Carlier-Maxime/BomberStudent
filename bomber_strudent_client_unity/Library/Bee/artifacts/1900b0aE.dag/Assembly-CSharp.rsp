@@ -376,12 +376,19 @@
 "Assets/Scripts/FalseMessageSender.cs"
 "Assets/Scripts/InputManager.cs"
 "Assets/Scripts/LifeCount.cs"
+"Assets/Scripts/MainMenu.cs"
 "Assets/Scripts/MapGenerator.cs"
+"Assets/Scripts/MenuManager.cs"
+"Assets/Scripts/MenuMessageReceiver.cs"
+"Assets/Scripts/MenuMessageSender.cs"
 "Assets/Scripts/MessageSender.cs"
 "Assets/Scripts/NetworkManager.cs"
 "Assets/Scripts/Player.cs"
 "Assets/Scripts/PlayerManager.cs"
 "Assets/Scripts/PlayerState.cs"
+"Assets/Scripts/ServerButton.cs"
+"Assets/Scripts/ServeurList.cs"
+"Assets/Scripts/ServeurListMenu.cs"
 -langversion:9.0
 
 /deterministic

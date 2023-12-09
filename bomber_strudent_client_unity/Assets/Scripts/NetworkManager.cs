@@ -14,6 +14,9 @@ public class NetworkManager : MonoBehaviour
     private TcpListener tcpListener;
     public int port;
 
+    private bool isConnectedTCP = false;
+    private bool isListeningUDP = false;
+
     private void Awake()
     {
         if(NetworkManager.instance != null)
@@ -22,31 +25,62 @@ public class NetworkManager : MonoBehaviour
         }
         else
         {
+            DontDestroyOnLoad(this);
             NetworkManager.instance = this;
         }
 
     }
-    private void Update()
+    /*private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             sendTCPMessage("Bonjour\n");
         }
-    }
-    private void Start()
+    }*/
+    /*private void Start()
     {
-        /*initTCPClient("127.0.0.1", 42069);
-        sendTCPMessage("Ok");*/
+        startListeningUDP(42069);
+        initTCPClient("127.0.0.1", 42070);
+        sendTCPMessage("Ok");
         initTCPListener(42069);
+        startTCPListen();
+    }*/
+
+    public void connectTCP(string ipAddress, int sendingPort, int listeningPort)
+    {
+        isConnectedTCP = true;
+        initTCPClient(ipAddress, sendingPort);
+        initTCPListener(listeningPort);
         startTCPListen();
     }
 
-    
+    public void startListeningUDP(int port)
+    {
+        Debug.Log("ok1");
+        isListeningUDP = true;
+        this.udpListener = new UdpClient(port);
+        Thread thread = new Thread(() => ListenUDP());
+        thread.Start();
 
-    private void initUpdClient(string addressIP)
+        
+    }
+
+    private void ListenUDP()
+    {
+        Debug.Log("ok");
+        IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Any, 42069);
+        while (isListeningUDP)
+        {
+            byte[] data = this.udpListener.Receive(ref iPEndPoint);
+            string message = System.Text.Encoding.ASCII.GetString(data, 0, data.Length);
+            Debug.Log(message);
+
+        }
+    }
+
+    public void initUpdClient(string addressIP)
     {
         this.udpClient = new UdpClient();
-
         udpClient.Connect(addressIP, port);
         udpClient.EnableBroadcast = true;
     }
@@ -76,9 +110,18 @@ public class NetworkManager : MonoBehaviour
     {
 
         byte[] packetData = System.Text.Encoding.ASCII.GetBytes(message);
-
-        NetworkStream stream = this.tcpClient.GetStream();
-        stream.Write(packetData);
+        if (tcpClient.Connected)
+        {
+            NetworkStream stream = this.tcpClient.GetStream();
+            try
+            {
+                stream.Write(packetData);
+            }
+            catch (IOException)
+            {
+                Debug.Log("Fin de connexion inattendue");
+            }
+        }
     }
 
     public void initTCPListener(int port)

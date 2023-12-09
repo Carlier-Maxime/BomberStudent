@@ -4,14 +4,22 @@ ScriptsOnlyBuild:
     - Bomb
     - BombCount
     - BombManager
+    - Explosion
     - FalseMessageReceiver
     - FalseMessageSender
     - InputManager
     - LifeCount
+    - MainMenu
     - MapGenerator
+    - MenuManager
+    - MenuMessageReceiver
+    - MenuMessageSender
     - NetworkManager
     - PlayerManager
     - PlayerState
+    - ServerButton
+    - ServeurList
+    - ServeurListMenu
     Unity.2D.Animation.Editor.dll:
     - UnityEditor.U2D.Animation.BoneGizmo
     Unity.2D.IK.Editor.dll:
@@ -20,7 +28,6 @@ ScriptsOnlyBuild:
     - UnityEditor.Tilemaps.GridBrush
     - UnityEditor.Tilemaps.GridPaintingState
     - UnityEditor.Tilemaps.GridPaletteBrushes
-    - UnityEditor.Tilemaps.GridPalettes
     - UnityEditor.Tilemaps.SceneViewGridManager
     - UnityEditor.Tilemaps.SceneViewOpenTilePaletteHelper
     - UnityEditor.Tilemaps.TileDragAndDropManager
@@ -33,6 +40,12 @@ ScriptsOnlyBuild:
     - UnityEditor.Tilemaps.RandomBrush
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
+    Unity.TextMeshPro.dll:
+    - TMPro.TMP_FontAsset
+    - TMPro.TMP_Settings
+    - TMPro.TMP_SpriteAsset
+    - TMPro.TMP_StyleSheet
+    - TMPro.TextMeshProUGUI
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
     - UnityEditor.TestTools.TestRunner.TestListCacheData
@@ -40,17 +53,57 @@ ScriptsOnlyBuild:
     UnityEngine.UI.dll:
     - UnityEngine.EventSystems.EventSystem
     - UnityEngine.EventSystems.StandaloneInputModule
+    - UnityEngine.UI.Button
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
     - UnityEngine.UI.Text
   serializedClasses:
+    Unity.TextMeshPro:
+    - TMPro.FaceInfo_Legacy
+    - TMPro.FontAssetCreationSettings
+    - TMPro.KerningTable
+    - TMPro.TMP_Character
+    - TMPro.TMP_FontFeatureTable
+    - TMPro.TMP_FontWeightPair
+    - TMPro.TMP_GlyphAdjustmentRecord
+    - TMPro.TMP_GlyphPairAdjustmentRecord
+    - TMPro.TMP_GlyphValueRecord
+    - TMPro.TMP_Sprite
+    - TMPro.TMP_SpriteCharacter
+    - TMPro.TMP_SpriteGlyph
+    - TMPro.TMP_Style
+    - TMPro.VertexGradient
     UnityEngine.CoreModule:
+    - UnityEngine.Events.ArgumentCache
     - UnityEngine.Events.PersistentCallGroup
+    - UnityEngine.Events.PersistentListenerMode
+    UnityEngine.TextCoreFontEngineModule:
+    - UnityEngine.TextCore.FaceInfo
+    - UnityEngine.TextCore.Glyph
+    - UnityEngine.TextCore.GlyphMetrics
+    - UnityEngine.TextCore.GlyphRect
     UnityEngine.UI:
+    - UnityEngine.UI.AnimationTriggers
+    - UnityEngine.UI.Button/ButtonClickedEvent
+    - UnityEngine.UI.ColorBlock
     - UnityEngine.UI.FontData
     - UnityEngine.UI.MaskableGraphic/CullStateChangedEvent
-  methodsToPreserve: []
+    - UnityEngine.UI.Navigation
+    - UnityEngine.UI.SpriteState
+  methodsToPreserve:
+  - assembly: Assembly-CSharp
+    fullTypeName: ServerButton
+    methodName: selectServer
+  - assembly: Assembly-CSharp
+    fullTypeName: ServeurListMenu
+    methodName: returnToMainMenu
+  - assembly: Assembly-CSharp
+    fullTypeName: MainMenu
+    methodName: goToServerMenu
+  - assembly: Assembly-CSharp
+    fullTypeName: MainMenu
+    methodName: quitGame
   sceneClasses:
     Assets/Scenes/battleScene.unity:
     - Class: 1
@@ -65,42 +118,50 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 48
       Script: {instanceID: 0}
+    - Class: 74
+      Script: {instanceID: 0}
     - Class: 81
+      Script: {instanceID: 0}
+    - Class: 91
+      Script: {instanceID: 0}
+    - Class: 95
       Script: {instanceID: 0}
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 1584}
+      Script: {instanceID: 1612}
     - Class: 114
-      Script: {instanceID: 2462}
+      Script: {instanceID: 2490}
     - Class: 114
-      Script: {instanceID: 2740}
+      Script: {instanceID: 2768}
     - Class: 114
-      Script: {instanceID: 2974}
+      Script: {instanceID: 3002}
     - Class: 114
-      Script: {instanceID: 3824}
+      Script: {instanceID: 3852}
     - Class: 114
-      Script: {instanceID: 4542}
+      Script: {instanceID: 4570}
     - Class: 114
-      Script: {instanceID: 4582}
+      Script: {instanceID: 4610}
     - Class: 114
-      Script: {instanceID: 5286}
+      Script: {instanceID: 5316}
     - Class: 114
-      Script: {instanceID: 5940}
+      Script: {instanceID: 5506}
     - Class: 114
-      Script: {instanceID: 6294}
+      Script: {instanceID: 5972}
     - Class: 114
-      Script: {instanceID: 6868}
+      Script: {instanceID: 6326}
     - Class: 114
-      Script: {instanceID: 6914}
+      Script: {instanceID: 6900}
     - Class: 114
-      Script: {instanceID: 7906}
+      Script: {instanceID: 6948}
     - Class: 114
-      Script: {instanceID: 8120}
+      Script: {instanceID: 7946}
     - Class: 114
-      Script: {instanceID: 8436}
+      Script: {instanceID: 8162}
     - Class: 114
-      Script: {instanceID: 8824}
+      Script: {instanceID: 8478}
+    - Class: 114
+      Script: {instanceID: 8866}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -124,19 +185,83 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 4
       Script: {instanceID: 0}
+    - Class: 20
+      Script: {instanceID: 0}
+    - Class: 21
+      Script: {instanceID: 0}
     - Class: 28
+      Script: {instanceID: 0}
+    - Class: 48
+      Script: {instanceID: 0}
+    - Class: 49
+      Script: {instanceID: 0}
+    - Class: 81
       Script: {instanceID: 0}
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 8490}
+      Script: {instanceID: 1562}
+    - Class: 114
+      Script: {instanceID: 1612}
+    - Class: 114
+      Script: {instanceID: 2282}
+    - Class: 114
+      Script: {instanceID: 2768}
+    - Class: 114
+      Script: {instanceID: 3002}
+    - Class: 114
+      Script: {instanceID: 3386}
+    - Class: 114
+      Script: {instanceID: 4524}
+    - Class: 114
+      Script: {instanceID: 4834}
+    - Class: 114
+      Script: {instanceID: 5300}
+    - Class: 114
+      Script: {instanceID: 5662}
+    - Class: 114
+      Script: {instanceID: 5972}
+    - Class: 114
+      Script: {instanceID: 6326}
+    - Class: 114
+      Script: {instanceID: 6520}
+    - Class: 114
+      Script: {instanceID: 6900}
+    - Class: 114
+      Script: {instanceID: 6946}
+    - Class: 114
+      Script: {instanceID: 7068}
+    - Class: 114
+      Script: {instanceID: 7412}
+    - Class: 114
+      Script: {instanceID: 7554}
+    - Class: 114
+      Script: {instanceID: 8142}
+    - Class: 114
+      Script: {instanceID: 8532}
     - Class: 115
+      Script: {instanceID: 0}
+    - Class: 128
       Script: {instanceID: 0}
     - Class: 157
       Script: {instanceID: 0}
     - Class: 196
       Script: {instanceID: 0}
+    - Class: 213
+      Script: {instanceID: 0}
+    - Class: 222
+      Script: {instanceID: 0}
+    - Class: 223
+      Script: {instanceID: 0}
+    - Class: 224
+      Script: {instanceID: 0}
   scriptHashData:
+  - hash:
+      serializedVersion: 2
+      Hash: 69415240821be7986b27e72bf9609a30
+    assemblyName: UnityEngine.UI.dll
+    namespaceName: UnityEngine.UI
+    className: Button
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -247,7 +372,7 @@ ScriptsOnlyBuild:
     className: RawImage
   - hash:
       serializedVersion: 2
-      Hash: 9539449bc8b025445afeb2d6b4d2e098
+      Hash: 8fb3785edc5d6986d1c6afae9f9a6648
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: FalseMessageReceiver
@@ -391,10 +516,10 @@ ScriptsOnlyBuild:
     className: Bone
   - hash:
       serializedVersion: 2
-      Hash: 69415240821be7986b27e72bf9609a30
-    assemblyName: UnityEngine.UI.dll
-    namespaceName: UnityEngine.UI
-    className: Button
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: MenuMessageReceiver
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -655,6 +780,12 @@ ScriptsOnlyBuild:
     className: GridLayoutGroup
   - hash:
       serializedVersion: 2
+      Hash: c52b02c3786d9fc9c51093fdf8e41c10
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: MainMenu
+  - hash:
+      serializedVersion: 2
       Hash: a8378379f5ea68c389941254fc57bdae
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
@@ -683,6 +814,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_InputField
+  - hash:
+      serializedVersion: 2
+      Hash: 0170cc7dbf3088026b33aeb6a5f62428
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Explosion
   - hash:
       serializedVersion: 2
       Hash: bcaee4c2a83047257b5f47d6ed264b75
@@ -829,6 +966,12 @@ ScriptsOnlyBuild:
     className: MarkerTrack
   - hash:
       serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: MenuMessageSender
+  - hash:
+      serializedVersion: 2
       Hash: e1d167a78b490641333b6985ccd7f86f
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
@@ -851,6 +994,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.2D.SpriteShape.Runtime.dll
     namespaceName: UnityEngine.U2D
     className: SpriteShapeController
+  - hash:
+      serializedVersion: 2
+      Hash: ab83060d73e6d3ef6f903e24f16f3c3b
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ServeurList
   - hash:
       serializedVersion: 2
       Hash: 4fd8bf02e3089425d3502e26c44ba31a
@@ -895,6 +1044,12 @@ ScriptsOnlyBuild:
     className: VerticalLayoutGroup
   - hash:
       serializedVersion: 2
+      Hash: 2f1d33b5f3e9a72c2fc1c8790700f678
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ServeurListMenu
+  - hash:
+      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Unity.VisualScripting.Core.dll
     namespaceName: Unity.VisualScripting
@@ -905,6 +1060,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.2D.Tilemap.Extras.dll
     namespaceName: UnityEngine
     className: RuleTile
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: MenuManager
   - hash:
       serializedVersion: 2
       Hash: 18c222bef9ae745ce69ddde9b74337ca
@@ -1007,6 +1168,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: ControlTrack
+  - hash:
+      serializedVersion: 2
+      Hash: 8a10d1fc6029b3f51d0abc87582fa9fd
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ServerButton
   - hash:
       serializedVersion: 2
       Hash: 517df55dcb77f53f5e2a89ed6744bf02
@@ -1131,4 +1298,4 @@ ScriptsOnlyBuild:
   scenePathNames:
   - Assets/Scenes/menuScene.unity
   - Assets/Scenes/battleScene.unity
-  playerPath: D:/Document/Reseau/bomber-student/bomber_strudent_client_unity/build/bomber_strudent_client_unity_WIndows/bomber_strudent_client_unity.exe
+  playerPath: D:/Document/Reseau/bomber-student/bomber_strudent_client_unity/build/bomber_strudent_client_unity.exe
