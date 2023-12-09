@@ -14,12 +14,14 @@ public:
     [[nodiscard]] std::string toJSON() const;
     [[nodiscard]] const std::string &getName() const;
     Player *newPlayer(const SocketTCP *socket);
-    bool isAccessiblePos(unsigned char x, unsigned char y);
+    Map& getMap();
     std::string jsonCreateOrJoinGame(const Player& player);
     void removePlayer(const Player& player);
     bool isStarted() const;
     void start(const Player& player);
     void sendForAllPlayers(const std::string& msg) const;
+    u_char getWidth();
+    u_char getHeight();
 private:
     mutable std::shared_mutex mutex;
     std::string name;

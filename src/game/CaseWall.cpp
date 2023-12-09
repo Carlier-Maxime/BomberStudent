@@ -11,3 +11,7 @@ bool CaseWall::isAccessible() const {
 Case *CaseWall::clone() const {
     return new CaseWall(*this);
 }
+
+void CaseWall::resetAccessible() {}
+
+void CaseWall::toNoAccessible() {}

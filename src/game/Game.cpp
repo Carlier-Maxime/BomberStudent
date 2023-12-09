@@ -36,17 +36,13 @@ const std::string &Game::getName() const {
 Player * Game::newPlayer(const SocketTCP *socket) {
     if (isStarted()) return nullptr;
     std::lock_guard<std::shared_mutex> lock(mutex);
-    players.emplace_back(socket, this);
     u_int16_t pos = map.getRandomAvailablePos();
     u_char x, y;
     SPLIT_POS(pos,x,y);
+    players.emplace_back(socket, this, x, y);
+    map.getCase(x,y)->toNoAccessible();
     Player* player = &players.back();
-    player->move(x,y);
     return player;
-}
-
-bool Game::isAccessiblePos(unsigned char x, unsigned char y) {
-    return map.isAccessiblePos(x, y);
 }
 
 std::string Game::jsonCreateOrJoinGame(const Player &player) {
@@ -96,4 +92,16 @@ void Game::start(const Player& player) {
 
 void Game::sendForAllPlayers(const std::string& msg) const {
     for (const auto& player : players) player.getSocket()->send(msg);
+}
+
+u_char Game::getWidth() {
+    return map.getWidth();
+}
+
+u_char Game::getHeight() {
+    return map.getHeight();
+}
+
+Map &Game::getMap() {
+    return map;
 }

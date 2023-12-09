@@ -55,8 +55,8 @@ std::string Player::randomNames() {
     return Player::possibleNames[Utils::getRandomNumber(0, 43)];
 }
 
-Player::Player(const SocketTCP* socket, Game* game) : socket(socket), game(game), name(randomNames()), speed(1), life(100), nbClassicBomb(2), nbMine(0),
-nbRemoteBomb(1), impactDist(2), posX(0), posY(0), invincible(false) {}
+Player::Player(const SocketTCP* socket, Game* game, u_char posX, u_char posY) : socket(socket), game(game), name(randomNames()), speed(1), life(100), nbClassicBomb(2), nbMine(0),
+nbRemoteBomb(1), impactDist(2), posX(posX), posY(posY), invincible(false) {}
 
 std::string Player::toJSON() const {
     std::ostringstream json;
@@ -77,7 +77,9 @@ const std::string &Player::getName() const {
 }
 
 bool Player::move(unsigned char x, unsigned char y) {
-    if (game && !game->isAccessiblePos(x, y)) return false;
+    if (!game->isStarted() || !game->getMap().getCase(x, y)->isAccessible()) return false;
+    game->getMap().getCase(posX, posY)->resetAccessible();
+    game->getMap().getCase(x, y)->toNoAccessible();
     posY=y;
     posX=x;
     return true;
@@ -92,11 +94,12 @@ const SocketTCP* Player::getSocket() const {
 }
 
 bool Player::move(const std::string& direction) {
+    u_char w = game->getMap().getWidth(), h = game->getMap().getHeight();
     u_char x = posX, y = posY;
-    if (direction=="up") y++;
-    else if (direction=="down") y--;
-    else if (direction=="left") x--;
-    else if (direction=="right") x++;
+    if (direction=="up") y = (y==0) ? h-1 : y-1;
+    else if (direction=="down") y = (y==h-1) ? 0 : y+1;
+    else if (direction=="left") x = (x==0) ? w-1 : x-1;
+    else if (direction=="right") x = (x==w-1) ? 0 : x+1;
     else return false;
     return move(x,y);
 }

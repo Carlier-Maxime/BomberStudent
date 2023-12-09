@@ -18,7 +18,7 @@ private:
     bool invincible;
 protected:
 public:
-    explicit Player(const SocketTCP* socket, Game* game);
+    explicit Player(const SocketTCP* socket, Game* game, u_char posX, u_char posY);
     [[nodiscard]] std::string toJSON() const;
     [[nodiscard]] std::string toJSONState() const;
     [[nodiscard]] const std::string &getName() const;

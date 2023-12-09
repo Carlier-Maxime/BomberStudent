@@ -19,8 +19,10 @@ public:
     [[nodiscard]] std::string toJSON() const;
     [[nodiscard]] unsigned int getId() const;
     [[nodiscard]] u_int16_t getRandomAvailablePos() const;
-    bool isAccessiblePos(unsigned char x, unsigned char y);
+    Case* getCase(u_char x,u_char y);
     ~Map();
+    [[nodiscard]] unsigned char getWidth() const;
+    [[nodiscard]] unsigned char getHeight() const;
 };
 
 

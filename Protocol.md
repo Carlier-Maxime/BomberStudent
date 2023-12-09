@@ -1,5 +1,8 @@
 # Protocol Client/Server
 
+reference all protocol used for communication client / server.  
+All messages finish by a '\0' for prevent multiple messages sending in one. (except UDP)
+
 ## Error message
 
 TCP Bad request
