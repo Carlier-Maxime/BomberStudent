@@ -63,25 +63,7 @@ void Server::handleClient(const SocketTCP* socket) {
                     Log::info("Client disconnected : " + socket->getAddress().toString());
                     break;
                 }
-                std::istringstream stream(msg_received);
-                while (std::getline(stream, msg, '\0')) {
-                    if (msg.empty()) continue;
-                    else if (msg==CM::getMapList) socket->send(MapManager::getInstance()->toJSON());
-                    else if (msg==CM::getGameList) socket->send(GameManager::getInstance()->toJSON());
-                    else if (msg.compare(0, CM::postGameCreate.size(), CM::postGameCreate)==0)
-                        handleGameCreate(socket, json::parse(msg.substr(CM::postGameCreate.size())), player,game);
-                    else if (msg.compare(0, CM::postGameJoin.size(), CM::postGameJoin)==0)
-                        handleGameJoin(socket, json::parse(msg.substr(CM::postGameJoin.size())), player,game);
-                    else if (msg==CM::postGameStart && game && player) game->start(*player);
-                    else if (msg.compare(0, CM::postPlayerMove.size(), CM::postPlayerMove)==0)
-                        handlePlayerMove(json::parse(msg.substr(CM::postPlayerMove.size())), player, game);
-                    else if (msg.compare(0, CM::postAttackBomb.size(), CM::postAttackBomb)==0)
-                        handleAttackBomb(json::parse(msg.substr(CM::postAttackBomb.size())), player, game);
-                    else {
-                        Log::warning("Unknown request : "+msg);
-                        socket->send(CM::badRequest);
-                    }
-                }
+                processClientMessages(socket, msg_received, player, game);
             } catch (SocketException& e) {
                 if (errno==EINTR) break;
                 throw e;
@@ -93,6 +75,29 @@ void Server::handleClient(const SocketTCP* socket) {
     }
     if (player && game) game->removePlayer(*player);
     Log::info("terminate");
+}
+
+void Server::processClientMessages(const SocketTCP* socket, const std::string& msg_received, Player*& player, Game*& game) {
+    std::string msg;
+    std::istringstream stream(msg_received);
+    while (std::getline(stream, msg, '\0')) {
+        if (msg.empty()) continue;
+        else if (msg==CM::getMapList) socket->send(MapManager::getInstance()->toJSON());
+        else if (msg==CM::getGameList) socket->send(GameManager::getInstance()->toJSON());
+        else if (msg.compare(0, CM::postGameCreate.size(), CM::postGameCreate)==0)
+            handleGameCreate(socket, json::parse(msg.substr(CM::postGameCreate.size())), player,game);
+        else if (msg.compare(0, CM::postGameJoin.size(), CM::postGameJoin)==0)
+            handleGameJoin(socket, json::parse(msg.substr(CM::postGameJoin.size())), player,game);
+        else if (msg==CM::postGameStart && game && player) game->start(*player);
+        else if (msg.compare(0, CM::postPlayerMove.size(), CM::postPlayerMove)==0)
+            handlePlayerMove(json::parse(msg.substr(CM::postPlayerMove.size())), player, game);
+        else if (msg.compare(0, CM::postAttackBomb.size(), CM::postAttackBomb)==0)
+            handleAttackBomb(json::parse(msg.substr(CM::postAttackBomb.size())), player, game);
+        else {
+            Log::warning("Unknown request : "+msg);
+            socket->send(CM::badRequest);
+        }
+    }
 }
 
 void Server::handleGameCreate(const SocketTCP *socket, const json& data, Player *&player, Game *&game) {
