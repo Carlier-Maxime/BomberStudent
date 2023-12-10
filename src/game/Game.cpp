@@ -3,6 +3,7 @@
 #include "../json/JSONMessage.h"
 #include "GameManager.h"
 #include "../utils/ConstantMessages.h"
+#include "../utils/Config.h"
 
 #include <utility>
 #include <sstream>
@@ -82,7 +83,7 @@ void Game::start(const Player& player) {
     if (!started && !players.empty() && player.getPos()==players[0].getPos()) {
         std::thread go([this](){
             sendForAllPlayers(CM::postGameReady);
-            std::this_thread::sleep_for(std::chrono::seconds(3));
+            std::this_thread::sleep_for(std::chrono::seconds(Config::getGameReadyTime()));
             started=true;
             sendForAllPlayers(CM::postGameGo);
         });

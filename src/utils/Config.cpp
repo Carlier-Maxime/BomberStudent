@@ -13,3 +13,7 @@ unsigned short Config::getServerPort() {
 const std::string &Config::getLogFilePath() {
     return logFilePath;
 }
+
+unsigned char Config::getGameReadyTime() {
+    return gameReadyTime;
+}
