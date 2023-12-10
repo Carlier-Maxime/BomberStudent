@@ -23,6 +23,7 @@ private:
     static void handleGameCreate(const SocketTCP *socket, const json& data, Player *&player, Game *&game);
     static void handleGameJoin(const SocketTCP *socket, const json& data, Player *&player, Game *&game);
     static void handlePlayerMove(const json &data, Player *player, const Game *game);
+    static void handleAttackBomb(const json &data, Player *player, Game *game);
 public:
     Server();
     ~Server();

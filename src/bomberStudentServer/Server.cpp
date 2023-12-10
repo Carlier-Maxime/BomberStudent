@@ -6,6 +6,7 @@
 #include "../utils/ConstantMessages.h"
 #include "../game/MapManager.h"
 #include "../game/GameManager.h"
+#include "../json/JSONMessage.h"
 #include <sys/wait.h>
 
 using CM = ConstantMessages;
@@ -74,6 +75,8 @@ void Server::handleClient(const SocketTCP* socket) {
                     else if (msg==CM::postGameStart && game && player) game->start(*player);
                     else if (msg.compare(0, CM::postPlayerMove.size(), CM::postPlayerMove)==0)
                         handlePlayerMove(json::parse(msg.substr(CM::postPlayerMove.size())), player, game);
+                    else if (msg.compare(0, CM::postAttackBomb.size(), CM::postAttackBomb)==0)
+                        handleAttackBomb(json::parse(msg.substr(CM::postAttackBomb.size())), player, game);
                     else {
                         Log::warning("Unknown request : "+msg);
                         socket->send(CM::badRequest);
@@ -150,4 +153,17 @@ void Server::handlePlayerMove(const json &data, Player *player, const Game *game
     if (!game || !player) return;
     std::string move = data["move"];
     if (player->move(move)) game->sendForAllPlayers(player->toJSONMove(move));
+}
+
+void Server::handleAttackBomb(const json &data, Player *player, Game *game) {
+    if (!player || !game) return;
+    std::string str_pos = data["pos"];
+    std::string type = data["type"];
+    std::istringstream iss(str_pos);
+    u_char comma;
+    int x, y;
+    if (!(iss >> x >> comma >> y)) return;
+    if (!player->poseBomb(type, x, y)) return;
+    player->getSocket()->send(player->toJSONAttackBomb(x,y));
+    game->sendForAllPlayersExcept(JSONMessage::alertBombPosedMessage(type, x, y), *player);
 }
