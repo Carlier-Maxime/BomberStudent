@@ -52,6 +52,7 @@ void Client::run() {
     socketTCP.send(CM::postPlayerMove+"\n{\"move\":\"right\"}");
     socketTCP.send(CM::postPlayerMove+"\n{\"move\":\"down\"}");
     socketTCP.send(CM::postPlayerMove+"\n{\"move\":\"left\"}");
+    socketTCP.send(CM::postAttackBomb+"\n{" R"("pos":"5,3","type":"classic"})");
     std::this_thread::sleep_for(std::chrono::seconds(1));
 quit:
     Log::info("shutdown");
