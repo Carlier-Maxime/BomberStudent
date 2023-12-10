@@ -4,10 +4,12 @@
 
 #include <vector>
 #include <string>
+#include <mutex>
 #include "Case.h"
 
 class Map {
 private:
+    mutable std::mutex mutex;
     static unsigned int nextID;
     unsigned int id;
     unsigned char width, height;
@@ -16,7 +18,7 @@ private:
 public:
     Map(unsigned char width, unsigned char height, const std::string& cases);
     Map(const Map& other);
-    Map& operator=(const Map& other) = default;
+    Map& operator=(const Map& other);
     [[nodiscard]] std::string toJSON() const;
     [[nodiscard]] unsigned int getId() const;
     [[nodiscard]] u_int16_t getRandomAvailablePos() const;

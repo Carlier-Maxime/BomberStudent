@@ -40,6 +40,21 @@ Map::Map(const Map& other) : id(other.id), width(other.width), height(other.heig
     }
 }
 
+Map &Map::operator=(const Map &other) {
+    if (this != &other) {
+        try {
+            for (unsigned int i = 0; i < other.cases.size(); i++) if (other.cases[i]) cases[i] = other.cases[i]->clone();
+        } catch (...) {
+            for (auto* case_ : cases) delete case_;
+            throw;
+        }
+        width = other.width;
+        height = other.height;
+        id = other.id;
+    }
+    return *this;
+}
+
 std::string Map::toJSON() const {
     std::ostringstream json;
     json << "{\"id\":" << id << ",\"width\":" << std::to_string(width) << ",\"height\":" << std::to_string(height) << R"(,"content":")";
@@ -79,6 +94,7 @@ Case *Map::getCase(u_char x, u_char y) {
 }
 
 void Map::explodeBomb(u_char x, u_char y, u_char impactDist) {
+    std::lock_guard<std::mutex> lock(mutex);
     u_char dist = impactDist;
     u_char i = x;
     for (;dist>0 && explodeCase(i,y,dist);i++);
