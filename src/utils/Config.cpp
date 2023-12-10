@@ -17,3 +17,39 @@ const std::string &Config::getLogFilePath() {
 unsigned char Config::getGameReadyTime() {
     return gameReadyTime;
 }
+
+unsigned char Config::getDetonationTime() {
+    return detonationTime;
+}
+
+unsigned char Config::getMinImpactDist() {
+    return minImpactDist;
+}
+
+unsigned char Config::getMaxImpactDist() {
+    return maxImpactDist;
+}
+
+unsigned char Config::getDefaultImpactDist() {
+    return defaultImpactDist;
+}
+
+unsigned char Config::getDefaultNbClassicBomb() {
+    return defaultNbClassicBomb;
+}
+
+unsigned char Config::getDefaultNbRemoteBomb() {
+    return defaultNbRemoteBomb;
+}
+
+unsigned char Config::getDefaultNbMineBomb() {
+    return defaultNbMineBomb;
+}
+
+unsigned char Config::getDefaultLife() {
+    return defaultLife;
+}
+
+const float Config::getDefaultSpeed() {
+    return defaultSpeed;
+}
