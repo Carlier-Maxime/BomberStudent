@@ -77,3 +77,34 @@ Case *Map::getCase(u_char x, u_char y) {
     if (x<width && y<height) return cases[static_cast<u_int>(y)*width+static_cast<u_int>(x)];
     return nullptr;
 }
+
+void Map::explodeBomb(u_char x, u_char y, u_char impactDist) {
+    u_char dist = impactDist;
+    u_char i = x;
+    for (;dist>0 && explodeCase(i,y,dist);i++);
+    explodeCase(i,y,dist);
+    i=x-1;
+    dist = impactDist==0 ? 0 : impactDist-1;
+    for (;dist>0 && explodeCase(i,y,dist);i--);
+    explodeCase(i,y,dist);
+    i=y;
+    dist = impactDist==0 ? 0 : impactDist-1;
+    for (;dist>0 && explodeCase(x,i,dist);i++);
+    explodeCase(x,i,dist);
+    i=y-1;
+    dist = impactDist==0 ? 0 : impactDist-1;
+    for (;dist>0 && explodeCase(x,i,dist);i--);
+    explodeCase(x,i,dist);
+}
+
+bool Map::explodeCase(u_char x, u_char y, u_char &dist) {
+    auto* case_ = getCase(x,y);
+    if (case_) case_ = case_->explode(dist);
+    else return false;
+    if (case_) {
+        u_int index = static_cast<u_int>(y)*width+static_cast<u_int>(x);
+        delete cases[index];
+        cases[index] = case_;
+    }
+    return true;
+}
