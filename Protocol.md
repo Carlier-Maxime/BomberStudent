@@ -156,3 +156,22 @@ POST game/ready
 
 After time cool down, the server send to all players:  
 ``POST game/go``
+
+## Move Player
+
+For player move, client send request:  
+```
+POST player/move
+{
+"move":"up" // down, left, right
+}
+```
+
+if move successful, server responds to all players:  
+```
+POST player/position/update
+{
+"player":"player2",
+"dir":"up"
+}
+```
