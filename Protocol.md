@@ -125,17 +125,16 @@ server response:
 "action":"game/join", "statut":201, "message":"game joined",
 "nbPlayers":2,
 "mapId" : 1,
-"players":[{"name":"player1","pos":"0,0"},
-{"name":"player2","pos":"0,79"}],
+"players":[{"name":"player1","pos":"0,0"}, {"name":"player2","pos":"0,79"}],
 "startPos":"5,3",
 "player":{
-"life":100,
-"speed":1,
-"nbClassicBomb":1,
-"nbMine":0,
-"nbRemoteBomb":0,
-"impactDist":2,
-"invincible":false
+    "life":100,
+    "speed":1,
+    "nbClassicBomb":1,
+    "nbMine":0,
+    "nbRemoteBomb":0,
+    "impactDist":2,
+    "invincible":false
 }
 }
 ```
@@ -173,5 +172,39 @@ POST player/position/update
 {
 "player":"player2",
 "dir":"up"
+}
+```
+
+## Pose Bomb
+
+for player pose a bomb, client send request:  
+```
+POST attack/bomb
+{
+"type":"classic" //mine, remote
+}
+```
+
+if bomb posed successful, server respond to a client:  
+```json
+{
+"action":"attack/bomb", "statut":201, "message":"bomb is armed at pos x,y",
+"player":{
+    "life":100,
+    "speed":1,
+    "nbClassicBomb":1,
+    "nbMine":0,
+    "nbRemoteBomb":0,
+    "impactDist":2,
+    "invincible":false
+}
+}
+```
+and send to other players:  
+```
+POST attack/newbomb
+{
+"pos":"x,y",
+"type":"classic" //mine, remote
 }
 ```
