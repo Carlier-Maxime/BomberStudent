@@ -17,12 +17,6 @@ std::string JSONMessage::actionMessage(const std::string& action, int statut, co
     return json.str();
 }
 
-std::string JSONMessage::alertBombPosedMessage(const std::string &type, u_char posX, u_char posY) {
-	std::ostringstream json;
-	json << CM::postAttackNewBomb << "\n{\"pos\":\""<< posY << ","<< posX << R"(","type":")"<< type <<"\"}";
-	return json.str();
-}
-
 std::string JSONMessage::alertBombExplodedMessage(int posX, int posY, const std::string& type, int impactDist, const std::string& map) {
 	std::ostringstream json;
 	json <<  "POST attack/explose\n{\"pos\":\""<< posY <<","<< posX <<R"(","type":")"<< type <<R"(","impactDist":)"<< impactDist << R"(,"map":")"<< map <<"\"}";

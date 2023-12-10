@@ -28,8 +28,9 @@ public:
     bool move(const std::string& direction);
     [[nodiscard]] const SocketTCP* getSocket() const;
     [[nodiscard]] std::string toJSONMove(const std::string& direction) const;
-    bool poseBomb(const std::string &type, u_char x, u_char y);
-    [[nodiscard]] std::string toJSONAttackBomb(u_char x, u_char y) const;
+    bool poseBomb(const std::string &type);
+    [[nodiscard]] std::string toJSONAttackBomb() const;
+    [[nodiscard]] std::string toJSONAttackNewBomb(const std::string &type) const;
 };
 
 

@@ -157,13 +157,8 @@ void Server::handlePlayerMove(const json &data, Player *player, const Game *game
 
 void Server::handleAttackBomb(const json &data, Player *player, Game *game) {
     if (!player || !game) return;
-    std::string str_pos = data["pos"];
     std::string type = data["type"];
-    std::istringstream iss(str_pos);
-    u_char comma;
-    int x, y;
-    if (!(iss >> x >> comma >> y)) return;
-    if (!player->poseBomb(type, x, y)) return;
-    player->getSocket()->send(player->toJSONAttackBomb(x,y));
-    if (type!="mine") game->sendForAllPlayersExcept(JSONMessage::alertBombPosedMessage(type, x, y), *player);
+    if (!player->poseBomb(type)) return;
+    player->getSocket()->send(player->toJSONAttackBomb());
+    if (type!="mine") game->sendForAllPlayersExcept(player->toJSONAttackNewBomb(type), *player);
 }

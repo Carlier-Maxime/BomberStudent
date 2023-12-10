@@ -5,6 +5,9 @@
 #include "../utils/Utils.h"
 #include "Game.h"
 #include "../json/JSONMessage.h"
+#include "../utils/ConstantMessages.h"
+
+using CM = ConstantMessages;
 
 u_int Player::id = 0;
 
@@ -115,8 +118,8 @@ std::string Player::toJSONMove(const std::string &direction) const {
     return oss.str();
 }
 
-bool Player::poseBomb(const std::string &type, u_char x, u_char y) {
-    if (!game->getMap().getCase(x,y) || ((x>posX) ? (x-posX) : (posX-x))>1 || ((y>posY) ? (y-posY) : (posY-y))>1) return false;
+bool Player::poseBomb(const std::string &type) {
+    if (!game->getMap().getCase(posX,posY)) return false;
     if (type=="classic" && nbClassicBomb>0) {
         nbClassicBomb--;
         std::thread th([]() {});
@@ -133,9 +136,15 @@ bool Player::poseBomb(const std::string &type, u_char x, u_char y) {
     return true;
 }
 
-std::string Player::toJSONAttackBomb(u_char x, u_char y) const {
+std::string Player::toJSONAttackBomb() const {
     std::ostringstream oss, msg;
     oss << "\"player\":" << toJSONState();
-    msg << "bomb is armed at pos " << std::to_string(x) << ',' << std::to_string(y);
+    msg << "bomb is armed at pos " << std::to_string(posX) << ',' << std::to_string(posY);
     return JSONMessage::actionMessage("attack/bomb",201,msg.str(), oss.str());
+}
+
+std::string Player::toJSONAttackNewBomb(const std::string &type) const {
+    std::ostringstream json;
+    json << CM::postAttackNewBomb << "\n{\"pos\":\""<< posX << ","<< posY << R"(","type":")"<< type <<"\"}";
+    return json.str();
 }
