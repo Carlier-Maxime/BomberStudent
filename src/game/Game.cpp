@@ -105,3 +105,10 @@ u_char Game::getHeight() {
 Map &Game::getMap() {
     return map;
 }
+
+void Game::sendForAllPlayersExcept(const std::string &msg, const Player &player_excluded) const {
+    for (const auto& player : players) {
+        if (player.getPos()==player_excluded.getPos()) continue;
+        player.getSocket()->send(msg);
+    }
+}

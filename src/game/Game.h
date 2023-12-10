@@ -20,6 +20,7 @@ public:
     bool isStarted() const;
     void start(const Player& player);
     void sendForAllPlayers(const std::string& msg) const;
+    void sendForAllPlayersExcept(const std::string& msg, const Player& player_excluded) const;
     u_char getWidth();
     u_char getHeight();
 private:
