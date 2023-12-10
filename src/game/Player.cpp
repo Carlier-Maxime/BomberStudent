@@ -1,8 +1,10 @@
 #include "Player.h"
 
 #include <sstream>
+#include <thread>
 #include "../utils/Utils.h"
 #include "Game.h"
+#include "../json/JSONMessage.h"
 
 u_int Player::id = 0;
 
@@ -107,8 +109,33 @@ bool Player::move(const std::string& direction) {
     return move(x,y);
 }
 
-std::string Player::toJSONMove(const std::string &direction) {
+std::string Player::toJSONMove(const std::string &direction) const {
     std::ostringstream oss;
     oss << "POST player/position/update\n{\"player\":\"" << name << R"(","dir":")" << direction << "\"}";
     return oss.str();
+}
+
+bool Player::poseBomb(const std::string &type, u_char x, u_char y) {
+    if (!game->getMap().getCase(x,y) || ((x>posX) ? (x-posX) : (posX-x))>1 || ((y>posY) ? (y-posY) : (posY-y))>1) return false;
+    if (type=="classic" && nbClassicBomb>0) {
+        nbClassicBomb--;
+        std::thread th([]() {});
+        th.detach();
+    } else if (type=="remote" && nbRemoteBomb>0) {
+        nbRemoteBomb--;
+        std::thread th([]() {});
+        th.detach();
+    } else if (type=="mine" && nbMine>0) {
+        nbMine--;
+        std::thread th([]() {});
+        th.detach();
+    } else return false;
+    return true;
+}
+
+std::string Player::toJSONAttackBomb(u_char x, u_char y) const {
+    std::ostringstream oss, msg;
+    oss << "\"player\":" << toJSONState();
+    msg << "bomb is armed at pos " << std::to_string(x) << ',' << std::to_string(y);
+    return JSONMessage::actionMessage("attack/bomb",201,msg.str(), oss.str());
 }
