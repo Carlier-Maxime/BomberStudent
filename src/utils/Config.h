@@ -18,7 +18,7 @@ public:
     static unsigned char getDefaultNbRemoteBomb();
     static unsigned char getDefaultNbMineBomb();
     static unsigned char getDefaultLife();
-    static const float getDefaultSpeed();
+    static float getDefaultSpeed();
 private:
     static const Protocol protocol = Protocol::IPV6;
     static const unsigned short serverPort = 42069;

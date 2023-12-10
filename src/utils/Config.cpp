@@ -50,6 +50,6 @@ unsigned char Config::getDefaultLife() {
     return defaultLife;
 }
 
-const float Config::getDefaultSpeed() {
+float Config::getDefaultSpeed() {
     return defaultSpeed;
 }
