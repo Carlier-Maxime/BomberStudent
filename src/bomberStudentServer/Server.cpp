@@ -165,5 +165,5 @@ void Server::handleAttackBomb(const json &data, Player *player, Game *game) {
     if (!(iss >> x >> comma >> y)) return;
     if (!player->poseBomb(type, x, y)) return;
     player->getSocket()->send(player->toJSONAttackBomb(x,y));
-    game->sendForAllPlayersExcept(JSONMessage::alertBombPosedMessage(type, x, y), *player);
+    if (type!="mine") game->sendForAllPlayersExcept(JSONMessage::alertBombPosedMessage(type, x, y), *player);
 }
