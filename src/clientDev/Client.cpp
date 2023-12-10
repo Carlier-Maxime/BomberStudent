@@ -9,6 +9,8 @@
 #include "../utils/BomberStudentExceptions.h"
 #include "../utils/Utils.h"
 
+using CM = ConstantMessages;
+
 Client::Client() : gameStarted(false), socketUDP(Config::getProtocol(), true), socketTCP(Config::getProtocol()) {}
 
 void Client::run() {
@@ -36,20 +38,20 @@ void Client::run() {
     sigaction(SIGINT, &act, nullptr);
     signal(SIGPIPE, SIG_IGN);
     std::thread receiver(&Client::handleReceive, this);
-    socketTCP.send(ConstantMessages::getMapList);
-    socketTCP.send(ConstantMessages::getGameList);
-    socketTCP.send(ConstantMessages::postGameCreate+"\n{\"name\":\"game1\",\"mapId\":0}");
-    socketTCP.send(ConstantMessages::postGameStart);
+    socketTCP.send(CM::getMapList);
+    socketTCP.send(CM::getGameList);
+    socketTCP.send(CM::postGameCreate+"\n{\"name\":\"game1\",\"mapId\":0}");
+    socketTCP.send(CM::postGameStart);
     Log::info("wait for move player");
     std::unique_lock<std::mutex> lock(mutex);
     cv_gameStarted.wait(lock);
     lock.unlock();
     if (!gameStarted) goto quit;
     Log::info("go move player");
-    socketTCP.send(ConstantMessages::postPlayerMove+"\n{\"move\":\"up\"}");
-    socketTCP.send(ConstantMessages::postPlayerMove+"\n{\"move\":\"right\"}");
-    socketTCP.send(ConstantMessages::postPlayerMove+"\n{\"move\":\"down\"}");
-    socketTCP.send(ConstantMessages::postPlayerMove+"\n{\"move\":\"left\"}");
+    socketTCP.send(CM::postPlayerMove+"\n{\"move\":\"up\"}");
+    socketTCP.send(CM::postPlayerMove+"\n{\"move\":\"right\"}");
+    socketTCP.send(CM::postPlayerMove+"\n{\"move\":\"down\"}");
+    socketTCP.send(CM::postPlayerMove+"\n{\"move\":\"left\"}");
     std::this_thread::sleep_for(std::chrono::seconds(1));
 quit:
     Log::info("shutdown");
@@ -71,7 +73,7 @@ void Client::handleReceive() {
                 }
                 std::istringstream stream(msg_received);
                 while (std::getline(stream, msg, '\0')) {
-                    if (msg == ConstantMessages::postGameGo) gameStarted=true, cv_gameStarted.notify_one();
+                    if (msg == CM::postGameGo) gameStarted=true, cv_gameStarted.notify_one();
                     std::cout << msg << std::endl;
                 }
             } catch (SocketException& e) {
