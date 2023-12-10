@@ -1,4 +1,5 @@
 #include "CaseWall.h"
+#include "CaseNormal.h"
 
 char CaseWall::getType() const {
     return CaseWall::type;
@@ -15,3 +16,8 @@ Case *CaseWall::clone() const {
 void CaseWall::resetAccessible() {}
 
 void CaseWall::toNoAccessible() {}
+
+Case *CaseWall::explode(unsigned char &impactDist) {
+    impactDist-=2;
+    return new CaseNormal();
+}

@@ -14,6 +14,9 @@ public:
     [[nodiscard]] Case *clone() const override;
     void resetAccessible() override;
     void toNoAccessible() override;
+
+    Case *explode(unsigned char &impactDist) override;
+
     static const char type = '-';
 };
 

@@ -15,6 +15,8 @@ public:
 
     void toNoAccessible() override;
 
+    Case *explode(unsigned char &impactDist) override;
+
 public:
     static const char type = '=';
 };

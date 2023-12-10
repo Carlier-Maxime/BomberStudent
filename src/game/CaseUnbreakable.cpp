@@ -15,3 +15,8 @@ Case *CaseUnbreakable::clone() const {
 void CaseUnbreakable::resetAccessible() {}
 
 void CaseUnbreakable::toNoAccessible() {}
+
+Case *CaseUnbreakable::explode(unsigned char &impactDist) {
+    impactDist=0;
+    return nullptr;
+}
