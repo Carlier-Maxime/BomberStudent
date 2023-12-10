@@ -16,3 +16,5 @@ const std::string CM::postGameStart = "POST game/start";
 const std::string CM::postGameReady = "POST game/ready\n{\"time\":3}";
 const std::string CM::postGameGo = "POST game/go";
 const std::string CM::postPlayerMove = "POST player/move";
+const std::string CM::postAttackBomb = "POST attack/bomb";
+const std::string CM::postAttackNewBomb = "POST attack/newbomb";
