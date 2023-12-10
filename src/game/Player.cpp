@@ -6,6 +6,7 @@
 #include "Game.h"
 #include "../json/JSONMessage.h"
 #include "../utils/ConstantMessages.h"
+#include "../utils/Config.h"
 
 using CM = ConstantMessages;
 
@@ -63,8 +64,9 @@ std::string Player::randomNames() {
 }
 
 Player::Player(const SocketTCP* socket, Game* game, u_char posX, u_char posY) : socket(socket), game(game),
-name(randomNames()+std::to_string(id++)), speed(1), life(100), nbClassicBomb(2), nbMine(0),
-nbRemoteBomb(1), impactDist(2), posX(posX), posY(posY), invincible(false) {}
+name(randomNames()+std::to_string(id++)), speed(Config::getDefaultSpeed()), life(Config::getDefaultLife()),
+nbClassicBomb(Config::getDefaultNbClassicBomb()), nbMine(Config::getDefaultNbMineBomb()), nbRemoteBomb(Config::getDefaultNbRemoteBomb()),
+impactDist(Config::getDefaultImpactDist()), posX(posX), posY(posY), invincible(false) {}
 
 std::string Player::toJSON() const {
     std::ostringstream json;
@@ -122,7 +124,9 @@ bool Player::poseBomb(const std::string &type) {
     if (!game->getMap().getCase(posX,posY)) return false;
     if (type=="classic" && nbClassicBomb>0) {
         nbClassicBomb--;
-        std::thread th([]() {});
+        std::thread th([x=posX, y=posY]() {
+            std::this_thread::sleep_for(std::chrono::seconds(Config::getDetonationTime()));
+        });
         th.detach();
     } else if (type=="remote" && nbRemoteBomb>0) {
         nbRemoteBomb--;
