@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <mutex>
+#include <thread>
 #include "Case.h"
 
 class Map {
@@ -14,6 +15,7 @@ private:
     unsigned int id;
     unsigned char width, height;
     std::vector<Case*> cases;
+    std::vector<std::thread> classicBombs;
     bool explodeCase(u_char x, u_char y, u_char& dist);
 public:
     Map(unsigned char width, unsigned char height, const std::string& cases);
@@ -27,6 +29,7 @@ public:
     [[nodiscard]] unsigned char getWidth() const;
     [[nodiscard]] unsigned char getHeight() const;
     void explodeBomb(u_char x, u_char y, u_char impactDist);
+    void armBomb(u_char x, u_char y, u_char impactDist);
 };
 
 

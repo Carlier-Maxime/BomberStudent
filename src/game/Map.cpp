@@ -6,6 +6,7 @@
 #include "CaseUnbreakable.h"
 #include "../utils/Log.h"
 #include "../utils/Utils.h"
+#include "../utils/Config.h"
 
 unsigned int Map::nextID = 0;
 
@@ -64,6 +65,7 @@ std::string Map::toJSON() const {
 }
 
 Map::~Map() {
+    for (auto &th : classicBombs) th.join();
     for (auto* case_ : cases) delete case_;
 }
 
@@ -123,4 +125,11 @@ bool Map::explodeCase(u_char x, u_char y, u_char &dist) {
         cases[index] = case_;
     }
     return true;
+}
+
+void Map::armBomb(u_char x, u_char y, u_char impactDist) {
+    classicBombs.emplace_back([this,x,y,impactDist](){
+        std::this_thread::sleep_for(std::chrono::seconds(Config::getDetonationTime()));
+        explodeBomb(x,y,impactDist);
+    });
 }
