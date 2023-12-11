@@ -66,7 +66,7 @@ std::string Player::randomNames() {
 Player::Player(const SocketTCP* socket, Game* game, u_char posX, u_char posY) : socket(socket), game(game),
 name(randomNames()+std::to_string(id++)), speed(Config::getDefaultSpeed()), life(Config::getDefaultLife()),
 nbClassicBomb(Config::getDefaultNbClassicBomb()), nbMine(Config::getDefaultNbMineBomb()), nbRemoteBomb(Config::getDefaultNbRemoteBomb()),
-impactDist(Config::getDefaultImpactDist()), posX(posX), posY(posY), invincible(false) {}
+impactDist(Config::getDefaultImpactDist()), posX(posX), posY(posY), invincible(false), timeLastMove(std::chrono::high_resolution_clock::now()) {}
 
 std::string Player::toJSON() const {
     std::ostringstream json;
@@ -87,11 +87,14 @@ const std::string &Player::getName() const {
 }
 
 bool Player::move(unsigned char x, unsigned char y) {
+    auto timeMove = std::chrono::high_resolution_clock::now();
+    if (std::chrono::duration_cast<std::chrono::duration<float>>( timeMove - timeLastMove).count() < (1/speed)) return false;
     if (!game->isStarted() || !game->getMap().getCase(x, y)->isAccessible()) return false;
     game->getMap().getCase(posX, posY)->resetAccessible();
     game->getMap().getCase(x, y)->toNoAccessible();
     posY=y;
     posX=x;
+    timeLastMove = timeMove;
     return true;
 }
 

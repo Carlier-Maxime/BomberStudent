@@ -1,6 +1,7 @@
 #ifndef BOMBER_STUDENT_PLAYER_H
 #define BOMBER_STUDENT_PLAYER_H
 
+#include <chrono>
 #include <string>
 #include "../socket/SocketTCP.h"
 
@@ -17,6 +18,7 @@ private:
     float speed;
     unsigned char life, nbClassicBomb, nbMine, nbRemoteBomb, impactDist, posX, posY;
     bool invincible;
+    std::chrono::high_resolution_clock::time_point timeLastMove;
 protected:
 public:
     explicit Player(const SocketTCP* socket, Game* game, u_char posX, u_char posY);
