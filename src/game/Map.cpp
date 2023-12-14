@@ -105,10 +105,10 @@ Case *Map::getCase(u_char x, u_char y) {
 void Map::explodeBomb(u_char x, u_char y, u_char impactDist) {
     std::lock_guard<std::mutex> lock(mutex);
     u_char dist, i;
-    for (i=x,dist=impactDist+1; dist>0 && explodeCase(i,y,dist); i++);
-    for (i=x-1,dist=impactDist; dist>0 && explodeCase(i,y,dist); i--);
-    for (i=y+1,dist=impactDist; dist>0 && explodeCase(x,i,dist); i++);
-    for (i=y-1,dist=impactDist; dist>0 && explodeCase(x,i,dist); i--);
+    for (i=x,dist=impactDist+1; dist>0 && explodeCase(i,y,dist); i=(i==width-1) ? 0 : i+1);
+    for (i=x-1,dist=impactDist; dist>0 && explodeCase(i,y,dist); i=(i==0) ? width-1 : i-1);
+    for (i=y+1,dist=impactDist; dist>0 && explodeCase(x,i,dist); i=(i==height-1) ? 0 : i+1);
+    for (i=y-1,dist=impactDist; dist>0 && explodeCase(x,i,dist); i=(i==0) ? height-1 : i-1);
 }
 
 bool Map::explodeCase(u_char x, u_char y, u_char &dist) {
