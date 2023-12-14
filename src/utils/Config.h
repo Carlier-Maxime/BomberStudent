@@ -32,7 +32,7 @@ private:
     static const unsigned char defaultNbRemoteBomb = 1;
     static const unsigned char defaultNbMineBomb = 0;
     static const unsigned char defaultLife = 100;
-    constexpr static const float defaultSpeed = 1;
+    constexpr static const float defaultSpeed = 4;
 };
 
 #endif //BOMBER_STUDENT_CONFIG_H
