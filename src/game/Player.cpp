@@ -127,7 +127,7 @@ bool Player::poseBomb(const std::string &type) {
     if (!game->getMap().getCase(posX,posY)) return false;
     if (type=="classic" && nbClassicBomb>0) {
         nbClassicBomb--;
-        game->getMap().armBomb(posX,posY,impactDist);
+        game->armBomb(posX,posY,impactDist);
     } else if (type=="remote" && nbRemoteBomb>0) {
         nbRemoteBomb--;
         std::thread th([]() {});

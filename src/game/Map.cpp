@@ -7,6 +7,9 @@
 #include "../utils/Log.h"
 #include "../utils/Utils.h"
 #include "../utils/Config.h"
+#include "../utils/ConstantMessages.h"
+
+using CM = ConstantMessages;
 
 unsigned int Map::nextID = 0;
 
@@ -56,16 +59,20 @@ Map &Map::operator=(const Map &other) {
     return *this;
 }
 
+std::string Map::toCasesString() const {
+    std::ostringstream str;
+    for (auto* case_ : cases) str << case_->getType();
+    return str.str();
+}
+
 std::string Map::toJSON() const {
     std::ostringstream json;
     json << "{\"id\":" << id << ",\"width\":" << std::to_string(width) << ",\"height\":" << std::to_string(height) << R"(,"content":")";
-    for (auto* case_ : cases) json << case_->getType();
-    json << "\"}";
+    json << toCasesString() << "\"}";
     return json.str();
 }
 
 Map::~Map() {
-    for (auto &th : classicBombs) th.join();
     for (auto* case_ : cases) delete case_;
 }
 
@@ -125,11 +132,4 @@ bool Map::explodeCase(u_char x, u_char y, u_char &dist) {
         cases[index] = case_;
     }
     return true;
-}
-
-void Map::armBomb(u_char x, u_char y, u_char impactDist) {
-    classicBombs.emplace_back([this,x,y,impactDist](){
-        std::this_thread::sleep_for(std::chrono::seconds(Config::getDetonationTime()));
-        explodeBomb(x,y,impactDist);
-    });
 }

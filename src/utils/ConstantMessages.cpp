@@ -19,3 +19,4 @@ const std::string CM::postGameGo = "POST game/go";
 const std::string CM::postPlayerMove = "POST player/move";
 const std::string CM::postAttackBomb = "POST attack/bomb";
 const std::string CM::postAttackNewBomb = "POST attack/newbomb";
+const std::string CM::postAttackExplode = "POST attack/explose";

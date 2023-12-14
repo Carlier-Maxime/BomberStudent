@@ -95,14 +95,6 @@ void Game::sendForAllPlayers(const std::string& msg) const {
     for (const auto& player : players) player.getSocket()->send(msg);
 }
 
-u_char Game::getWidth() {
-    return map.getWidth();
-}
-
-u_char Game::getHeight() {
-    return map.getHeight();
-}
-
 Map &Game::getMap() {
     return map;
 }
@@ -112,4 +104,20 @@ void Game::sendForAllPlayersExcept(const std::string &msg, const Player &player_
         if (player.getPos()==player_excluded.getPos()) continue;
         player.getSocket()->send(msg);
     }
+}
+
+Game::~Game() {
+    for (auto &th : classicBombs) th.join();
+}
+
+void Game::armBomb(u_char x, u_char y, u_char impactDist) {
+    classicBombs.emplace_back([this,x,y,impactDist](){
+        std::this_thread::sleep_for(std::chrono::seconds(Config::getDetonationTime()));
+        map.explodeBomb(x,y,impactDist);
+        std::ostringstream oss;
+        oss << CM::postAttackExplode << R"({"pos":")" << std::to_string(x) << ',' << std::to_string(y)
+            << R"(","type":"classic","impactDist":)" << std::to_string(impactDist) << R"(,"map":")"
+            << map.toCasesString() << "\"}";
+        sendForAllPlayers(oss.str());
+    });
 }

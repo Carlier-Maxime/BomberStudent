@@ -15,12 +15,12 @@ private:
     unsigned int id;
     unsigned char width, height;
     std::vector<Case*> cases;
-    std::vector<std::thread> classicBombs;
     bool explodeCase(u_char x, u_char y, u_char& dist);
 public:
     Map(unsigned char width, unsigned char height, const std::string& cases);
     Map(const Map& other);
     Map& operator=(const Map& other);
+    [[nodiscard]] std::string toCasesString() const;
     [[nodiscard]] std::string toJSON() const;
     [[nodiscard]] unsigned int getId() const;
     [[nodiscard]] u_int16_t getRandomAvailablePos() const;
@@ -29,7 +29,6 @@ public:
     [[nodiscard]] unsigned char getWidth() const;
     [[nodiscard]] unsigned char getHeight() const;
     void explodeBomb(u_char x, u_char y, u_char impactDist);
-    void armBomb(u_char x, u_char y, u_char impactDist);
 };
 
 
