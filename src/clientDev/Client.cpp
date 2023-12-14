@@ -14,6 +14,7 @@ using CM = ConstantMessages;
 Client::Client() : gameStarted(false), socketUDP(Config::getProtocol(), true), socketTCP(Config::getProtocol()) {}
 
 void Client::run() {
+    auto timeMove = std::chrono::duration<float>(1/Config::getDefaultSpeed());
     SocketAddress multicast = SocketAddress("255.255.255.255", Config::getServerPort());
     SocketAddress server_addr = SocketAddress("::", 0);
     socketUDP.setTimeout(3,0);
@@ -49,8 +50,11 @@ void Client::run() {
     if (!gameStarted) goto quit;
     Log::info("go move player");
     socketTCP.send(CM::postPlayerMove+"\n{\"move\":\"up\"}");
+    std::this_thread::sleep_for(timeMove);
     socketTCP.send(CM::postPlayerMove+"\n{\"move\":\"right\"}");
+    std::this_thread::sleep_for(timeMove);
     socketTCP.send(CM::postPlayerMove+"\n{\"move\":\"down\"}");
+    std::this_thread::sleep_for(timeMove);
     socketTCP.send(CM::postPlayerMove+"\n{\"move\":\"left\"}");
     socketTCP.send(CM::postAttackBomb+"\n{" R"("type":"classic"})");
     std::this_thread::sleep_for(std::chrono::seconds(1+Config::getDetonationTime()));
