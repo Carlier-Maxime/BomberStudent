@@ -66,7 +66,9 @@ std::string Player::randomNames() {
 Player::Player(const SocketTCP* socket, Game* game, u_char posX, u_char posY) : socket(socket), game(game),
 name(randomNames()+std::to_string(id++)), speed(Config::getDefaultSpeed()), life(Config::getDefaultLife()),
 nbClassicBomb(Config::getDefaultNbClassicBomb()), nbMine(Config::getDefaultNbMineBomb()), nbRemoteBomb(Config::getDefaultNbRemoteBomb()),
-impactDist(Config::getDefaultImpactDist()), posX(posX), posY(posY), invincible(false), timeLastMove(std::chrono::high_resolution_clock::now()) {}
+impactDist(Config::getDefaultImpactDist()), posX(posX), posY(posY),
+timeLastMove(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch())),
+timeInvincible(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch())) {}
 
 std::string Player::toJSON() const {
     std::ostringstream json;
@@ -78,7 +80,7 @@ std::string Player::toJSONState() const {
     std::ostringstream json;
     json << "{\"life\":"<<std::to_string(life)<<",\"speed\":"<<speed<<",\"nbClassicBomb\":"<<std::to_string(nbClassicBomb)
         <<",\"nbMine\":"<<std::to_string(nbMine)<<",\"nbRemoteBomb\":"<<std::to_string(nbRemoteBomb)<<",\"impactDist\":"
-        <<std::to_string(impactDist)<<",\"invincible\":"<<(invincible ? "true" : "false")<<"}";
+        <<std::to_string(impactDist)<<",\"invincible\":"<<(isInvincible() ? "true" : "false")<<"}";
     return json.str();
 }
 
@@ -87,8 +89,8 @@ const std::string &Player::getName() const {
 }
 
 bool Player::move(unsigned char x, unsigned char y) {
-    auto timeMove = std::chrono::high_resolution_clock::now();
-    if (std::chrono::duration_cast<std::chrono::duration<float>>( timeMove - timeLastMove).count() < (1/speed)) return false;
+    auto timeMove = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
+    if (std::chrono::duration<float>(timeMove - timeLastMove).count() < (1/speed)) return false;
     if (!game->isStarted() || !game->getMap().getCase(x, y)->isAccessible()) return false;
     game->getMap().getCase(posX, posY)->setPlayer(nullptr);
     game->getMap().getCase(posX, posY)->resetAccessible();
@@ -156,5 +158,13 @@ std::string Player::toJSONAttackNewBomb(const std::string &type) const {
 }
 
 void Player::takeDamage(u_char damage) {
+    if (isInvincible()) return;
     life = (life < damage) ? 0 : life-damage;
+    timeLastMove = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
+    timeLastMove += std::chrono::duration_cast<std::chrono::milliseconds>((std::chrono::duration<float>(Config::getFreezeTime() - 1/speed)));
+    timeInvincible = timeLastMove;
+}
+
+bool Player::isInvincible() const {
+    return timeInvincible > std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
 }

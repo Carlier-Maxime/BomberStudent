@@ -17,8 +17,7 @@ private:
     std::string name;
     float speed;
     unsigned char life, nbClassicBomb, nbMine, nbRemoteBomb, impactDist, posX, posY;
-    bool invincible;
-    std::chrono::high_resolution_clock::time_point timeLastMove;
+    std::chrono::milliseconds timeLastMove, timeInvincible;
 protected:
 public:
     explicit Player(const SocketTCP* socket, Game* game, u_char posX, u_char posY);
@@ -34,6 +33,7 @@ public:
     [[nodiscard]] std::string toJSONAttackBomb() const;
     [[nodiscard]] std::string toJSONAttackNewBomb(const std::string &type) const;
     void takeDamage(u_char damage);
+    bool isInvincible() const ;
 };
 
 

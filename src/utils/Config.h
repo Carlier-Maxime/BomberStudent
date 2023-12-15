@@ -19,6 +19,8 @@ public:
     static unsigned char getDefaultNbMineBomb();
     static unsigned char getDefaultLife();
     static float getDefaultSpeed();
+    static float getFreezeTime();
+
 private:
     static const Protocol protocol = Protocol::IPV6;
     static const unsigned short serverPort = 42069;
@@ -33,6 +35,7 @@ private:
     static const unsigned char defaultNbMineBomb = 0;
     static const unsigned char defaultLife = 100;
     constexpr static const float defaultSpeed = 4;
+    constexpr static const float freezeTime = 1;
 };
 
 #endif //BOMBER_STUDENT_CONFIG_H

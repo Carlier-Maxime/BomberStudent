@@ -53,3 +53,7 @@ unsigned char Config::getDefaultLife() {
 float Config::getDefaultSpeed() {
     return defaultSpeed;
 }
+
+float Config::getFreezeTime() {
+    return freezeTime;
+}
