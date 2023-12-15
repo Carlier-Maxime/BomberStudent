@@ -163,6 +163,7 @@ void Player::takeDamage(u_char damage) {
     timeLastMove = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
     timeLastMove += std::chrono::duration_cast<std::chrono::milliseconds>((std::chrono::duration<float>(Config::getFreezeTime() - 1/speed)));
     timeInvincible = timeLastMove;
+    socket->send(CM::postAttackAffect+toJSONState());
 }
 
 bool Player::isInvincible() const {

@@ -23,6 +23,7 @@ void CaseNormal::toNoAccessible() {
 CaseNormal::CaseNormal() : Case(), accessible(true) {}
 
 Case *CaseNormal::explode(unsigned char &impactDist) {
+    Case::explode(impactDist);
     impactDist--;
     return nullptr;
 }

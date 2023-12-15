@@ -17,6 +17,7 @@ void CaseUnbreakable::resetAccessible() {}
 void CaseUnbreakable::toNoAccessible() {}
 
 Case *CaseUnbreakable::explode(unsigned char &impactDist) {
+    Case::explode(impactDist);
     impactDist=0;
     return nullptr;
 }

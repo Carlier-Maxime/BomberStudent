@@ -18,6 +18,7 @@ void CaseWall::resetAccessible() {}
 void CaseWall::toNoAccessible() {}
 
 Case *CaseWall::explode(unsigned char &impactDist) {
+    Case::explode(impactDist);
     impactDist = impactDist>1 ? impactDist-2 : 0;
     return new CaseNormal();
 }

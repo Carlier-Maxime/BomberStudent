@@ -6,7 +6,6 @@
 #include "CaseUnbreakable.h"
 #include "../utils/Log.h"
 #include "../utils/Utils.h"
-#include "../utils/Config.h"
 #include "../utils/ConstantMessages.h"
 
 using CM = ConstantMessages;
@@ -117,8 +116,6 @@ bool Map::explodeCase(u_char x, u_char y, u_char &dist) {
     else return false;
     if (case_) {
         u_int index = static_cast<u_int>(y)*width+static_cast<u_int>(x);
-        auto* player = cases[index]->getPlayer();
-        if (player) player->takeDamage(20);
         delete cases[index];
         cases[index] = case_;
     }

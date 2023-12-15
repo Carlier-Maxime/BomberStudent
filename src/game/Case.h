@@ -14,8 +14,7 @@ public:
     [[nodiscard]] virtual Case* clone() const = 0;
     virtual void resetAccessible() = 0;
     virtual void toNoAccessible() = 0;
-    virtual Case* explode(unsigned char& impactDist) = 0;
-    [[nodiscard]] Player *getPlayer() const;
+    virtual Case* explode(unsigned char& impactDist);
     void setPlayer(Player *player);
     virtual ~Case() = default;
 };

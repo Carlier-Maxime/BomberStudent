@@ -2,10 +2,12 @@
 
 Case::Case() : player(nullptr) {}
 
-Player *Case::getPlayer() const {
-    return player;
-}
-
 void Case::setPlayer(Player *player) {
     Case::player = player;
 }
+
+Case *Case::explode([[maybe_unused]] unsigned char &impactDist) {
+    if (player) player->takeDamage(20);
+    return nullptr;
+}
+
