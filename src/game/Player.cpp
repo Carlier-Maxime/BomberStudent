@@ -90,8 +90,10 @@ bool Player::move(unsigned char x, unsigned char y) {
     auto timeMove = std::chrono::high_resolution_clock::now();
     if (std::chrono::duration_cast<std::chrono::duration<float>>( timeMove - timeLastMove).count() < (1/speed)) return false;
     if (!game->isStarted() || !game->getMap().getCase(x, y)->isAccessible()) return false;
+    game->getMap().getCase(posX, posY)->setPlayer(nullptr);
     game->getMap().getCase(posX, posY)->resetAccessible();
     game->getMap().getCase(x, y)->toNoAccessible();
+    game->getMap().getCase(x, y)->setPlayer(this);
     posY=y;
     posX=x;
     timeLastMove = timeMove;
@@ -151,4 +153,8 @@ std::string Player::toJSONAttackNewBomb(const std::string &type) const {
     std::ostringstream json;
     json << CM::postAttackNewBomb << "\n{\"pos\":\""<< posX << ","<< posY << R"(","type":")"<< type <<"\"}";
     return json.str();
+}
+
+void Player::takeDamage(u_char damage) {
+    life = (life < damage) ? 0 : life-damage;
 }

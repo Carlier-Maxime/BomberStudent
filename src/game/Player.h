@@ -33,6 +33,7 @@ public:
     bool poseBomb(const std::string &type);
     [[nodiscard]] std::string toJSONAttackBomb() const;
     [[nodiscard]] std::string toJSONAttackNewBomb(const std::string &type) const;
+    void takeDamage(u_char damage);
 };
 
 
