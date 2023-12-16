@@ -134,8 +134,7 @@ bool Player::poseBomb(const std::string &type) {
         game->armBomb(posX,posY,impactDist);
     } else if (type=="remote" && nbRemoteBomb>0) {
         nbRemoteBomb--;
-        std::thread th([]() {});
-        th.detach();
+        remoteBombs.emplace_back(MERGE_POS(posX, posY));
     } else if (type=="mine" && nbMine>0) {
         nbMine--;
         std::thread th([]() {});
@@ -168,4 +167,13 @@ void Player::takeDamage(float damage) {
 
 bool Player::isInvincible() const {
     return timeInvincible > std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
+}
+
+void Player::explodeRemoteBombs() {
+    u_char x, y;
+    for (auto pos : remoteBombs) {
+        SPLIT_POS(pos, x, y);
+        game->getMap().explodeBomb(x, y, impactDist);
+    }
+    remoteBombs.clear();
 }

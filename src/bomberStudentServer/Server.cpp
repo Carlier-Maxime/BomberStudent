@@ -93,6 +93,7 @@ void Server::processClientMessages(const SocketTCP* socket, const std::string& m
             handlePlayerMove(json::parse(msg.substr(CM::postPlayerMove.size())), player, game);
         else if (msg.compare(0, CM::postAttackBomb.size(), CM::postAttackBomb)==0)
             handleAttackBomb(json::parse(msg.substr(CM::postAttackBomb.size())), player, game);
+        else if (msg==CM::postAttackRemoteGo && player) player->explodeRemoteBombs();
         else {
             Log::warning("Unknown request : "+msg);
             socket->send(CM::badRequest);
