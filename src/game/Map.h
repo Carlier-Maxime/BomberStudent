@@ -15,7 +15,7 @@ private:
     unsigned int id;
     unsigned char width, height;
     std::vector<Case*> cases;
-    bool explodeCase(u_char x, u_char y, u_char& dist);
+    bool explodeCase(u_char x, u_char y, u_char &dist, float damage);
 public:
     Map(unsigned char width, unsigned char height, const std::string& cases);
     Map(const Map& other);

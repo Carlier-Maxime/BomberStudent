@@ -78,7 +78,7 @@ std::string Player::toJSON() const {
 
 std::string Player::toJSONState() const {
     std::ostringstream json;
-    json << "{\"life\":"<<std::to_string(life)<<",\"speed\":"<<speed<<",\"nbClassicBomb\":"<<std::to_string(nbClassicBomb)
+    json << "{\"life\":"<<life<<",\"speed\":"<<speed<<",\"nbClassicBomb\":"<<std::to_string(nbClassicBomb)
         <<",\"nbMine\":"<<std::to_string(nbMine)<<",\"nbRemoteBomb\":"<<std::to_string(nbRemoteBomb)<<",\"impactDist\":"
         <<std::to_string(impactDist)<<",\"invincible\":"<<(isInvincible() ? "true" : "false")<<"}";
     return json.str();
@@ -157,7 +157,7 @@ std::string Player::toJSONAttackNewBomb(const std::string &type) const {
     return json.str();
 }
 
-void Player::takeDamage(u_char damage) {
+void Player::takeDamage(float damage) {
     if (isInvincible()) return;
     life = (life < damage) ? 0 : life-damage;
     timeLastMove = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());

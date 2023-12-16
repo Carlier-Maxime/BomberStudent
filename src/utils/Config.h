@@ -17,7 +17,7 @@ public:
     static unsigned char getDefaultNbClassicBomb();
     static unsigned char getDefaultNbRemoteBomb();
     static unsigned char getDefaultNbMineBomb();
-    static unsigned char getDefaultLife();
+    static float getDefaultLife();
     static float getDefaultSpeed();
     static float getFreezeTime();
 
@@ -33,7 +33,7 @@ private:
     static const unsigned char defaultNbClassicBomb = 2;
     static const unsigned char defaultNbRemoteBomb = 1;
     static const unsigned char defaultNbMineBomb = 0;
-    static const unsigned char defaultLife = 100;
+    constexpr static const float defaultLife = 100;
     constexpr static const float defaultSpeed = 4;
     constexpr static const float freezeTime = 1;
 };

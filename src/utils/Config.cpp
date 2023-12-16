@@ -46,7 +46,7 @@ unsigned char Config::getDefaultNbMineBomb() {
     return defaultNbMineBomb;
 }
 
-unsigned char Config::getDefaultLife() {
+float Config::getDefaultLife() {
     return defaultLife;
 }
 

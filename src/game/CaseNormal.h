@@ -15,7 +15,7 @@ public:
     void resetAccessible() override;
     void toNoAccessible() override;
 
-    Case *explode(unsigned char &impactDist) override;
+    Case *explode(unsigned char &impactDist, float damage) override;
 
     static const char type = '-';
 };

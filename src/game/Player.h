@@ -15,8 +15,8 @@ private:
     const SocketTCP* socket;
     Game* game;
     std::string name;
-    float speed;
-    unsigned char life, nbClassicBomb, nbMine, nbRemoteBomb, impactDist, posX, posY;
+    float speed, life;
+    unsigned char nbClassicBomb, nbMine, nbRemoteBomb, impactDist, posX, posY;
     std::chrono::milliseconds timeLastMove, timeInvincible;
 protected:
 public:
@@ -32,7 +32,7 @@ public:
     bool poseBomb(const std::string &type);
     [[nodiscard]] std::string toJSONAttackBomb() const;
     [[nodiscard]] std::string toJSONAttackNewBomb(const std::string &type) const;
-    void takeDamage(u_char damage);
+    void takeDamage(float damage);
     bool isInvincible() const ;
 };
 
