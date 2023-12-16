@@ -21,3 +21,4 @@ const std::string CM::postAttackBomb = "POST attack/bomb";
 const std::string CM::postAttackNewBomb = "POST attack/newbomb";
 const std::string CM::postAttackExplode = "POST attack/explose";
 const std::string CM::postAttackAffect = "POST attack/affect";
+const std::string CM::postPlayerNew = "POST player/new";

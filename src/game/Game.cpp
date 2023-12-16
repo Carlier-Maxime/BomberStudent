@@ -43,6 +43,7 @@ Player * Game::newPlayer(const SocketTCP *socket) {
     players.emplace_back(socket, this, x, y);
     map.getCase(x,y)->toNoAccessible();
     Player* player = &players.back();
+    sendForAllPlayersExcept(CM::postPlayerNew+player->toJSON(), *player);
     return player;
 }
 

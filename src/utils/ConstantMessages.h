@@ -23,6 +23,7 @@ public:
     static const std::string postAttackNewBomb;
     static const std::string postAttackExplode;
     static const std::string postAttackAffect;
+    static const std::string postPlayerNew;
 };
 
 
