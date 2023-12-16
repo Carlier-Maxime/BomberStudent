@@ -208,3 +208,31 @@ POST attack/newbomb
 "type":"classic" //mine, remote
 }
 ```
+
+## Explode Bomb
+
+when bomb explode a server send of all player:
+```
+POST attack/explose
+{
+"pos":"5,3",
+"type":"classic",
+"impactDist":2,
+"map":"..."
+}
+```
+map string is the new content of map.
+
+If bomb explosion touch player, server send to player:
+```
+POST attack/affect
+{
+"life":70,
+"speed":1,
+"nbClassicBomb":1,
+"nbMine":0,
+"nbRemoteBomb":0,
+"impactDist":2,
+"invincible":false,
+}
+```
