@@ -139,6 +139,15 @@ server response:
 }
 ```
 
+server send to other players:
+```
+POST player/new
+{
+    "name:" "nom",
+    "pos":"x,y"
+}
+```
+
 ## Start Game
 
 All players join a game before game start.  
