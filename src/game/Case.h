@@ -4,9 +4,12 @@
 
 #include "Player.h"
 
+class Item;
+
 class Case {
 private:
     Player* player;
+    Item* item;
 public:
     Case();
     [[nodiscard]] virtual char getType() const = 0;
@@ -16,7 +19,9 @@ public:
     virtual void toNoAccessible() = 0;
     virtual Case *explode(unsigned char &impactDist, float damage);
     void setPlayer(Player *player);
-    virtual ~Case() = default;
+    [[nodiscard]] Item* getItem();
+    void setItem(Item *item);
+    virtual ~Case();
 };
 
 #endif //BOMBER_STUDENT_CASE_H

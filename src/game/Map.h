@@ -28,7 +28,7 @@ public:
     ~Map();
     [[nodiscard]] unsigned char getWidth() const;
     [[nodiscard]] unsigned char getHeight() const;
-    void explodeBomb(u_char x, u_char y, u_char impactDist);
+    void explodeBomb(u_char x, u_char y, u_char impactDist, float (*damage)(u_char distOfImpact));
 };
 
 

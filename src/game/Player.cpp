@@ -7,6 +7,10 @@
 #include "../json/JSONMessage.h"
 #include "../utils/ConstantMessages.h"
 #include "../utils/Config.h"
+#include "Bomb.h"
+#include "../utils/Log.h"
+#include "RemoteBomb.h"
+#include "ClassicBomb.h"
 
 using CM = ConstantMessages;
 
@@ -92,6 +96,8 @@ bool Player::move(unsigned char x, unsigned char y) {
     auto timeMove = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
     if (std::chrono::duration<float>(timeMove - timeLastMove).count() < (1/speed)) return false;
     if (!game->isStarted() || !game->getMap().getCase(x, y)->isAccessible()) return false;
+    auto* item = game->getMap().getCase(x, y)->getItem();
+    if (item && !item->get(this)) return false;
     game->getMap().getCase(posX, posY)->setPlayer(nullptr);
     game->getMap().getCase(posX, posY)->resetAccessible();
     game->getMap().getCase(x, y)->toNoAccessible();
@@ -128,18 +134,24 @@ std::string Player::toJSONMove(const std::string &direction) const {
 }
 
 bool Player::poseBomb(const std::string &type) {
-    if (!game->getMap().getCase(posX,posY)) return false;
+    auto* case_ = game->getMap().getCase(posX,posY);
+    Bomb* bomb = nullptr;
+    if (!case_) return false;
+    u_int16_t pos = MERGE_POS(posX, posY);
     if (type=="classic" && nbClassicBomb>0) {
         nbClassicBomb--;
-        game->armBomb(posX,posY,impactDist);
+        bomb = new ClassicBomb(*case_, *game, pos, impactDist);
+        bomb->explode();
     } else if (type=="remote" && nbRemoteBomb>0) {
         nbRemoteBomb--;
-        remoteBombs.emplace_back(MERGE_POS(posX, posY));
+        bomb = new RemoteBomb(*case_, *game, pos, impactDist);
+        remoteBombs.emplace_back(pos);
     } else if (type=="mine" && nbMine>0) {
         nbMine--;
         std::thread th([]() {});
         th.detach();
     } else return false;
+    case_->setItem(bomb);
     return true;
 }
 
@@ -173,7 +185,13 @@ void Player::explodeRemoteBombs() {
     u_char x, y;
     for (auto pos : remoteBombs) {
         SPLIT_POS(pos, x, y);
-        game->getMap().explodeBomb(x, y, impactDist);
+        auto* bomb = (Bomb*) game->getMap().getCase(x, y)->getItem();
+        if (bomb) {
+            bomb->explode();
+            delete bomb;
+            game->getMap().getCase(x, y)->setItem(nullptr);
+        }
+        else Log::warning("Bomb missing");
     }
     remoteBombs.clear();
 }

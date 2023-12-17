@@ -21,14 +21,12 @@ public:
     void start(const Player& player);
     void sendForAllPlayers(const std::string& msg) const;
     void sendForAllPlayersExcept(const std::string& msg, const Player& player_excluded) const;
-    void armBomb(u_char x, u_char y, u_char impactDist);
     ~Game();
 private:
     mutable std::shared_mutex mutex;
     std::string name;
     Map map;
     std::vector<Player> players;
-    std::vector<std::thread> classicBombs;
     bool started;
 };
 

@@ -101,13 +101,13 @@ Case *Map::getCase(u_char x, u_char y) {
     return nullptr;
 }
 
-void Map::explodeBomb(u_char x, u_char y, u_char impactDist) {
+void Map::explodeBomb(u_char x, u_char y, u_char impactDist, float (*damage)(u_char distOfImpact)) {
     std::lock_guard<std::mutex> lock(mutex);
     u_char dist, i, j;
-    for (j=0, i=x,dist=impactDist+1; dist>0 && explodeCase(i, y, dist, 20.f-3.75f*static_cast<float>(j)); i= (i==width-1) ? 0 : i+1, j++);
-    for (j=1, i=x-1,dist=impactDist; dist>0 && explodeCase(i, y, dist, 20.f-3.75f*static_cast<float>(j)); i= (i==0) ? width-1 : i-1, j++);
-    for (j=1, i=y+1,dist=impactDist; dist>0 && explodeCase(x, i, dist, 20.f-3.75f*static_cast<float>(j)); i= (i==height-1) ? 0 : i+1, j++);
-    for (j=1, i=y-1,dist=impactDist; dist>0 && explodeCase(x, i, dist, 20.f-3.75f*static_cast<float>(j)); i= (i==0) ? height-1 : i-1, j++);
+    for (j=0, i=x,dist=impactDist+1; dist>0 && explodeCase(i, y, dist, damage(j)); i= (i==width-1) ? 0 : i+1, j++);
+    for (j=1, i=x-1,dist=impactDist; dist>0 && explodeCase(i, y, dist, damage(j)); i= (i==0) ? width-1 : i-1, j++);
+    for (j=1, i=y+1,dist=impactDist; dist>0 && explodeCase(x, i, dist, damage(j)); i= (i==height-1) ? 0 : i+1, j++);
+    for (j=1, i=y-1,dist=impactDist; dist>0 && explodeCase(x, i, dist, damage(j)); i= (i==0) ? height-1 : i-1, j++);
 }
 
 bool Map::explodeCase(u_char x, u_char y, u_char &dist, float damage) {
