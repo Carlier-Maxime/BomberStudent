@@ -4,6 +4,7 @@
 #include "Bomb.h"
 #include "../utils/Utils.h"
 #include "../utils/ConstantMessages.h"
+#include "../utils/Config.h"
 
 using CM = ConstantMessages;
 
@@ -22,7 +23,7 @@ bool Bomb::get([[maybe_unused]] const Player *player) {
 Bomb::~Bomb() = default;
 
 float Bomb::damage(u_char distOfImpact) {
-    return (3*20)/(static_cast<float>(distOfImpact)+3);
+    return (Config::getBombDamageFactor()*Config::getBombMaxDamage())/(static_cast<float>(distOfImpact)+Config::getBombDamageFactor());
 }
 
 void Bomb::explode() {

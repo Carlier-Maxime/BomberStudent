@@ -57,3 +57,15 @@ float Config::getDefaultSpeed() {
 float Config::getFreezeTime() {
     return freezeTime;
 }
+
+float Config::getBombMaxDamage() {
+    return bombMaxDamage;
+}
+
+float Config::getBombDamageFactor() {
+    return bombDamageFactor;
+}
+
+float Config::getMineBombDamage() {
+    return mineBombDamage;
+}

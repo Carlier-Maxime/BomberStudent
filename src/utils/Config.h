@@ -20,7 +20,9 @@ public:
     static float getDefaultLife();
     static float getDefaultSpeed();
     static float getFreezeTime();
-
+    static float getBombMaxDamage();
+    static float getBombDamageFactor();
+    static float getMineBombDamage();
 private:
     static const Protocol protocol = Protocol::IPV6;
     static const unsigned short serverPort = 42069;
@@ -36,6 +38,9 @@ private:
     constexpr static const float defaultLife = 100;
     constexpr static const float defaultSpeed = 4;
     constexpr static const float freezeTime = 1;
+    constexpr static const float bombMaxDamage = 20;
+    constexpr static const float bombDamageFactor = 3;
+    constexpr static const float mineBombDamage = 30;
 };
 
 #endif //BOMBER_STUDENT_CONFIG_H
