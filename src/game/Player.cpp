@@ -11,6 +11,7 @@
 #include "../utils/Log.h"
 #include "RemoteBomb.h"
 #include "ClassicBomb.h"
+#include "MineBomb.h"
 
 using CM = ConstantMessages;
 
@@ -148,8 +149,7 @@ bool Player::poseBomb(const std::string &type) {
         remoteBombs.emplace_back(pos);
     } else if (type=="mine" && nbMine>0) {
         nbMine--;
-        std::thread th([]() {});
-        th.detach();
+        bomb = new MineBomb(*case_, *game, pos);
     } else return false;
     case_->setItem(bomb);
     return true;

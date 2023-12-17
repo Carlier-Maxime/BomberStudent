@@ -26,10 +26,14 @@ float Bomb::damage(u_char distOfImpact) {
 }
 
 void Bomb::explode() {
+    explode(Bomb::damage);
+}
+
+void Bomb::explode(float (*damage)(u_char)) {
     if (exploded) return;
     u_char x, y;
     SPLIT_POS(pos,x,y);
-    game.getMap().explodeBomb(x,y,impactDist,Bomb::damage);
+    game.getMap().explodeBomb(x,y,impactDist,damage);
     exploded=true;
     std::ostringstream oss;
     oss << CM::postAttackExplode << R"({"pos":")" << std::to_string(x) << ',' << std::to_string(y)

@@ -17,6 +17,7 @@ public:
     Bomb(Case& case_, Game& game, std::string type, u_int16_t pos, u_char impactDist);
     static float damage(u_char distOfImpact);
     bool get(const Player *player) override;
+    void explode(float (*damage)(u_char distOfImpact));
     virtual void explode();
     ~Bomb() override;
 };
