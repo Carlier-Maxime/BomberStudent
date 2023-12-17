@@ -136,8 +136,8 @@ std::string Player::toJSONMove(const std::string &direction) const {
 
 bool Player::poseBomb(const std::string &type) {
     auto* case_ = game->getMap().getCase(posX,posY);
-    Bomb* bomb = nullptr;
-    if (!case_) return false;
+    Bomb* bomb;
+    if (!case_ || case_->getItem()) return false;
     u_int16_t pos = MERGE_POS(posX, posY);
     if (type=="classic" && nbClassicBomb>0) {
         nbClassicBomb--;
