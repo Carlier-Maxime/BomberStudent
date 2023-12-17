@@ -245,3 +245,6 @@ POST attack/affect
 "invincible":false,
 }
 ```
+
+for explode remote bomb the owner of remote bomb send:  
+```POST attack/remote/go```
