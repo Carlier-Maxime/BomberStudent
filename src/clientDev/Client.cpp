@@ -56,9 +56,9 @@ void Client::run() {
     socketTCP.send(CM::postPlayerMove+"\n{\"move\":\"down\"}");
     std::this_thread::sleep_for(timeMove);
     socketTCP.send(CM::postPlayerMove+"\n{\"move\":\"left\"}");
-    socketTCP.send(CM::postAttackBomb+"\n{" R"("type":"classic"})");
     socketTCP.send(CM::postAttackBomb+"\n{" R"("type":"remote"})");
     socketTCP.send(CM::postAttackRemoteGo);
+    socketTCP.send(CM::postAttackBomb+"\n{" R"("type":"classic"})");
     std::this_thread::sleep_for(std::chrono::seconds(1+Config::getDetonationTime()));
 quit:
     Log::info("shutdown");
