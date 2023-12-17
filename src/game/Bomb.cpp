@@ -22,7 +22,7 @@ bool Bomb::get([[maybe_unused]] const Player *player) {
 Bomb::~Bomb() = default;
 
 float Bomb::damage(u_char distOfImpact) {
-    return 20.f-3.75f*static_cast<float>(distOfImpact);
+    return (3*20)/(static_cast<float>(distOfImpact)+3);
 }
 
 void Bomb::explode() {
