@@ -21,6 +21,7 @@ public:
     static std::string processName;
     static thread_local std::string threadName;
     static u_long getRandomNumber(u_long min, u_long max);
+    static double getRandomNumber();
 };
 
 

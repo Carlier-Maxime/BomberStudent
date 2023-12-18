@@ -12,6 +12,9 @@ std::filesystem::path Utils::getProgramPath() {
 }
 
 u_long Utils::getRandomNumber(u_long min, u_long max) {
-    std::uniform_int_distribution<u_long> range(min, max); // define the range
-    return range(random_generator);
+    return std::uniform_int_distribution<u_long>(min, max)(random_generator);
+}
+
+double Utils::getRandomNumber() {
+    return std::uniform_real_distribution<>(0,1)(random_generator);
 }
