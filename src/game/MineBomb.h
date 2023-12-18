@@ -8,7 +8,7 @@ class MineBomb : public Bomb {
 public:
     MineBomb(Case &case_, Game &game, u_int16_t pos);
 
-    bool get(const Player *player) override;
+    bool get(Player *player) override;
 
     void explode() override;
 };

@@ -10,7 +10,7 @@ protected:
     Case& case_;
 public:
     explicit Item(Case& case_);
-    virtual bool get(const Player* player) = 0;
+    virtual bool get(Player *player) = 0;
     virtual ~Item() = default;
 };
 

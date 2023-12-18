@@ -37,6 +37,15 @@ public:
     void takeDamage(float damage);
     [[nodiscard]] bool isInvincible() const ;
     void explodeRemoteBombs();
+    void addClassicBomb();
+    void addRemoteBomb();
+    void addMine();
+    void toInvincible();
+    void fullLife();
+    bool incImpactDist();
+    bool decImpactDist();
+    void speedUp();
+    void speedDown();
 };
 
 

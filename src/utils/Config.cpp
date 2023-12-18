@@ -69,3 +69,15 @@ float Config::getBombDamageFactor() {
 float Config::getMineBombDamage() {
     return mineBombDamage;
 }
+
+float Config::getInvincibleTime() {
+    return invincibleTime;
+}
+
+float Config::getSpeedFactor() {
+    return speedFactor;
+}
+
+float Config::getMaxLife() {
+    return maxLife;
+}

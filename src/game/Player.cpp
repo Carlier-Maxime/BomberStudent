@@ -195,3 +195,44 @@ void Player::explodeRemoteBombs() {
     }
     remoteBombs.clear();
 }
+
+void Player::addClassicBomb() {
+    nbClassicBomb++;
+}
+
+void Player::addRemoteBomb() {
+    nbRemoteBomb++;
+}
+
+void Player::addMine() {
+    nbMine++;
+}
+
+void Player::toInvincible() {
+    timeInvincible = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
+    timeInvincible += std::chrono::duration_cast<std::chrono::milliseconds>((std::chrono::duration<float>(Config::getInvincibleTime())));
+}
+
+void Player::fullLife() {
+    life = Config::getMaxLife();
+}
+
+bool Player::incImpactDist() {
+    if (impactDist<Config::getMaxImpactDist()) impactDist++;
+    else return false;
+    return true;
+}
+
+bool Player::decImpactDist() {
+    if (impactDist>Config::getMinImpactDist()) impactDist--;
+    else return false;
+    return true;
+}
+
+void Player::speedUp() {
+    speed*=Config::getSpeedFactor();
+}
+
+void Player::speedDown() {
+    speed/=Config::getSpeedFactor();
+}

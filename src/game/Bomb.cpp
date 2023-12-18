@@ -11,7 +11,7 @@ using CM = ConstantMessages;
 Bomb::Bomb(Case& case_, Game &game, std::string type, u_int16_t pos, u_char impactDist) : Item(case_), game(game),
 type(std::move(type)), pos(pos), impactDist(impactDist), exploded(false) {}
 
-bool Bomb::get([[maybe_unused]] const Player *player) {
+bool Bomb::get([[maybe_unused]] Player *player) {
     if (exploded) {
         case_.setItem(nullptr);
         delete this;
