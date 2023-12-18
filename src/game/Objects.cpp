@@ -2,6 +2,16 @@
 #include "Player.h"
 #include "Case.h"
 
+ObjectClassicBomb::ObjectClassicBomb(Case &case_) : Item(case_) {}
+ObjectRemoteBomb::ObjectRemoteBomb(Case &case_) : Item(case_) {}
+ObjectMine::ObjectMine(Case &case_) : Item(case_) {}
+ObjectImpactUp::ObjectImpactUp(Case &case_) : Item(case_) {}
+ObjectImpactDown::ObjectImpactDown(Case &case_) : Item(case_) {}
+ObjectSpeedUp::ObjectSpeedUp(Case &case_) : Item(case_) {}
+ObjectSpeedDown::ObjectSpeedDown(Case &case_) : Item(case_) {}
+ObjectLifeMax::ObjectLifeMax(Case &case_) : Item(case_) {}
+ObjectInvincible::ObjectInvincible(Case &case_) : Item(case_) {}
+
 bool ObjectClassicBomb::get(Player *player) {
     if (!player) return false;
     player->addClassicBomb();
