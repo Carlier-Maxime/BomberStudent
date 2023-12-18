@@ -1,16 +1,42 @@
 #include "Objects.h"
 #include "Player.h"
 #include "Case.h"
+#include "../utils/Utils.h"
 
-ObjectClassicBomb::ObjectClassicBomb(Case &case_) : Item(case_) {}
-ObjectRemoteBomb::ObjectRemoteBomb(Case &case_) : Item(case_) {}
-ObjectMine::ObjectMine(Case &case_) : Item(case_) {}
-ObjectImpactUp::ObjectImpactUp(Case &case_) : Item(case_) {}
-ObjectImpactDown::ObjectImpactDown(Case &case_) : Item(case_) {}
-ObjectSpeedUp::ObjectSpeedUp(Case &case_) : Item(case_) {}
-ObjectSpeedDown::ObjectSpeedDown(Case &case_) : Item(case_) {}
-ObjectLifeMax::ObjectLifeMax(Case &case_) : Item(case_) {}
-ObjectInvincible::ObjectInvincible(Case &case_) : Item(case_) {}
+Object::Object(Case &case_) : Item(case_) {}
+
+std::map<double, Object* (*)(Case&)> Object::objects = {
+        {0.27, [](Case& case_) -> Object* {return new ObjectClassicBomb(case_);}},
+        {0.13, [](Case& case_) -> Object* {return new ObjectRemoteBomb(case_);}},
+        {0.1, [](Case& case_) -> Object* {return new ObjectMine(case_);}},
+        {0.125, [](Case& case_) -> Object* {return new ObjectImpactUp(case_);}},
+        {0.125, [](Case& case_) -> Object* {return new ObjectImpactDown(case_);}},
+        {0.09, [](Case& case_) -> Object* {return new ObjectSpeedUp(case_);}},
+        {0.09, [](Case& case_) -> Object* {return new ObjectSpeedDown(case_);}},
+        {0.02, [](Case& case_) -> Object* {return new ObjectLifeMax(case_);}},
+        {0.05, [](Case& case_) -> Object* {return new ObjectInvincible(case_);}}
+};
+
+Object *Object::getRandomObject(Case& case_) {
+    if (objects.empty()) return nullptr;
+    if (Utils::getRandomNumber()<0.7) return nullptr;
+    double prob=Utils::getRandomNumber(), cumulate=0;
+    for (const auto& obj : objects) {
+        cumulate+=obj.first;
+        if (prob<=cumulate) return obj.second(case_);
+    }
+    return nullptr;
+}
+
+ObjectClassicBomb::ObjectClassicBomb(Case &case_) : Object(case_) {}
+ObjectRemoteBomb::ObjectRemoteBomb(Case &case_) : Object(case_) {}
+ObjectMine::ObjectMine(Case &case_) : Object(case_) {}
+ObjectImpactUp::ObjectImpactUp(Case &case_) : Object(case_) {}
+ObjectImpactDown::ObjectImpactDown(Case &case_) : Object(case_) {}
+ObjectSpeedUp::ObjectSpeedUp(Case &case_) : Object(case_) {}
+ObjectSpeedDown::ObjectSpeedDown(Case &case_) : Object(case_) {}
+ObjectLifeMax::ObjectLifeMax(Case &case_) : Object(case_) {}
+ObjectInvincible::ObjectInvincible(Case &case_) : Object(case_) {}
 
 bool ObjectClassicBomb::get(Player *player) {
     if (!player) return false;
