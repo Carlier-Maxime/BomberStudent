@@ -7,6 +7,7 @@
 #include "../utils/Log.h"
 #include "../utils/Utils.h"
 #include "../utils/ConstantMessages.h"
+#include "Objects.h"
 
 using CM = ConstantMessages;
 
@@ -19,6 +20,7 @@ Map::Map(unsigned char width, unsigned char height, const std::string& cases) : 
         switch (cases[i]) {
             case '-':
                 case_ = new CaseNormal();
+                case_->setItem(Object::getRandomObject(*case_));
                 break;
             case '=':
                 case_ = new CaseWall();
@@ -29,6 +31,7 @@ Map::Map(unsigned char width, unsigned char height, const std::string& cases) : 
             default:
                 Log::warning("Unknown case type. case replaced by a normal case");
                 case_ = new CaseNormal();
+                case_->setItem(Object::getRandomObject(*case_));
         }
         this->cases[i] = case_;
     }
