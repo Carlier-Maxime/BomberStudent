@@ -20,8 +20,8 @@ public:
     bool isStarted() const;
     void start(const Player& player);
     void sendForAllPlayers(const std::string& msg) const;
-    u_char getWidth();
-    u_char getHeight();
+    void sendForAllPlayersExcept(const std::string& msg, const Player& player_excluded) const;
+    ~Game();
 private:
     mutable std::shared_mutex mutex;
     std::string name;

@@ -19,6 +19,12 @@ public:
     static const std::string postGameReady;
     static const std::string postGameGo;
     static const std::string postPlayerMove;
+    static const std::string postAttackBomb;
+    static const std::string postAttackNewBomb;
+    static const std::string postAttackExplode;
+    static const std::string postAttackAffect;
+    static const std::string postPlayerNew;
+    static const std::string postAttackRemoteGo;
 };
 
 

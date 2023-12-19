@@ -18,11 +18,13 @@ private:
     SocketTCP socketTCP;
     std::vector<SocketTCP*> clients;
     std::vector<std::thread> threads;
-    static void handleClient(const SocketTCP* socket);
     void handleUDP();
+    static void handleClient(const SocketTCP* socket);
+    static void processClientMessages(const SocketTCP *socket, const std::string &msg_received, Player *&player, Game *&game);
     static void handleGameCreate(const SocketTCP *socket, const json& data, Player *&player, Game *&game);
     static void handleGameJoin(const SocketTCP *socket, const json& data, Player *&player, Game *&game);
     static void handlePlayerMove(const json &data, Player *player, const Game *game);
+    static void handleAttackBomb(const json &data, Player *player, Game *game);
 public:
     Server();
     ~Server();

@@ -3,6 +3,7 @@
 #include "../json/JSONMessage.h"
 #include "GameManager.h"
 #include "../utils/ConstantMessages.h"
+#include "../utils/Config.h"
 
 #include <utility>
 #include <sstream>
@@ -42,6 +43,7 @@ Player * Game::newPlayer(const SocketTCP *socket) {
     players.emplace_back(socket, this, x, y);
     map.getCase(x,y)->toNoAccessible();
     Player* player = &players.back();
+    sendForAllPlayersExcept(CM::postPlayerNew+player->toJSON(), *player);
     return player;
 }
 
@@ -82,7 +84,7 @@ void Game::start(const Player& player) {
     if (!started && !players.empty() && player.getPos()==players[0].getPos()) {
         std::thread go([this](){
             sendForAllPlayers(CM::postGameReady);
-            std::this_thread::sleep_for(std::chrono::seconds(3));
+            std::this_thread::sleep_for(std::chrono::seconds(Config::getGameReadyTime()));
             started=true;
             sendForAllPlayers(CM::postGameGo);
         });
@@ -94,14 +96,15 @@ void Game::sendForAllPlayers(const std::string& msg) const {
     for (const auto& player : players) player.getSocket()->send(msg);
 }
 
-u_char Game::getWidth() {
-    return map.getWidth();
-}
-
-u_char Game::getHeight() {
-    return map.getHeight();
-}
-
 Map &Game::getMap() {
     return map;
 }
+
+void Game::sendForAllPlayersExcept(const std::string &msg, const Player &player_excluded) const {
+    for (const auto& player : players) {
+        if (player.getPos()==player_excluded.getPos()) continue;
+        player.getSocket()->send(msg);
+    }
+}
+
+Game::~Game() = default;

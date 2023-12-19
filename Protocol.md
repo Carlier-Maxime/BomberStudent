@@ -125,18 +125,26 @@ server response:
 "action":"game/join", "statut":201, "message":"game joined",
 "nbPlayers":2,
 "mapId" : 1,
-"players":[{"name":"player1","pos":"0,0"},
-{"name":"player2","pos":"0,79"}],
+"players":[{"name":"player1","pos":"0,0"}, {"name":"player2","pos":"0,79"}],
 "startPos":"5,3",
 "player":{
-"life":100,
-"speed":1,
-"nbClassicBomb":1,
-"nbMine":0,
-"nbRemoteBomb":0,
-"impactDist":2,
-"invincible":false
+    "life":100,
+    "speed":1,
+    "nbClassicBomb":1,
+    "nbMine":0,
+    "nbRemoteBomb":0,
+    "impactDist":2,
+    "invincible":false
 }
+}
+```
+
+server send to other players:
+```
+POST player/new
+{
+    "name:" "nom",
+    "pos":"x,y"
 }
 ```
 
@@ -156,3 +164,87 @@ POST game/ready
 
 After time cool down, the server send to all players:  
 ``POST game/go``
+
+## Move Player
+
+For player move, client send request:  
+```
+POST player/move
+{
+"move":"up" // down, left, right
+}
+```
+
+if move successful, server responds to all players:  
+```
+POST player/position/update
+{
+"player":"player2",
+"dir":"up"
+}
+```
+
+## Pose Bomb
+
+for player pose a bomb, client send request:  
+```
+POST attack/bomb
+{
+"type":"classic" //mine, remote
+}
+```
+
+if bomb posed successful, server respond to a client:  
+```json
+{
+"action":"attack/bomb", "statut":201, "message":"bomb is armed at pos x,y",
+"player":{
+    "life":100,
+    "speed":1,
+    "nbClassicBomb":1,
+    "nbMine":0,
+    "nbRemoteBomb":0,
+    "impactDist":2,
+    "invincible":false
+}
+}
+```
+and send to other players:  
+```
+POST attack/newbomb
+{
+"pos":"x,y",
+"type":"classic" //mine, remote
+}
+```
+
+## Explode Bomb
+
+when bomb explode a server send of all player:
+```
+POST attack/explose
+{
+"pos":"5,3",
+"type":"classic",
+"impactDist":2,
+"map":"..."
+}
+```
+map string is the new content of map.
+
+If bomb explosion touch player, server send to player:
+```
+POST attack/affect
+{
+"life":70,
+"speed":1,
+"nbClassicBomb":1,
+"nbMine":0,
+"nbRemoteBomb":0,
+"impactDist":2,
+"invincible":false,
+}
+```
+
+for explode remote bomb the owner of remote bomb send:  
+```POST attack/remote/go```
