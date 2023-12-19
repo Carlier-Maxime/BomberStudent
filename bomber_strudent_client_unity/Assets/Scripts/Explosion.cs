@@ -39,7 +39,7 @@ public class Explosion : MonoBehaviour
         while (impactDist >= 0)
         {
             char mapCase= mapGenerator.getCase(currentCoord);
-            if(mapCase == '_')
+            if(mapCase == '-')
             {
                 explosionPartList.Add(GameObject.Instantiate(explosionPartPrefab, mapGenerator.getPosForCoord(currentCoord.x, currentCoord.y), Quaternion.identity, this.transform));
                 impactDist -= 1;

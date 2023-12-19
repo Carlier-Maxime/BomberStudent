@@ -9,6 +9,7 @@ public class InputManager : MonoBehaviour
     private BombType chosenBomb=BombType.classic;
     public MessageSender messageSender;
     public BombCount bombCount;
+    private bool gameStarted = false;
 
 
     private void Awake()
@@ -25,10 +26,16 @@ public class InputManager : MonoBehaviour
     }
     private void Update()
     {
-        getMove();
-        getAction();
+        if (gameStarted)
+        {
+            getMove();
+            getAction();
+        }
     }
-
+    public void startGame()
+    {
+        this.gameStarted = true;
+    }
     private void getMove()
     {
 

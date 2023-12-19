@@ -29,9 +29,9 @@ public class FalseMessageReceiver : MonoBehaviour
 
     public void updatePositionPlayer(string playerName,string dir)
     {
-        Player[] players = playerManager.getPlayers();
+        List<Player> players = playerManager.getPlayers();
         int idxPlayer=-1;
-        for(int i=0; i < players.Length; i++)
+        for(int i=0; i < players.Count; i++)
         {
             if (players[i].getName().Equals(playerName))
             {

@@ -15,9 +15,12 @@ public class NetworkManager : MonoBehaviour
     private TcpClient tcpClient;
     private TcpListener tcpListener;
     public int port;
+    public bool increaseSendingUDP;
 
     private bool isConnectedTCP = false;
     private bool isListeningUDP = false;
+
+    private string targetIpAddress;
 
     public MessageParser messageParser;
 
@@ -53,7 +56,7 @@ public class NetworkManager : MonoBehaviour
     public void connectTCP(string ipAddress, int sendingPort, int listeningPort)
     {
         isConnectedTCP = true;
-        initTCPClient(ipAddress, sendingPort);
+        initTCPClient(ipAddress, sendingPort + (increaseSendingUDP ? 1 : 0));
         initTCPListener(listeningPort);
         startTCPListen();
     }
@@ -66,7 +69,6 @@ public class NetworkManager : MonoBehaviour
             this.udpListener.Close();
             this.udpListener.Dispose();
         }
-        Debug.Log("ok1");
         isListeningUDP = true;
         this.udpListener = new UdpClient(port);
         Thread thread = new Thread(() => ListenUDP());
@@ -77,7 +79,6 @@ public class NetworkManager : MonoBehaviour
 
     private void ListenUDP()
     {
-        Debug.Log("ok");
         IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Any, 42069);
         while (isListeningUDP)
         {
@@ -102,7 +103,7 @@ public class NetworkManager : MonoBehaviour
     public void initUpdClient(string addressIP)
     {
         this.udpClient = new UdpClient();
-        udpClient.Connect(addressIP, port);
+        udpClient.Connect(addressIP, port + (increaseSendingUDP? 1:0));
         udpClient.EnableBroadcast = true;
     }
     public static NetworkManager getInstance()
@@ -125,6 +126,24 @@ public class NetworkManager : MonoBehaviour
     public void initTCPClient(string ipAdress, int port)
     {
         this.tcpClient = new TcpClient(ipAdress, port);
+    }
+    public void startTCP()
+    {
+        connectTCP(targetIpAddress, port, port);
+    }
+    public void stoptTCP()
+    {
+        this.isConnectedTCP = false;
+        if (tcpClient != null)
+        {
+            this.tcpClient.Close();
+            this.tcpClient.Dispose();
+        }
+        if (tcpListener != null)
+        {
+            this.tcpListener.Stop();
+        }
+
     }
 
     public void sendTCPMessage(string message)
@@ -161,7 +180,7 @@ public class NetworkManager : MonoBehaviour
     private void TCPListen()
     {
         Debug.Log("ok listen");
-        byte[] bytes = new byte[256];
+        byte[] bytes = new byte[2048];
         string data = null;
         tcpListener.Start();
         Debug.Log("Waiting for a connection... ");
@@ -179,8 +198,8 @@ public class NetworkManager : MonoBehaviour
             while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
             {
                 data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-                Debug.Log("Received: " + data);
-
+                Debug.Log("Received: " + data+"("+i+")");
+                MessageParser.getInstance().parseMessage(data,IPAddress.Any);
 
             }
         }
@@ -189,6 +208,11 @@ public class NetworkManager : MonoBehaviour
             Debug.Log("Fin de connexion inattendue");
         }
 
+    }
+
+    public void setTargetIpAddress(string ipAddress)
+    {
+        this.targetIpAddress = ipAddress;
     }
 
     

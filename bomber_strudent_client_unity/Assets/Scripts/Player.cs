@@ -5,6 +5,7 @@ public class Player
 {
     private int x;
     private int y;
+    [SerializeField]
     private string playerName;
 
     public Player(string playerName, int x, int y)

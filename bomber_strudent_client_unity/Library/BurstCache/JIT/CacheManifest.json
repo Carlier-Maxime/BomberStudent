@@ -6,48 +6,32 @@
       "LastWriteTime": "2023-03-07T23:40:42Z"
     },
     {
-      "FullName": "Unity.2D.SpriteShape.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
-      "LastWriteTime": "2023-11-25T11:04:15.1656015Z"
+      "FullName": "Unity.2D.Animation.Editor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+      "LastWriteTime": "2023-12-18T14:01:30.738934Z"
     },
     {
       "FullName": "mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
       "LastWriteTime": "2023-03-07T23:12:58Z"
     },
     {
+      "FullName": "Unity.2D.Common.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+      "LastWriteTime": "2023-12-18T14:01:29.9779948Z"
+    },
+    {
+      "FullName": "Unity.Mathematics, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+      "LastWriteTime": "2023-12-18T14:01:31.827784Z"
+    },
+    {
       "FullName": "netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51",
       "LastWriteTime": "2023-03-07T23:13:00Z"
     },
     {
-      "FullName": "Unity.Mathematics, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
-      "LastWriteTime": "2023-11-25T11:04:13.6468988Z"
-    },
-    {
-      "FullName": "UnityEngine.SpriteShapeModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
-      "LastWriteTime": "2023-03-07T23:40:42Z"
-    },
-    {
-      "FullName": "Unity.2D.Common.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
-      "LastWriteTime": "2023-11-25T11:04:15.4185195Z"
-    },
-    {
-      "FullName": "mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
-      "LastWriteTime": "2023-03-07T23:12:58Z"
-    },
-    {
-      "FullName": "Unity.2D.Animation.Editor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
-      "LastWriteTime": "2023-11-25T11:04:14.4302634Z"
-    },
-    {
       "FullName": "PsdPlugin, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
-      "LastWriteTime": "2023-11-25T11:04:13.4941704Z"
-    },
-    {
-      "FullName": "mscorlib, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
-      "LastWriteTime": "2023-03-07T23:12:58Z"
+      "LastWriteTime": "2023-12-18T14:01:31.7223064Z"
     },
     {
       "FullName": "Unity.Burst, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
-      "LastWriteTime": "2023-11-25T11:04:15.3776272Z"
+      "LastWriteTime": "2023-12-18T14:01:32.0133501Z"
     },
     {
       "FullName": "UnityEditor.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
@@ -55,34 +39,30 @@
     },
     {
       "FullName": "Unity.2D.Common.Editor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
-      "LastWriteTime": "2023-11-25T11:04:14.2113499Z"
+      "LastWriteTime": "2023-12-18T14:01:30.0660979Z"
     },
     {
       "FullName": "Unity.2D.Psdimporter.Editor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
-      "LastWriteTime": "2023-11-25T11:04:15.3434234Z"
+      "LastWriteTime": "2023-12-18T14:01:31.1893636Z"
     },
     {
       "FullName": "Unity.2D.Animation.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
-      "LastWriteTime": "2023-11-25T11:04:15.3194163Z"
+      "LastWriteTime": "2023-12-18T14:01:29.8739371Z"
+    },
+    {
+      "FullName": "Unity.2D.SpriteShape.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+      "LastWriteTime": "2023-12-18T14:01:31.2778001Z"
+    },
+    {
+      "FullName": "mscorlib, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+      "LastWriteTime": "2023-03-07T23:12:58Z"
+    },
+    {
+      "FullName": "UnityEngine.SpriteShapeModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+      "LastWriteTime": "2023-03-07T23:40:42Z"
     }
   ],
   "Functions": [
-    {
-      "FullName": "Unity.Jobs.IJobExtensions+JobStruct`1[[UnityEngine.U2D.SpriteShapeGenerator, Unity.2D.SpriteShape.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::Execute(UnityEngine.U2D.SpriteShapeGenerator&, Unity.2D.SpriteShape.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|Unity.Jobs.LowLevel.Unsafe.JobRanges&, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
-      "ModuleOptionsHash": 15221144590354301703,
-      "ModuleHash": "01c4a39675c8323fd9bbc3d8363a641b",
-      "LinkName": "104599FDEEB36FAE",
-      "AssemblyDependencyIndices": [
-        0,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7
-      ]
-    },
     {
       "FullName": "Unity.Jobs.IJobExtensions+JobStruct`1[[UnityEditor.U2D.Animation.TriangulateJob, Unity.2D.Animation.Editor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::Execute(UnityEditor.U2D.Animation.TriangulateJob&, Unity.2D.Animation.Editor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|Unity.Jobs.LowLevel.Unsafe.JobRanges&, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
       "ModuleOptionsHash": 15221144590354301703,
@@ -90,12 +70,11 @@
       "LinkName": "49056CD1270901E4",
       "AssemblyDependencyIndices": [
         0,
-        8,
-        6,
+        1,
         2,
-        4,
         3,
-        7
+        4,
+        5
       ]
     },
     {
@@ -105,10 +84,8 @@
       "LinkName": "B33AFCD7D8FB6AEB",
       "AssemblyDependencyIndices": [
         0,
-        9,
-        10,
-        2,
-        7
+        6,
+        2
       ]
     },
     {
@@ -117,8 +94,8 @@
       "ModuleHash": "35798bf8ad4de7b3f7835a61764e94a7",
       "LinkName": "801E9A000BB37B05",
       "AssemblyDependencyIndices": [
-        11,
-        3,
+        7,
+        5,
         2
       ]
     },
@@ -128,8 +105,8 @@
       "ModuleHash": "8fdcee1e6ffc30f3ad2f915c1614eef6",
       "LinkName": "CDCA4A5193BE5947",
       "AssemblyDependencyIndices": [
-        11,
-        3,
+        7,
+        5,
         2
       ]
     },
@@ -140,12 +117,11 @@
       "LinkName": "750999B742A414C6",
       "AssemblyDependencyIndices": [
         0,
-        8,
+        1,
         2,
-        6,
-        4,
         3,
-        7
+        4,
+        5
       ]
     },
     {
@@ -155,14 +131,13 @@
       "LinkName": "9C987EFE5F9A4A52",
       "AssemblyDependencyIndices": [
         0,
+        1,
         8,
-        12,
         2,
         4,
-        3,
-        11,
-        6,
-        7
+        5,
+        7,
+        3
       ]
     },
     {
@@ -172,7 +147,7 @@
       "LinkName": "FBD0B2A6246F6223",
       "AssemblyDependencyIndices": [
         0,
-        13,
+        9,
         2
       ]
     },
@@ -183,10 +158,9 @@
       "LinkName": "85C34B2AEC2FC609",
       "AssemblyDependencyIndices": [
         0,
-        14,
+        10,
         2,
-        4,
-        7
+        4
       ]
     },
     {
@@ -196,10 +170,9 @@
       "LinkName": "18C2EC3E41FEE880",
       "AssemblyDependencyIndices": [
         0,
-        14,
+        10,
         2,
-        4,
-        7
+        4
       ]
     },
     {
@@ -209,9 +182,8 @@
       "LinkName": "4B57F329150937D0",
       "AssemblyDependencyIndices": [
         0,
-        9,
-        2,
-        7
+        6,
+        2
       ]
     },
     {
@@ -220,14 +192,13 @@
       "ModuleHash": "8e5fda4ec19ee8f2e6acbdac3238031f",
       "LinkName": "8115CAFF6B65630B",
       "AssemblyDependencyIndices": [
-        13,
+        9,
         2,
         0,
         4,
-        11,
-        3,
-        12,
-        7
+        7,
+        5,
+        8
       ]
     },
     {
@@ -236,13 +207,12 @@
       "ModuleHash": "098eb9de3aed018d34fa7d074b24c627",
       "LinkName": "22C1BA9B75E8DDE1",
       "AssemblyDependencyIndices": [
-        15,
-        3,
+        11,
+        5,
         2,
         0,
-        11,
-        12,
-        7
+        7,
+        8
       ]
     },
     {
@@ -251,13 +221,13 @@
       "ModuleHash": "b8bddccdf447d47784a1c835d53006fb",
       "LinkName": "7F9BDFAB3718C423",
       "AssemblyDependencyIndices": [
-        8,
+        1,
         2,
         4,
-        11,
-        3,
+        7,
+        5,
         0,
-        12
+        8
       ]
     },
     {
@@ -266,15 +236,14 @@
       "ModuleHash": "3ebfd662a6c78d54fe727d93c8860fef",
       "LinkName": "7D2E04AB7759F565",
       "AssemblyDependencyIndices": [
-        8,
+        1,
         2,
         0,
         4,
+        5,
+        7,
         3,
-        11,
-        6,
-        12,
-        7
+        8
       ]
     },
     {
@@ -283,15 +252,14 @@
       "ModuleHash": "bb222407493f5ddc63f262eb7e16b645",
       "LinkName": "4E9252389FAD9FEE",
       "AssemblyDependencyIndices": [
-        8,
+        1,
         2,
         0,
         4,
-        11,
+        7,
+        5,
         3,
-        6,
-        12,
-        7
+        8
       ]
     },
     {
@@ -300,14 +268,13 @@
       "ModuleHash": "ca472aeffd6e14f22ab04ac0bb4b888c",
       "LinkName": "4C542F1631655C96",
       "AssemblyDependencyIndices": [
-        8,
+        1,
         2,
         4,
-        3,
-        11,
+        5,
+        7,
         0,
-        12,
-        7
+        8
       ]
     },
     {
@@ -316,14 +283,14 @@
       "ModuleHash": "886813378a605bc37ca20ec700393f08",
       "LinkName": "0DF0BB6E3E9C95ED",
       "AssemblyDependencyIndices": [
-        8,
+        1,
         2,
         4,
+        5,
+        7,
         3,
-        11,
-        6,
         0,
-        12
+        8
       ]
     },
     {
@@ -332,14 +299,14 @@
       "ModuleHash": "0ee19af1edcb3025caea3d58dcbc40e4",
       "LinkName": "9C009FC40CDEA715",
       "AssemblyDependencyIndices": [
-        8,
+        1,
         2,
-        11,
-        3,
+        7,
+        5,
         4,
-        6,
+        3,
         0,
-        12
+        8
       ]
     },
     {
@@ -348,15 +315,30 @@
       "ModuleHash": "790b786cee7d4c5ffddaaef3c114ed6c",
       "LinkName": "1275254E9CEB788C",
       "AssemblyDependencyIndices": [
-        8,
+        1,
         2,
         4,
         0,
+        5,
+        7,
         3,
-        11,
-        6,
+        8
+      ]
+    },
+    {
+      "FullName": "Unity.Jobs.IJobExtensions+JobStruct`1[[UnityEngine.U2D.SpriteShapeGenerator, Unity.2D.SpriteShape.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::Execute(UnityEngine.U2D.SpriteShapeGenerator&, Unity.2D.SpriteShape.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|Unity.Jobs.LowLevel.Unsafe.JobRanges&, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)",
+      "ModuleOptionsHash": 15221144590354301703,
+      "ModuleHash": "01c4a39675c8323fd9bbc3d8363a641b",
+      "LinkName": "104599FDEEB36FAE",
+      "AssemblyDependencyIndices": [
+        0,
         12,
-        7
+        13,
+        5,
+        4,
+        14,
+        2,
+        3
       ]
     }
   ]
