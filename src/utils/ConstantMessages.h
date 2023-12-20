@@ -26,6 +26,7 @@ public:
     static const std::string postPlayerNew;
     static const std::string postAttackRemoteGo;
     static const std::string postPlayerLeave;
+    static const std::string postPlayerDeath;
 };
 
 

@@ -63,7 +63,7 @@ void Server::handleClient(const SocketTCP* socket) {
                     Log::info("Client disconnected : " + socket->getAddress().toString());
                     break;
                 }
-                processClientMessages(socket, msg_received, player, game);
+                if (!player || player->isAlive()) processClientMessages(socket, msg_received, player, game);
             } catch (SocketException& e) {
                 if (errno==EINTR) break;
                 throw e;

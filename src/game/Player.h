@@ -46,6 +46,7 @@ public:
     bool decImpactDist();
     void speedUp();
     void speedDown();
+    [[nodiscard]] bool isAlive() const;
 };
 
 

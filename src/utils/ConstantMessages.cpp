@@ -24,3 +24,4 @@ const std::string CM::postAttackAffect = "POST attack/affect";
 const std::string CM::postPlayerNew = "POST player/new";
 const std::string CM::postAttackRemoteGo = "POST attack/remote/go";
 const std::string CM::postPlayerLeave = "POST player/leave";
+const std::string CM::postPlayerDeath = "POST player/death";
