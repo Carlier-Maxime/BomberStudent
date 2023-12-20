@@ -48,10 +48,14 @@ std::string SocketAddress::toString() const {
     return std::string(oss.str());
 }
 
-SocketAddress::SocketAddress(unsigned short port) : SocketAddress(getIPLoopBack(), port, Config::getProtocol()) {}
+SocketAddress::SocketAddress(unsigned short port) : SocketAddress(getIPAny(), port, Config::getProtocol()) {}
 
 std::string SocketAddress::getIPLoopBack() {
     return Config::getProtocol()==Protocol::IPV6 ? "::1" : "127.0.0.1";
 }
 
-SocketAddress::SocketAddress() : SocketAddress(getIPLoopBack(), 0, Config::getProtocol()) {}
+SocketAddress::SocketAddress() : SocketAddress(getIPAny(), 0, Config::getProtocol()) {}
+
+std::string SocketAddress::getIPAny() {
+    return Config::getProtocol()==Protocol::IPV6 ? "::" : "0.0.0.0";
+}

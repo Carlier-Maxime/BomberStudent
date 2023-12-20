@@ -18,6 +18,7 @@ private:
     std::string ip;
 public:
     static std::string getIPLoopBack();
+    static std::string getIPAny();
     SocketAddress();
     explicit SocketAddress(unsigned short port);
     SocketAddress(std::string ip, unsigned short port);
