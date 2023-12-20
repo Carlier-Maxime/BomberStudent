@@ -11,7 +11,7 @@ private:
     std::string type;
 public:
     static Object* getRandomObject(Case& case_);
-    explicit Object(const std::string& type, Case &case_);
+    explicit Object(std::string  type, Case &case_);
     [[nodiscard]] const std::string &getType() const;
 };
 

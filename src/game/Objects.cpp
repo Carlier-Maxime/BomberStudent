@@ -1,9 +1,11 @@
 #include "Objects.h"
+
+#include <utility>
 #include "Player.h"
 #include "Case.h"
 #include "../utils/Utils.h"
 
-Object::Object(const std::string& type, Case &case_) : Item(case_) {}
+Object::Object(std::string  type, Case &case_) : Item(case_), type(std::move(type)) {}
 
 std::map<double, Object* (*)(Case&)> Object::objects = {
         {0.27, [](Case& case_) -> Object* {return new ObjectClassicBomb(case_);}},
