@@ -1,6 +1,6 @@
 #include "Game.h"
 #include "../utils/Utils.h"
-#include "../json/JSONMessage.h"
+#include "../utils/JSONMessage.h"
 #include "GameManager.h"
 #include "../utils/ConstantMessages.h"
 #include "../utils/Config.h"

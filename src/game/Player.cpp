@@ -4,7 +4,7 @@
 #include <thread>
 #include "../utils/Utils.h"
 #include "Game.h"
-#include "../json/JSONMessage.h"
+#include "../utils/JSONMessage.h"
 #include "../utils/ConstantMessages.h"
 #include "../utils/Config.h"
 #include "Bomb.h"

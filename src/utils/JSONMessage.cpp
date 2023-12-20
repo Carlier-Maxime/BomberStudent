@@ -1,7 +1,7 @@
 #include <string>
 #include <sstream>
 #include "JSONMessage.h"
-#include "../utils/ConstantMessages.h"
+#include "ConstantMessages.h"
 
 using CM = ConstantMessages;
 

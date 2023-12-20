@@ -1,5 +1,5 @@
 #include "ConstantMessages.h"
-#include "../json/JSONMessage.h"
+#include "JSONMessage.h"
 #include "Config.h"
 
 using CM = ConstantMessages;

@@ -6,7 +6,7 @@
 #include "../utils/ConstantMessages.h"
 #include "../game/MapManager.h"
 #include "../game/GameManager.h"
-#include "../json/JSONMessage.h"
+#include "../utils/JSONMessage.h"
 #include <sys/wait.h>
 
 using CM = ConstantMessages;
