@@ -21,6 +21,7 @@ public:
     Map(const Map& other);
     Map& operator=(const Map& other);
     [[nodiscard]] std::string toCasesString() const;
+    [[nodiscard]] std::string toObjectsJSON() const;
     [[nodiscard]] std::string toJSON() const;
     [[nodiscard]] unsigned int getId() const;
     [[nodiscard]] u_int16_t getRandomAvailablePos() const;

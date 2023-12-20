@@ -3,13 +3,16 @@
 
 #include "Item.h"
 #include <map>
+#include <string>
 
 class Object : public Item {
 private:
     static std::map<double, Object* (*)(Case&)> objects;
+    std::string type;
 public:
     static Object* getRandomObject(Case& case_);
-    explicit Object(Case& case_);
+    explicit Object(const std::string& type, Case &case_);
+    [[nodiscard]] const std::string &getType() const;
 };
 
 class ObjectClassicBomb : public Object {
