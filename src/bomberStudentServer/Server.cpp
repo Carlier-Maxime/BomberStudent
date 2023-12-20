@@ -87,7 +87,7 @@ std::string trim(const std::string& str) {
 void Server::processClientMessages(const SocketTCP* socket, const std::string& msg_received, Player*& player, Game*& game) {
     std::string msg;
     std::istringstream stream(msg_received);
-    while (std::getline(stream, msg, '\0')) {
+    while (std::getline(stream, msg, Config::getMsgSeparator())) {
         msg = trim(msg);
         if (msg.empty()) continue;
         else if (msg==CM::getMapList) socket->send(MapManager::getInstance()->toJSON());
@@ -162,7 +162,7 @@ void Server::handleUDP() {
             msg="";
             while (msg!=CM::lookingServers) {
                 std::istringstream stream(socketUDP.receive(&client));
-                while (std::getline(stream, msg, '\0')) {
+                while (std::getline(stream, msg, Config::getMsgSeparator())) {
                     if ((msg=trim(msg))!=CM::lookingServers) Log::info("Unknown request : "+msg);
                     else break;
                 }

@@ -81,3 +81,7 @@ float Config::getSpeedFactor() {
 float Config::getMaxLife() {
     return maxLife;
 }
+
+char Config::getMsgSeparator() {
+    return msg_separator;
+}

@@ -79,7 +79,7 @@ void Client::handleReceive() {
                     break;
                 }
                 std::istringstream stream(msg_received);
-                while (std::getline(stream, msg, '\0')) {
+                while (std::getline(stream, msg, Config::getMsgSeparator())) {
                     if (msg == CM::postGameGo) gameStarted=true, cv_gameStarted.notify_one();
                     std::cout << msg << std::endl;
                 }

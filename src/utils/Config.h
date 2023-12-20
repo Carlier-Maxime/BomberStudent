@@ -26,8 +26,10 @@ public:
     static float getInvincibleTime();
     static float getSpeedFactor();
     static float getMaxLife();
+    static char getMsgSeparator();
+
 private:
-    static const Protocol protocol = Protocol::IPV6;
+    static const Protocol protocol = Protocol::IPV4;
     static const unsigned short serverPort = 42069;
     static const std::string logFilePath;
     static const unsigned char gameReadyTime = 3;
@@ -47,6 +49,7 @@ private:
     constexpr static const float invincibleTime = 10;
     constexpr static const float speedFactor = 1.5;
     constexpr static const float maxLife = 100;
+    static const char msg_separator = '$';
 };
 
 #endif //BOMBER_STUDENT_CONFIG_H

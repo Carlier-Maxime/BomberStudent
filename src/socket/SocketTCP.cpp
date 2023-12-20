@@ -2,8 +2,10 @@
 #include <utility>
 #include <netinet/tcp.h>
 #include <netinet/in.h>
+#include <iostream>
 #include "SocketTCP.h"
 #include "../utils/BomberStudentExceptions.h"
+#include "../utils/Config.h"
 
 #define BUFFER_SIZE 1024
 
@@ -39,7 +41,7 @@ SocketTCP::SocketTCP(int fd, SocketAddress address) : Socket(fd, std::move(addre
 }
 
 void SocketTCP::send(const std::string& msg) const {
-    if (::send(socket_fd, (msg+'\0').c_str(), msg.length()+1, 0) < 0) {
+    if (::send(socket_fd, (msg+Config::getMsgSeparator()).c_str(), msg.length()+1, 0) < 0) {
         throw SocketException("Socket can't send");
     }
 }
@@ -50,5 +52,6 @@ std::string SocketTCP::receive() const {
     if (bytesReceived < 0) {
         throw SocketException("Couldn't receive");
     }
+    std::cout << std::string(buffer, static_cast<size_t>(bytesReceived));
     return {buffer, static_cast<size_t>(bytesReceived)};
 }
