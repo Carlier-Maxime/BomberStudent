@@ -159,7 +159,14 @@ void Server::handleUDP() {
     std::string msg;
     for (;;) {
         try {
-            while ((msg=socketUDP.receive(&client))!=CM::lookingServers) Log::info("Unknown request : "+msg);
+            msg="";
+            while (msg!=CM::lookingServers) {
+                std::istringstream stream(socketUDP.receive(&client));
+                while (std::getline(stream, msg, '\0')) {
+                    if ((msg=trim(msg))!=CM::lookingServers) Log::info("Unknown request : "+msg);
+                    else break;
+                }
+            }
         } catch (SocketException& e) {
             if (errno==EINTR) break;
             throw e;
