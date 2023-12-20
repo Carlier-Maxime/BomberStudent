@@ -52,6 +52,5 @@ std::string SocketTCP::receive() const {
     if (bytesReceived < 0) {
         throw SocketException("Couldn't receive");
     }
-    std::cout << std::string(buffer, static_cast<size_t>(bytesReceived));
     return {buffer, static_cast<size_t>(bytesReceived)};
 }
