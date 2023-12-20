@@ -35,7 +35,7 @@ client request (UDP):
 ``looking for bomberstudent servers``
 
 server response:  
-``hello i’m a bomberstudent server``
+``hello i'm a bomberstudent server``
 
 ## Get map list
 

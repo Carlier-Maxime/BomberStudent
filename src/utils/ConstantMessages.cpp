@@ -5,7 +5,7 @@
 using CM = ConstantMessages;
 
 const std::string CM::lookingServers = "looking for bomberstudent servers";
-const std::string CM::serverHello = "hello i’m a bomberstudent server";
+const std::string CM::serverHello = "hello i'm a bomberstudent server";
 const std::string CM::getMapList = "GET maps/list";
 const std::string CM::badRequest = JSONMessage::errorMessage(400, "Bad request");
 const std::string CM::getGameList = "GET game/list";
