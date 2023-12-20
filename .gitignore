@@ -4,3 +4,7 @@ obj/
 log.txt
 /clientDev
 cmake-*
+bomber_strudent_client_unity/Library
+bomber_strudent_client_unity/Logs
+bomber_strudent_client_unity/UserSettings
+bomber_strudent_client_unity/Temp
