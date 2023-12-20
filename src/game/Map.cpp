@@ -124,3 +124,18 @@ bool Map::explodeCase(u_char x, u_char y, u_char &dist, float damage) {
     }
     return true;
 }
+
+std::string Map::toObjectsJSON() const {
+    std::ostringstream oss;
+    oss << '[';
+    Object* obj;
+    u_char x, y=height;
+    for (size_t pos=0; pos<cases.size(); pos++) if ((obj=dynamic_cast<Object*>(cases[pos]->getItem()))) {
+        if (y!=height) oss << ',';
+        y = pos / width;
+        x = pos % width;
+        oss << R"({"type":")" << obj->getType() << R"(","pos":")" << std::to_string(x) << ',' << std::to_string(y) << "\"}";
+    }
+    oss << ']';
+    return oss.str();
+}

@@ -1,9 +1,11 @@
 #include "Objects.h"
+
+#include <utility>
 #include "Player.h"
 #include "Case.h"
 #include "../utils/Utils.h"
 
-Object::Object(Case &case_) : Item(case_) {}
+Object::Object(std::string  type, Case &case_) : Item(case_), type(std::move(type)) {}
 
 std::map<double, Object* (*)(Case&)> Object::objects = {
         {0.27, [](Case& case_) -> Object* {return new ObjectClassicBomb(case_);}},
@@ -28,15 +30,19 @@ Object *Object::getRandomObject(Case& case_) {
     return nullptr;
 }
 
-ObjectClassicBomb::ObjectClassicBomb(Case &case_) : Object(case_) {}
-ObjectRemoteBomb::ObjectRemoteBomb(Case &case_) : Object(case_) {}
-ObjectMine::ObjectMine(Case &case_) : Object(case_) {}
-ObjectImpactUp::ObjectImpactUp(Case &case_) : Object(case_) {}
-ObjectImpactDown::ObjectImpactDown(Case &case_) : Object(case_) {}
-ObjectSpeedUp::ObjectSpeedUp(Case &case_) : Object(case_) {}
-ObjectSpeedDown::ObjectSpeedDown(Case &case_) : Object(case_) {}
-ObjectLifeMax::ObjectLifeMax(Case &case_) : Object(case_) {}
-ObjectInvincible::ObjectInvincible(Case &case_) : Object(case_) {}
+const std::string &Object::getType() const {
+    return type;
+}
+
+ObjectClassicBomb::ObjectClassicBomb(Case &case_) : Object("classicBomb", case_) {}
+ObjectRemoteBomb::ObjectRemoteBomb(Case &case_) : Object("remoteBomb", case_) {}
+ObjectMine::ObjectMine(Case &case_) : Object("mine", case_) {}
+ObjectImpactUp::ObjectImpactUp(Case &case_) : Object("impactUp", case_) {}
+ObjectImpactDown::ObjectImpactDown(Case &case_) : Object("impactDown", case_) {}
+ObjectSpeedUp::ObjectSpeedUp(Case &case_) : Object("speedUp", case_) {}
+ObjectSpeedDown::ObjectSpeedDown(Case &case_) : Object("speedDown", case_) {}
+ObjectLifeMax::ObjectLifeMax(Case &case_) : Object("lifeMax", case_) {}
+ObjectInvincible::ObjectInvincible(Case &case_) : Object("invincible", case_) {}
 
 bool ObjectClassicBomb::get(Player *player) {
     if (!player) return false;

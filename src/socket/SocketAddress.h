@@ -17,6 +17,10 @@ private:
     unsigned short port;
     std::string ip;
 public:
+    static std::string getIPLoopBack();
+    static std::string getIPAny();
+    SocketAddress();
+    explicit SocketAddress(unsigned short port);
     SocketAddress(std::string ip, unsigned short port);
     SocketAddress(std::string ip, unsigned short port, Protocol protocol);
     [[nodiscard]] Protocol getProtocol() const;
@@ -25,7 +29,7 @@ public:
     void setProtocol(Protocol protocol);
     void setPort(unsigned short port);
     void setIp(const std::string &ip);
-    std::string toString() const;
+    [[nodiscard]] std::string toString() const;
     friend std::ostream &operator<<(std::ostream &os, const SocketAddress &address);
 };
 

@@ -7,6 +7,8 @@
 #include <shared_mutex>
 
 class Game {
+private:
+    void sendLeavePlayerMsg(const Player& player) const;
 public:
     Game(std::string name, const Map &map);
     Game(const Game& other);

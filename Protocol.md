@@ -35,7 +35,7 @@ client request (UDP):
 ``looking for bomberstudent servers``
 
 server response:  
-``hello i’m a bomberstudent server``
+``hello i'm a bomberstudent server``
 
 ## Get map list
 
@@ -248,3 +248,24 @@ POST attack/affect
 
 for explode remote bomb the owner of remote bomb send:  
 ```POST attack/remote/go```
+
+## Player Death
+
+if a player dies the server sends to all clients:  
+```
+POST player/death
+{
+"name": playerName
+}
+```
+
+## Leave Game
+
+For player leave the game, a client close socket TCP.  
+And a server send to other players:  
+```
+POST player/leave
+{
+"name": playerName
+}
+```

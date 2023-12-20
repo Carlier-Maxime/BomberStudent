@@ -94,6 +94,7 @@ const std::string &Player::getName() const {
 }
 
 bool Player::move(unsigned char x, unsigned char y) {
+    if (!isAlive()) return false;
     auto timeMove = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
     if (std::chrono::duration<float>(timeMove - timeLastMove).count() < (1/speed)) return false;
     if (!game->isStarted() || !game->getMap().getCase(x, y)->isAccessible()) return false;
@@ -118,6 +119,7 @@ const SocketTCP* Player::getSocket() const {
 }
 
 bool Player::move(const std::string& direction) {
+    if (!isAlive()) return false;
     u_char w = game->getMap().getWidth(), h = game->getMap().getHeight();
     u_char x = posX, y = posY;
     if (direction=="up") y = (y==0) ? h-1 : y-1;
@@ -135,6 +137,7 @@ std::string Player::toJSONMove(const std::string &direction) const {
 }
 
 bool Player::poseBomb(const std::string &type) {
+    if (!isAlive()) return false;
     auto* case_ = game->getMap().getCase(posX,posY);
     Bomb* bomb;
     if (!case_ || case_->getItem()) return false;
@@ -169,12 +172,13 @@ std::string Player::toJSONAttackNewBomb(const std::string &type) const {
 }
 
 void Player::takeDamage(float damage) {
-    if (isInvincible()) return;
+    if (isInvincible() || !isAlive()) return;
     life = (life < damage) ? 0 : life-damage;
     timeLastMove = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
     timeLastMove += std::chrono::duration_cast<std::chrono::milliseconds>((std::chrono::duration<float>(Config::getFreezeTime() - 1/speed)));
     timeInvincible = timeLastMove;
     socket->send(CM::postAttackAffect+toJSONState());
+    if (!isAlive()) game->sendForAllPlayers(CM::postPlayerDeath+R"({"name":")"+name+"\"}");
 }
 
 bool Player::isInvincible() const {
@@ -182,6 +186,7 @@ bool Player::isInvincible() const {
 }
 
 void Player::explodeRemoteBombs() {
+    if (!isAlive()) return;
     u_char x, y;
     for (auto pos : remoteBombs) {
         SPLIT_POS(pos, x, y);
@@ -235,4 +240,8 @@ void Player::speedUp() {
 
 void Player::speedDown() {
     speed/=Config::getSpeedFactor();
+}
+
+bool Player::isAlive() const {
+    return life>0;
 }

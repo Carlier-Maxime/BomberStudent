@@ -5,7 +5,7 @@
 using CM = ConstantMessages;
 
 const std::string CM::lookingServers = "looking for bomberstudent servers";
-const std::string CM::serverHello = "hello i’m a bomberstudent server";
+const std::string CM::serverHello = "hello i'm a bomberstudent server";
 const std::string CM::getMapList = "GET maps/list";
 const std::string CM::badRequest = JSONMessage::errorMessage(400, "Bad request");
 const std::string CM::getGameList = "GET game/list";
@@ -23,3 +23,5 @@ const std::string CM::postAttackExplode = "POST attack/explose";
 const std::string CM::postAttackAffect = "POST attack/affect";
 const std::string CM::postPlayerNew = "POST player/new";
 const std::string CM::postAttackRemoteGo = "POST attack/remote/go";
+const std::string CM::postPlayerLeave = "POST player/leave";
+const std::string CM::postPlayerDeath = "POST player/death";

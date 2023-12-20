@@ -11,7 +11,7 @@
 
 using CM = ConstantMessages;
 
-Server::Server() : address(SocketAddress("::1",Config::getServerPort())), socketUDP(address.getProtocol(), true), socketTCP(address.getProtocol()), clients(), threads() {
+Server::Server() : address(SocketAddress(Config::getServerPort())), socketUDP(address.getProtocol(), true), socketTCP(address.getProtocol()), clients(), threads() {
     socketUDP.bind(address);
     socketTCP.bind(address);
     socketTCP.listen(5);
@@ -63,7 +63,7 @@ void Server::handleClient(const SocketTCP* socket) {
                     Log::info("Client disconnected : " + socket->getAddress().toString());
                     break;
                 }
-                processClientMessages(socket, msg_received, player, game);
+                if (!player || player->isAlive()) processClientMessages(socket, msg_received, player, game);
             } catch (SocketException& e) {
                 if (errno==EINTR) break;
                 throw e;
@@ -141,10 +141,11 @@ void Server::handleGameJoin(const SocketTCP *socket, const json& data, Player *&
 void Server::handleUDP() {
     Utils::threadName= "handlingUDP";
     Log::info("start UDP handler");
-    SocketAddress client = SocketAddress("::", 0);
+    SocketAddress client = SocketAddress();
+    std::string msg;
     for (;;) {
         try {
-            while (socketUDP.receive(&client)!=CM::lookingServers);
+            while ((msg=socketUDP.receive(&client))!=CM::lookingServers) Log::info("Unknown request : "+msg);
         } catch (SocketException& e) {
             if (errno==EINTR) break;
             throw e;
