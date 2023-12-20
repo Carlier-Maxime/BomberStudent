@@ -142,9 +142,10 @@ void Server::handleUDP() {
     Utils::threadName= "handlingUDP";
     Log::info("start UDP handler");
     SocketAddress client = SocketAddress();
+    std::string msg;
     for (;;) {
         try {
-            while (socketUDP.receive(&client)!=CM::lookingServers);
+            while ((msg=socketUDP.receive(&client))!=CM::lookingServers) Log::info("Unknown request : "+msg);
         } catch (SocketException& e) {
             if (errno==EINTR) break;
             throw e;
