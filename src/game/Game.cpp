@@ -73,6 +73,7 @@ void Game::removePlayer(const Player &player) {
         players.erase(it);
         break;
     }
+    sendLeavePlayerMsg(player);
     if (players.empty()) GameManager::getInstance()->removeGame(name);
 }
 
@@ -105,6 +106,12 @@ void Game::sendForAllPlayersExcept(const std::string &msg, const Player &player_
         if (player.getPos()==player_excluded.getPos()) continue;
         player.getSocket()->send(msg);
     }
+}
+
+void Game::sendLeavePlayerMsg(const Player &player) const {
+    std::ostringstream oss;
+    oss << CM::postPlayerLeave << R"({"name":")" << player.getName() << "\"}";
+    sendForAllPlayers(oss.str());
 }
 
 Game::~Game() = default;

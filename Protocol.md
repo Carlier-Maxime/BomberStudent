@@ -248,3 +248,14 @@ POST attack/affect
 
 for explode remote bomb the owner of remote bomb send:  
 ```POST attack/remote/go```
+
+## Leave Game
+
+For player leave the game, a client close socket TCP.  
+And a server send to other players:  
+```
+POST player/leave
+{
+"name": playerName
+}
+```
