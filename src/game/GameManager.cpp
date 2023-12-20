@@ -1,7 +1,7 @@
 #include <sstream>
 #include <algorithm>
 #include "GameManager.h"
-#include "../json/JSONMessage.h"
+#include "../utils/JSONMessage.h"
 #include "../utils/Log.h"
 
 GameManager GameManager::instance = GameManager();

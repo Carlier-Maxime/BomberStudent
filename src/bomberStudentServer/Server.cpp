@@ -6,7 +6,7 @@
 #include "../utils/ConstantMessages.h"
 #include "../game/MapManager.h"
 #include "../game/GameManager.h"
-#include "../json/JSONMessage.h"
+#include "../utils/JSONMessage.h"
 #include <sys/wait.h>
 
 using CM = ConstantMessages;
@@ -102,6 +102,7 @@ void Server::processClientMessages(const SocketTCP* socket, const std::string& m
 }
 
 void Server::handleGameCreate(const SocketTCP *socket, const json& data, Player *&player, Game *&game) {
+    std::ostringstream oss;
     std::string name = data["name"];
     int id = data["mapId"];
     try {
@@ -113,14 +114,17 @@ void Server::handleGameCreate(const SocketTCP *socket, const json& data, Player 
         socket->send(game->jsonCreateOrJoinGame(*player));
     } catch (std::exception& e) {
         Log::warning(e.what());
-        socket->send(CM::failedCreateGame);
+        goto fail;
     }
+    oss << player->getName() << " create a game " << name << " from map " << id;
+    Log::info(oss.str());
     return;
     fail:
     socket->send(CM::failedCreateGame);
 }
 
 void Server::handleGameJoin(const SocketTCP *socket, const json& data, Player *&player, Game *&game) {
+    std::ostringstream oss;
     std::string name = data["name"];
     try {
         if (player && game) game->removePlayer(*player);
@@ -131,8 +135,10 @@ void Server::handleGameJoin(const SocketTCP *socket, const json& data, Player *&
         socket->send(game->jsonCreateOrJoinGame(*player));
     } catch (std::exception& e) {
         Log::warning(e.what());
-        socket->send(CM::failedJoinGame);
+        goto fail;
     }
+    oss << player->getName() << " join a game " << name;
+    Log::info(oss.str());
     return;
     fail:
     socket->send(CM::failedJoinGame);

@@ -8,7 +8,7 @@ class CaseNormal : public Case {
 private:
     bool accessible;
 public:
-    CaseNormal();
+    explicit CaseNormal(u_int16_t pos);
     [[nodiscard]] char getType() const override;
     [[nodiscard]] bool isAccessible() const override;
     [[nodiscard]] Case *clone() const override;

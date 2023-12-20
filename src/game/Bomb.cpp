@@ -8,7 +8,7 @@
 
 using CM = ConstantMessages;
 
-Bomb::Bomb(Case& case_, Game &game, std::string type, u_int16_t pos, u_char impactDist) : Item(case_), game(game),
+Bomb::Bomb(Case& case_, Game &game, std::string type, u_int16_t pos, u_char impactDist) : Item(game, case_),
 type(std::move(type)), pos(pos), impactDist(impactDist), exploded(false) {}
 
 bool Bomb::get([[maybe_unused]] Player *player) {

@@ -10,7 +10,6 @@ private:
 public:
 	static std::string errorMessage(int statut, const std::string& message);
     static std::string actionMessage(const std::string& action, int statut, const std::string& message, const std::string& jsonContent);
-	static std::string bonusUpdateMessage(Player* playerState);
 };
 
 #endif

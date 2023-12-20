@@ -1,6 +1,6 @@
 #include <sstream>
 #include "MapManager.h"
-#include "../json/JSONMessage.h"
+#include "../utils/JSONMessage.h"
 
 MapManager MapManager::mapManager = MapManager();
 

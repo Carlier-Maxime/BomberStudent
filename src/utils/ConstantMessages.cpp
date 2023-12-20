@@ -1,5 +1,5 @@
 #include "ConstantMessages.h"
-#include "../json/JSONMessage.h"
+#include "JSONMessage.h"
 #include "Config.h"
 
 using CM = ConstantMessages;
@@ -25,3 +25,5 @@ const std::string CM::postPlayerNew = "POST player/new";
 const std::string CM::postAttackRemoteGo = "POST attack/remote/go";
 const std::string CM::postPlayerLeave = "POST player/leave";
 const std::string CM::postPlayerDeath = "POST player/death";
+const std::string CM::postObjectGet = "POST object/get";
+const std::string CM::postObjectDel = "POST object/del";
