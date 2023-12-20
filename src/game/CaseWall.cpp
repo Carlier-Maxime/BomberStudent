@@ -22,6 +22,6 @@ Case *CaseWall::explode(unsigned char &impactDist, float damage) {
     Case::explode(impactDist, damage);
     impactDist = impactDist>1 ? impactDist-2 : 0;
     auto case_ = new CaseNormal();
-    case_->setItem(Object::getRandomObject(*case_));
+    if (getGame()) case_->setItem(Object::getRandomObject(*getGame(), *case_));
     return case_;
 }

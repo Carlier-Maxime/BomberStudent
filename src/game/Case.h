@@ -8,6 +8,7 @@ class Item;
 
 class Case {
 private:
+    Game* game;
     Player* player;
     Item* item;
 public:
@@ -21,6 +22,8 @@ public:
     void setPlayer(Player *player);
     [[nodiscard]] Item* getItem();
     void setItem(Item *item);
+    void setGame(Game *game);
+    [[nodiscard]] Game *getGame() const;
     virtual ~Case();
 };
 

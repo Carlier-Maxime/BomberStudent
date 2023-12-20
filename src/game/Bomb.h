@@ -8,7 +8,6 @@ class Game;
 
 class Bomb : public Item {
 private:
-    Game& game;
     std::string type;
     u_int16_t pos;
     u_char impactDist;

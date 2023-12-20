@@ -13,14 +13,14 @@ using CM = ConstantMessages;
 
 unsigned int Map::nextID = 0;
 
-Map::Map(unsigned char width, unsigned char height, const std::string& cases) : id(nextID++), width(width), height(height), cases(width*height,nullptr) {
+Map::Map(unsigned char width, unsigned char height, const std::string& cases) : id(nextID++), width(width),
+height(height), cases(width*height,nullptr), game(nullptr) {
     if (width*height!=cases.size()) throw std::invalid_argument("cases string not content a correct number cases");
     Case* case_;
     for (unsigned int i=0; i<cases.size(); i++) {
         switch (cases[i]) {
             case '-':
                 case_ = new CaseNormal();
-                case_->setItem(Object::getRandomObject(*case_));
                 break;
             case '=':
                 case_ = new CaseWall();
@@ -31,13 +31,12 @@ Map::Map(unsigned char width, unsigned char height, const std::string& cases) : 
             default:
                 Log::warning("Unknown case type. case replaced by a normal case");
                 case_ = new CaseNormal();
-                case_->setItem(Object::getRandomObject(*case_));
         }
         this->cases[i] = case_;
     }
 }
 
-Map::Map(const Map& other) : id(other.id), width(other.width), height(other.height), cases(other.cases.size(), nullptr) {
+Map::Map(const Map& other) : id(other.id), width(other.width), height(other.height), cases(other.cases.size(), nullptr), game(other.game) {
     try {
         for (unsigned int i = 0; i < other.cases.size(); i++) if (other.cases[i]) cases[i] = other.cases[i]->clone();
     } catch (...) {
@@ -138,4 +137,16 @@ std::string Map::toObjectsJSON() const {
     }
     oss << ']';
     return oss.str();
+}
+
+void Map::setGame(Game *game) {
+    this->game = game;
+    for (auto case_ : cases) case_->setGame(game);
+}
+
+void Map::randomObjects() {
+    if (!game) return;
+    for (auto case_ : cases) {
+        if (dynamic_cast<CaseNormal*>(case_) && !case_->getItem()) case_->setItem(Object::getRandomObject(*game, *case_));
+    }
 }

@@ -8,6 +8,8 @@
 #include <thread>
 #include "Case.h"
 
+class Game;
+
 class Map {
 private:
     mutable std::mutex mutex;
@@ -15,6 +17,7 @@ private:
     unsigned int id;
     unsigned char width, height;
     std::vector<Case*> cases;
+    Game* game;
     bool explodeCase(u_char x, u_char y, u_char &dist, float damage);
 public:
     Map(unsigned char width, unsigned char height, const std::string& cases);
@@ -30,6 +33,8 @@ public:
     [[nodiscard]] unsigned char getWidth() const;
     [[nodiscard]] unsigned char getHeight() const;
     void explodeBomb(u_char x, u_char y, u_char impactDist, float (*damage)(u_char distOfImpact));
+    void setGame(Game* game);
+    void randomObjects();
 };
 
 

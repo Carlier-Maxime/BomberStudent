@@ -1,7 +1,7 @@
 #include "Case.h"
 #include "Item.h"
 
-Case::Case() : player(nullptr), item(nullptr) {}
+Case::Case() : game(nullptr), player(nullptr), item(nullptr) {}
 
 void Case::setPlayer(Player *player) {
     Case::player = player;
@@ -24,4 +24,12 @@ void Case::setItem(Item *item) {
 
 Case::~Case() {
     delete item;
+}
+
+void Case::setGame(Game *game) {
+    Case::game = game;
+}
+
+Game *Case::getGame() const {
+    return game;
 }

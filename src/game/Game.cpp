@@ -4,6 +4,7 @@
 #include "GameManager.h"
 #include "../utils/ConstantMessages.h"
 #include "../utils/Config.h"
+#include "Map.h"
 
 #include <utility>
 #include <sstream>
@@ -11,7 +12,10 @@
 
 using CM = ConstantMessages;
 
-Game::Game(std::string name, const Map &map) : mutex(), name(std::move(name)), map(map), players(), started(false) {}
+Game::Game(std::string name, const Map &map) : mutex(), name(std::move(name)), map(map), players(), started(false) {
+    this->map.setGame(this);
+    this->map.randomObjects();
+}
 
 Game::Game(const Game &other) : mutex(), name(other.name), map(other.map), started(false) {}
 

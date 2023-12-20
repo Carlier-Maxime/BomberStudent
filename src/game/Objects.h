@@ -7,68 +7,68 @@
 
 class Object : public Item {
 private:
-    static std::map<double, Object* (*)(Case&)> objects;
+    static std::map<double, Object* (*)(Game&, Case&)> objects;
     std::string type;
 protected:
     virtual bool action(Player& player) = 0;
 public:
-    static Object* getRandomObject(Case& case_);
-    explicit Object(std::string  type, Case &case_);
+    static Object* getRandomObject(Game& game, Case& case_);
+    explicit Object(Game& game, std::string  type, Case &case_);
     [[nodiscard]] const std::string &getType() const;
     bool get(Player* player) override;
 };
 
 class ObjectClassicBomb : public Object {
 public:
-    explicit ObjectClassicBomb(Case& case_);
+    explicit ObjectClassicBomb(Game& game, Case& case_);
     bool action(Player& player) override;
 };
 
 class ObjectRemoteBomb : public Object {
 public:
-    explicit ObjectRemoteBomb(Case& case_);
+    explicit ObjectRemoteBomb(Game& game, Case& case_);
     bool action(Player& player) override;
 };
 
 class ObjectMine : public Object {
 public:
-    explicit ObjectMine(Case& case_);
+    explicit ObjectMine(Game& game, Case& case_);
     bool action(Player& player) override;
 };
 
 class ObjectImpactUp : public Object {
 public:
-    explicit ObjectImpactUp(Case& case_);
+    explicit ObjectImpactUp(Game& game, Case& case_);
     bool action(Player& player) override;
 };
 
 class ObjectImpactDown : public Object {
 public:
-    explicit ObjectImpactDown(Case& case_);
+    explicit ObjectImpactDown(Game& game, Case& case_);
     bool action(Player& player) override;
 };
 
 class ObjectSpeedUp : public Object {
 public:
-    explicit ObjectSpeedUp(Case& case_);
+    explicit ObjectSpeedUp(Game& game, Case& case_);
     bool action(Player& player) override;
 };
 
 class ObjectSpeedDown : public Object {
 public:
-    explicit ObjectSpeedDown(Case& case_);
+    explicit ObjectSpeedDown(Game& game, Case& case_);
     bool action(Player& player) override;
 };
 
 class ObjectLifeMax : public Object {
 public:
-    explicit ObjectLifeMax(Case& case_);
+    explicit ObjectLifeMax(Game& game, Case& case_);
     bool action(Player& player) override;
 };
 
 class ObjectInvincible : public Object {
 public:
-    explicit ObjectInvincible(Case& case_);
+    explicit ObjectInvincible(Game& game, Case& case_);
     bool action(Player& player) override;
 };
 

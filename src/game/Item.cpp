@@ -1,3 +1,3 @@
 #include "Item.h"
 
-Item::Item(Case &case_) : case_(case_) {}
+Item::Item(Game& game, Case &case_) : game(game), case_(case_) {}
