@@ -269,3 +269,23 @@ POST player/leave
 "name": playerName
 }
 ```
+
+## Get Object
+
+When player get an object, the server send to the player:  
+```
+POST object/get
+{
+"type": classicBomb,  // remoteBomb, mine, impactUp, impactDown, speedUp, speedDown, lifeMax et invincible
+"player" : {...}
+}
+```
+player content player state
+
+And the server send to all player this message:
+```
+POST object/del
+{
+"pos":"x,y"
+}
+```
