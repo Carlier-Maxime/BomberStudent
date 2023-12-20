@@ -34,6 +34,15 @@ const std::string &Object::getType() const {
     return type;
 }
 
+bool Object::get(Player *player) {
+    if (!player) return false;
+    if (action(*player)) {
+        case_.setItem(nullptr);
+        delete this;
+    }
+    return true;
+}
+
 ObjectClassicBomb::ObjectClassicBomb(Case &case_) : Object("classicBomb", case_) {}
 ObjectRemoteBomb::ObjectRemoteBomb(Case &case_) : Object("remoteBomb", case_) {}
 ObjectMine::ObjectMine(Case &case_) : Object("mine", case_) {}
@@ -44,76 +53,45 @@ ObjectSpeedDown::ObjectSpeedDown(Case &case_) : Object("speedDown", case_) {}
 ObjectLifeMax::ObjectLifeMax(Case &case_) : Object("lifeMax", case_) {}
 ObjectInvincible::ObjectInvincible(Case &case_) : Object("invincible", case_) {}
 
-bool ObjectClassicBomb::get(Player *player) {
-    if (!player) return false;
-    player->addClassicBomb();
-    case_.setItem(nullptr);
-    delete this;
+bool ObjectClassicBomb::action(Player& player) {
+    player.addClassicBomb();
     return true;
 }
 
-bool ObjectRemoteBomb::get(Player *player) {
-    if (!player) return false;
-    player->addRemoteBomb();
-    case_.setItem(nullptr);
-    delete this;
+bool ObjectRemoteBomb::action(Player& player) {
+    player.addRemoteBomb();
     return true;
 }
 
-bool ObjectMine::get(Player *player) {
-    if (!player) return false;
-    player->addMine();
-    case_.setItem(nullptr);
-    delete this;
+bool ObjectMine::action(Player& player) {
+    player.addMine();
     return true;
 }
 
-bool ObjectImpactUp::get(Player *player) {
-    if (!player) return false;
-    if (player->incImpactDist()) {
-        case_.setItem(nullptr);
-        delete this;
-    }
+bool ObjectImpactUp::action(Player& player) {
+    return player.incImpactDist();
+}
+
+bool ObjectImpactDown::action(Player& player) {
+    return player.decImpactDist();
+}
+
+bool ObjectSpeedUp::action(Player& player) {
+    player.speedUp();
     return true;
 }
 
-bool ObjectImpactDown::get(Player *player) {
-    if (!player) return false;
-    if (player->decImpactDist()) {
-        case_.setItem(nullptr);
-        delete this;
-    }
+bool ObjectSpeedDown::action(Player& player) {
+    player.speedDown();
     return true;
 }
 
-bool ObjectSpeedUp::get(Player *player) {
-    if (!player) return false;
-    player->speedUp();
-    case_.setItem(nullptr);
-    delete this;
+bool ObjectLifeMax::action(Player& player) {
+    player.fullLife();
     return true;
 }
 
-bool ObjectSpeedDown::get(Player *player) {
-    if (!player) return false;
-    player->speedDown();
-    case_.setItem(nullptr);
-    delete this;
-    return true;
-}
-
-bool ObjectLifeMax::get(Player *player) {
-    if (!player) return false;
-    player->fullLife();
-    case_.setItem(nullptr);
-    delete this;
-    return true;
-}
-
-bool ObjectInvincible::get(Player *player) {
-    if (!player) return false;
-    player->toInvincible();
-    case_.setItem(nullptr);
-    delete this;
+bool ObjectInvincible::action(Player& player) {
+    player.toInvincible();
     return true;
 }
