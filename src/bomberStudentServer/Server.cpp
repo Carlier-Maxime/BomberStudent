@@ -77,10 +77,18 @@ void Server::handleClient(const SocketTCP* socket) {
     Log::info("terminate");
 }
 
+std::string trim(const std::string& str) {
+    size_t first = str.find_first_not_of(" \t\n\r");
+    size_t last = str.find_last_not_of(" \t\n\r");
+    if (first == std::string::npos || last == std::string::npos) return "";
+    return str.substr(first, last-first+1);
+}
+
 void Server::processClientMessages(const SocketTCP* socket, const std::string& msg_received, Player*& player, Game*& game) {
     std::string msg;
     std::istringstream stream(msg_received);
     while (std::getline(stream, msg, '\0')) {
+        msg = trim(msg);
         if (msg.empty()) continue;
         else if (msg==CM::getMapList) socket->send(MapManager::getInstance()->toJSON());
         else if (msg==CM::getGameList) socket->send(GameManager::getInstance()->toJSON());
@@ -151,7 +159,14 @@ void Server::handleUDP() {
     std::string msg;
     for (;;) {
         try {
-            while ((msg=socketUDP.receive(&client))!=CM::lookingServers) Log::info("Unknown request : "+msg);
+            msg="";
+            while (msg!=CM::lookingServers) {
+                std::istringstream stream(socketUDP.receive(&client));
+                while (std::getline(stream, msg, '\0')) {
+                    if ((msg=trim(msg))!=CM::lookingServers) Log::info("Unknown request : "+msg);
+                    else break;
+                }
+            }
         } catch (SocketException& e) {
             if (errno==EINTR) break;
             throw e;
