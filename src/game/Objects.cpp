@@ -4,6 +4,9 @@
 #include "Player.h"
 #include "Case.h"
 #include "../utils/Utils.h"
+#include "../utils/ConstantMessages.h"
+
+using CM = ConstantMessages;
 
 Object::Object(Game& game, std::string  type, Case &case_) : Item(game, case_), type(std::move(type)) {}
 
@@ -38,6 +41,7 @@ bool Object::get(Player *player) {
     if (!player) return false;
     if (action(*player)) {
         case_.setItem(nullptr);
+        player->getSocket()->send(CM::postObjectNew+player->toJSONState());
         delete this;
     }
     return true;
