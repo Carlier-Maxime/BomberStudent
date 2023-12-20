@@ -17,7 +17,7 @@ struct sockaddr_storage Socket::getSockAddrStorage(const SocketAddress& address)
             ipv4.sin_family = AF_INET;
             ipv4.sin_port = htons(address.getPort());
             if (inet_pton(AF_INET, address.getIp().c_str(), &(ipv4.sin_addr)) <= 0) {
-                throw SocketException("Conversion IPV4 address failed");
+                throw SocketException("Conversion IPV4 address failed for "+address.getIp());
             }
             std::memcpy(&addr, &ipv4, sizeof(struct sockaddr_in));
             break;
@@ -25,7 +25,7 @@ struct sockaddr_storage Socket::getSockAddrStorage(const SocketAddress& address)
             ipv6.sin6_family = addr.ss_family = AF_INET6;
             ipv6.sin6_port = htons(address.getPort());
             if (inet_pton(AF_INET6, address.getIp().c_str(), &(ipv6.sin6_addr)) < 0) {
-                throw SocketException("Conversion IPV6 address failed");
+                throw SocketException("Conversion IPV6 address failed for "+address.getIp());
             }
             std::memcpy(&addr, &ipv6, sizeof(struct sockaddr_in6));
             break;

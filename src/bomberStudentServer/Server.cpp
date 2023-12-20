@@ -11,7 +11,7 @@
 
 using CM = ConstantMessages;
 
-Server::Server() : address(SocketAddress("::1",Config::getServerPort())), socketUDP(address.getProtocol(), true), socketTCP(address.getProtocol()), clients(), threads() {
+Server::Server() : address(SocketAddress(Config::getServerPort())), socketUDP(address.getProtocol(), true), socketTCP(address.getProtocol()), clients(), threads() {
     socketUDP.bind(address);
     socketTCP.bind(address);
     socketTCP.listen(5);
@@ -141,7 +141,7 @@ void Server::handleGameJoin(const SocketTCP *socket, const json& data, Player *&
 void Server::handleUDP() {
     Utils::threadName= "handlingUDP";
     Log::info("start UDP handler");
-    SocketAddress client = SocketAddress("::", 0);
+    SocketAddress client = SocketAddress();
     for (;;) {
         try {
             while (socketUDP.receive(&client)!=CM::lookingServers);

@@ -47,3 +47,11 @@ std::string SocketAddress::toString() const {
     oss << *this;
     return std::string(oss.str());
 }
+
+SocketAddress::SocketAddress(unsigned short port) : SocketAddress(getIPLoopBack(), port, Config::getProtocol()) {}
+
+std::string SocketAddress::getIPLoopBack() {
+    return Config::getProtocol()==Protocol::IPV6 ? "::1" : "127.0.0.1";
+}
+
+SocketAddress::SocketAddress() : SocketAddress(getIPLoopBack(), 0, Config::getProtocol()) {}

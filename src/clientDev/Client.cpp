@@ -16,7 +16,7 @@ Client::Client() : gameStarted(false), socketUDP(Config::getProtocol(), true), s
 void Client::run() {
     auto timeMove = std::chrono::duration<float>(1/Config::getDefaultSpeed());
     SocketAddress multicast = SocketAddress("255.255.255.255", Config::getServerPort());
-    SocketAddress server_addr = SocketAddress("::", 0);
+    SocketAddress server_addr = SocketAddress();
     socketUDP.setTimeout(3,0);
     Log::info("Search server...");
     search_server:
