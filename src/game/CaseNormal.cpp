@@ -20,7 +20,7 @@ void CaseNormal::toNoAccessible() {
     accessible=false;
 }
 
-CaseNormal::CaseNormal() : Case(), accessible(true) {}
+CaseNormal::CaseNormal(u_int16_t pos) : Case(pos), accessible(true) {}
 
 Case *CaseNormal::explode(unsigned char &impactDist, float damage) {
     Case::explode(impactDist, damage);

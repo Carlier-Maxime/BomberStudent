@@ -27,7 +27,8 @@ public:
     static const std::string postAttackRemoteGo;
     static const std::string postPlayerLeave;
     static const std::string postPlayerDeath;
-    static const std::string postObjectNew;
+    static const std::string postObjectGet;
+    static const std::string postObjectDel;
 };
 
 

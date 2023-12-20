@@ -41,7 +41,14 @@ bool Object::get(Player *player) {
     if (!player) return false;
     if (action(*player)) {
         case_.setItem(nullptr);
-        player->getSocket()->send(CM::postObjectNew+player->toJSONState());
+        std::ostringstream oss;
+        oss << CM::postObjectGet << R"({"type":")" << type << R"(","player":)" << player->toJSONState() << '}';
+        player->getSocket()->send(oss.str());
+        oss.clear();
+        u_char x, y;
+        SPLIT_POS(case_.getPos(), x, y);
+        oss << CM::postObjectDel << R"({"pos":")" << std::to_string(x) << ',' << std::to_string(y) << "\"}";
+        game.sendForAllPlayers(oss.str());
         delete this;
     }
     return true;

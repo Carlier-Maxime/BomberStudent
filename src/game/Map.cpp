@@ -18,19 +18,22 @@ height(height), cases(width*height,nullptr), game(nullptr) {
     if (width*height!=cases.size()) throw std::invalid_argument("cases string not content a correct number cases");
     Case* case_;
     for (unsigned int i=0; i<cases.size(); i++) {
+        u_char y = i / width;
+        u_char x = i % width;
+        u_int16_t pos = MERGE_POS(x,y);
         switch (cases[i]) {
             case '-':
-                case_ = new CaseNormal();
+                case_ = new CaseNormal(pos);
                 break;
             case '=':
-                case_ = new CaseWall();
+                case_ = new CaseWall(pos);
                 break;
             case '*':
-                case_ = new CaseUnbreakable();
+                case_ = new CaseUnbreakable(pos);
                 break;
             default:
                 Log::warning("Unknown case type. case replaced by a normal case");
-                case_ = new CaseNormal();
+                case_ = new CaseNormal(pos);
         }
         this->cases[i] = case_;
     }

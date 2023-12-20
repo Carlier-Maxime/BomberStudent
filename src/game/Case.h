@@ -11,8 +11,9 @@ private:
     Game* game;
     Player* player;
     Item* item;
+    u_int16_t pos;
 public:
-    Case();
+    explicit Case(u_int16_t pos);
     [[nodiscard]] virtual char getType() const = 0;
     [[nodiscard]] virtual bool isAccessible() const = 0;
     [[nodiscard]] virtual Case* clone() const = 0;
@@ -25,6 +26,8 @@ public:
     void setGame(Game *game);
     [[nodiscard]] Game *getGame() const;
     virtual ~Case();
+    [[nodiscard]] u_int16_t getPos() const;
+    [[nodiscard]] Player *getPlayer() const;
 };
 
 #endif //BOMBER_STUDENT_CASE_H

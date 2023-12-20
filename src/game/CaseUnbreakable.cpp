@@ -21,3 +21,5 @@ Case *CaseUnbreakable::explode(unsigned char &impactDist, float damage) {
     impactDist=0;
     return nullptr;
 }
+
+CaseUnbreakable::CaseUnbreakable(u_int16_t pos) : Case(pos) {}
