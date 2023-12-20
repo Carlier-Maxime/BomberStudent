@@ -70,6 +70,9 @@ std::string Game::jsonCreateOrJoinGame(const Player &player) {
 void Game::removePlayer(const Player &player) {
     std::lock_guard<std::shared_mutex> lock(mutex);
     for (auto it=players.begin(); it!=players.end(); it++) if (it->getPos()==player.getPos()) {
+        u_char x, y;
+        SPLIT_POS(it->getPos(),x,y);
+        map.getCase(x,y)->resetAccessible();
         players.erase(it);
         break;
     }
