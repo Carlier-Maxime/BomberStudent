@@ -21,8 +21,15 @@ void Client::run() {
     Log::info("Search server...");
     search_server:
     try {
-        do socketUDP.send(ConstantMessages::lookingServers, multicast);
-        while (socketUDP.receive(&server_addr)!=ConstantMessages::serverHello);
+        std::string msg;
+        while (msg!=CM::serverHello) {
+            socketUDP.send(ConstantMessages::lookingServers, multicast);
+            std::istringstream stream(socketUDP.receive(&server_addr));
+            while (std::getline(stream, msg, Config::getMsgSeparator())) {
+                if ((msg=Utils::trim(msg))!=CM::serverHello) Log::info("Unknown request : "+msg);
+                else break;
+            }
+        }
     } catch (SocketException& e) {
         if (errno==EAGAIN || errno==EWOULDBLOCK) goto search_server;
         throw e;
