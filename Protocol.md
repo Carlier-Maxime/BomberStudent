@@ -171,7 +171,7 @@ For player move, client send request:
 ```
 POST player/move
 {
-"move":"up" // down, left, right
+"dir":"up" // down, left, right
 }
 ```
 

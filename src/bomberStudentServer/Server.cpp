@@ -179,7 +179,7 @@ void Server::handleUDP() {
 
 void Server::handlePlayerMove(const json &data, Player *player, const Game *game) {
     if (!game || !player) return;
-    std::string move = data["move"];
+    std::string move = data["dir"];
     if (player->move(move)) game->sendForAllPlayers(player->toJSONMove(move));
 }
 
