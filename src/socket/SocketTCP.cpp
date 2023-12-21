@@ -2,7 +2,6 @@
 #include <utility>
 #include <netinet/tcp.h>
 #include <netinet/in.h>
-#include <iostream>
 #include "SocketTCP.h"
 #include "../utils/BomberStudentExceptions.h"
 #include "../utils/Config.h"
