@@ -136,7 +136,7 @@ std::string Map::toObjectsJSON() const {
         if (y!=height) oss << ',';
         y = pos / width;
         x = pos % width;
-        oss << R"({"type":")" << obj->getType() << R"(","pos":")" << std::to_string(x) << ',' << std::to_string(y) << "\"}";
+        oss << R"({"type":")" << obj->getType() << R"(","pos":")" << std::to_string(y) << ',' << std::to_string(x) << "\"}";
     }
     oss << ']';
     return oss.str();

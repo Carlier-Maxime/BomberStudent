@@ -37,7 +37,7 @@ void Bomb::explode(float (*damage)(u_char)) {
     game.getMap().explodeBomb(x,y,impactDist,damage);
     exploded=true;
     std::ostringstream oss;
-    oss << CM::postAttackExplode << R"({"pos":")" << std::to_string(x) << ',' << std::to_string(y)
+    oss << CM::postAttackExplode << R"({"pos":")" << std::to_string(y) << ',' << std::to_string(x)
         << R"(","type":")" << type << R"(","impactDist":)" << std::to_string(impactDist) << R"(,"map":")"
         << game.getMap().toCasesString() << "\"}";
     game.sendForAllPlayers(oss.str());

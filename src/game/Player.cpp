@@ -179,7 +179,7 @@ std::string Player::toJSONAttackBomb() const {
 
 std::string Player::toJSONAttackNewBomb(const std::string &type) const {
     std::ostringstream json;
-    json << CM::postAttackNewBomb << R"({"pos":")"<< posX << ","<< posY << R"(","type":")"<< type <<"\"}";
+    json << CM::postAttackNewBomb << R"({"pos":")"<< posY << ","<< posX << R"(","type":")"<< type <<"\"}";
     return json.str();
 }
 

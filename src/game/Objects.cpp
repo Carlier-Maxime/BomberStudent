@@ -47,7 +47,7 @@ bool Object::get(Player *player) {
         oss.clear();
         u_char x, y;
         SPLIT_POS(case_.getPos(), x, y);
-        oss << CM::postObjectDel << R"({"pos":")" << std::to_string(x) << ',' << std::to_string(y) << "\"}";
+        oss << CM::postObjectDel << R"({"pos":")" << std::to_string(y) << ',' << std::to_string(x) << "\"}";
         game.sendForAllPlayers(oss.str());
         delete this;
     }

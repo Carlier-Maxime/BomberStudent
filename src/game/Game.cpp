@@ -67,7 +67,7 @@ std::string Game::jsonCreateOrJoinGame(const Player &player) {
         }
         json << ']';
     }
-    json << R"(,"startPos":")"<<std::to_string(posX)<<','<<std::to_string(posY)<<R"(","player":)"<<player.toJSONState();
+    json << R"(,"startPos":")"<<std::to_string(posY)<<','<<std::to_string(posX)<<R"(","player":)"<<player.toJSONState();
     return JSONMessage::actionMessage(nbPlayers ? "game/join" : "game/create", 201, nbPlayers ? "game joined" : "game created", json.str());
 }
 

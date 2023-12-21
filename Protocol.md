@@ -144,7 +144,7 @@ server send to other players:
 POST player/new
 {
     "name:" "nom",
-    "pos":"x,y"
+    "pos":"y,x"
 }
 ```
 
@@ -213,7 +213,7 @@ and send to other players:
 ```
 POST attack/newbomb
 {
-"pos":"x,y",
+"pos":"y,x",
 "type":"classic" //mine, remote
 }
 ```
@@ -286,6 +286,6 @@ And the server send to all player this message:
 ```
 POST object/del
 {
-"pos":"x,y"
+"pos":"y,x"
 }
 ```
