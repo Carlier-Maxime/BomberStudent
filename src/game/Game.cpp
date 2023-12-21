@@ -5,6 +5,7 @@
 #include "../utils/ConstantMessages.h"
 #include "../utils/Config.h"
 #include "Map.h"
+#include "../utils/Log.h"
 
 #include <utility>
 #include <sstream>
@@ -77,10 +78,10 @@ void Game::removePlayer(const Player &player) {
         u_char x, y;
         SPLIT_POS(it->getPos(),x,y);
         map.getCase(x,y)->resetAccessible();
+        sendLeavePlayerMsg(player);
         players.erase(it);
         break;
     }
-    sendLeavePlayerMsg(player);
     if (players.empty()) GameManager::getInstance()->removeGame(name);
 }
 
@@ -89,7 +90,8 @@ bool Game::isStarted() const {
 }
 
 void Game::start(const Player& player) {
-    if (!started && !players.empty() && player.getPos()==players[0].getPos()) {
+    if (started || players.empty()) return;
+    if (player.getPos()==players[0].getPos()) {
         std::thread go([this](){
             sendForAllPlayers(CM::postGameReady);
             std::this_thread::sleep_for(std::chrono::seconds(Config::getGameReadyTime()));
@@ -97,7 +99,7 @@ void Game::start(const Player& player) {
             sendForAllPlayers(CM::postGameGo);
         });
         go.detach();
-    }
+    } else Log::warning("Player "+player.getName()+" not correspond to the player creating the game");
 }
 
 void Game::sendForAllPlayers(const std::string& msg) const {
