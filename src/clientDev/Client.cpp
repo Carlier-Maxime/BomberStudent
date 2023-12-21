@@ -48,7 +48,7 @@ void Client::run() {
     std::thread receiver(&Client::handleReceive, this);
     socketTCP.send(CM::getMapList);
     socketTCP.send(CM::getGameList);
-    socketTCP.send(CM::postGameCreate+"\n{\"name\":\"game1\",\"mapId\":0}");
+    socketTCP.send(CM::postGameCreate+R"({"name":"game1","mapId":0})");
     socketTCP.send(CM::postGameStart);
     Log::info("wait for move player");
     std::unique_lock<std::mutex> lock(mutex);
@@ -56,16 +56,16 @@ void Client::run() {
     lock.unlock();
     if (!gameStarted) goto quit;
     Log::info("go move player");
-    socketTCP.send(CM::postPlayerMove+"\n{\"dir\":\"up\"}");
+    socketTCP.send(CM::postPlayerMove+R"({"dir":"up"})");
     std::this_thread::sleep_for(timeMove);
-    socketTCP.send(CM::postPlayerMove+"\n{\"dir\":\"right\"}");
+    socketTCP.send(CM::postPlayerMove+R"({"dir":"right"})");
     std::this_thread::sleep_for(timeMove);
-    socketTCP.send(CM::postPlayerMove+"\n{\"dir\":\"down\"}");
+    socketTCP.send(CM::postPlayerMove+R"({"dir":"down"})");
     std::this_thread::sleep_for(timeMove);
-    socketTCP.send(CM::postPlayerMove+"\n{\"dir\":\"left\"}");
-    socketTCP.send(CM::postAttackBomb+"\n{" R"("type":"remote"})");
+    socketTCP.send(CM::postPlayerMove+R"({"dir":"left"})");
+    socketTCP.send(CM::postAttackBomb+"{" R"("type":"remote"})");
     socketTCP.send(CM::postAttackRemoteGo);
-    socketTCP.send(CM::postAttackBomb+"\n{" R"("type":"classic"})");
+    socketTCP.send(CM::postAttackBomb+"{" R"("type":"classic"})");
     std::this_thread::sleep_for(std::chrono::seconds(1+Config::getDetonationTime()));
 quit:
     Log::info("shutdown");
