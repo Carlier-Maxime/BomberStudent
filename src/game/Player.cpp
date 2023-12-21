@@ -96,10 +96,19 @@ const std::string &Player::getName() const {
 bool Player::move(unsigned char x, unsigned char y) {
     if (!isAlive()) return false;
     auto timeMove = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
-    if (std::chrono::duration<float>(timeMove - timeLastMove).count() < (1/speed)) return false;
-    if (!game->isStarted() || !game->getMap().getCase(x, y)->isAccessible()) return false;
+    if (std::chrono::duration<float>(timeMove - timeLastMove).count() < (1/speed)) {
+        Log::info("The last move took place too recently");
+        return false;
+    }
+    if (!game->isStarted() || !game->getMap().getCase(x, y)->isAccessible()) {
+        Log::info("A case is inaccessible or game not started.");
+        return false;
+    }
     auto* item = game->getMap().getCase(x, y)->getItem();
-    if (item && !item->get(this)) return false;
+    if (item && !item->get(this)) {
+        Log::info("A item obstruct as passage");
+        return false;
+    }
     game->getMap().getCase(posX, posY)->setPlayer(nullptr);
     game->getMap().getCase(posX, posY)->resetAccessible();
     game->getMap().getCase(x, y)->toNoAccessible();
@@ -126,7 +135,10 @@ bool Player::move(const std::string& direction) {
     else if (direction=="down") y = (y==h-1) ? 0 : y+1;
     else if (direction=="left") x = (x==0) ? w-1 : x-1;
     else if (direction=="right") x = (x==w-1) ? 0 : x+1;
-    else return false;
+    else {
+        Log::info("Unknown direction : "+direction);
+        return false;
+    }
     return move(x,y);
 }
 
