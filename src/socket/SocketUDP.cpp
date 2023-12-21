@@ -1,6 +1,7 @@
 #include <sys/socket.h>
 #include "SocketUDP.h"
 #include "../utils/BomberStudentExceptions.h"
+#include "../utils/Config.h"
 
 #define BUFFER_SIZE 1024
 
@@ -10,7 +11,7 @@ SocketUDP::SocketUDP(Protocol protocol, bool enableBroadcast) : Socket(protocol,
 
 void SocketUDP::send(const std::string& msg, const SocketAddress& dest_addr) const {
     struct sockaddr_storage addr = getSockAddrStorage(dest_addr);
-    if (sendto(socket_fd, msg.c_str(), msg.length(), 0, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
+    if (sendto(socket_fd, (msg+Config::getMsgSeparator()).c_str(), msg.length()+1, 0, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
         throw SocketException("Socket can't send");
     }
 }
