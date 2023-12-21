@@ -44,6 +44,7 @@ bool Object::get(Player *player) {
         std::ostringstream oss;
         oss << CM::postObjectGet << R"({"type":")" << type << R"(","player":)" << player->toJSONState() << '}';
         player->getSocket()->send(oss.str());
+        oss.str("");
         oss.clear();
         u_char x, y;
         SPLIT_POS(case_.getPos(), x, y);
