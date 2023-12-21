@@ -77,7 +77,7 @@ timeInvincible(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono
 
 std::string Player::toJSON() const {
     std::ostringstream json;
-    json << R"({"name":")" << name << R"(","pos":")" << posY << "," << posX <<"\"}";
+    json << R"({"name":")" << name << R"(","pos":")" << std::to_string(posY) << "," << std::to_string(posX) <<"\"}";
     return json.str();
 }
 
