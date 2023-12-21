@@ -56,13 +56,13 @@ void Client::run() {
     lock.unlock();
     if (!gameStarted) goto quit;
     Log::info("go move player");
-    socketTCP.send(CM::postPlayerMove+"\n{\"move\":\"up\"}");
+    socketTCP.send(CM::postPlayerMove+"\n{\"dir\":\"up\"}");
     std::this_thread::sleep_for(timeMove);
-    socketTCP.send(CM::postPlayerMove+"\n{\"move\":\"right\"}");
+    socketTCP.send(CM::postPlayerMove+"\n{\"dir\":\"right\"}");
     std::this_thread::sleep_for(timeMove);
-    socketTCP.send(CM::postPlayerMove+"\n{\"move\":\"down\"}");
+    socketTCP.send(CM::postPlayerMove+"\n{\"dir\":\"down\"}");
     std::this_thread::sleep_for(timeMove);
-    socketTCP.send(CM::postPlayerMove+"\n{\"move\":\"left\"}");
+    socketTCP.send(CM::postPlayerMove+"\n{\"dir\":\"left\"}");
     socketTCP.send(CM::postAttackBomb+"\n{" R"("type":"remote"})");
     socketTCP.send(CM::postAttackRemoteGo);
     socketTCP.send(CM::postAttackBomb+"\n{" R"("type":"classic"})");
