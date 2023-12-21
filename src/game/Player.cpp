@@ -144,7 +144,7 @@ bool Player::move(const std::string& direction) {
 
 std::string Player::toJSONMove(const std::string &direction) const {
     std::ostringstream oss;
-    oss << "POST player/position/update\n{\"player\":\"" << name << R"(","dir":")" << direction << "\"}";
+    oss << R"(POST player/position/update{"player":")" << name << R"(","dir":")" << direction << "\"}";
     return oss.str();
 }
 
@@ -179,7 +179,7 @@ std::string Player::toJSONAttackBomb() const {
 
 std::string Player::toJSONAttackNewBomb(const std::string &type) const {
     std::ostringstream json;
-    json << CM::postAttackNewBomb << "\n{\"pos\":\""<< posX << ","<< posY << R"(","type":")"<< type <<"\"}";
+    json << CM::postAttackNewBomb << R"({"pos":")"<< posX << ","<< posY << R"(","type":")"<< type <<"\"}";
     return json.str();
 }
 
